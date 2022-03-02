@@ -523,8 +523,6 @@ const Main: NextPage<Props> = ({}) => {
       await handleGitAdd(filesToAdd);
       await handleCommit();
       await handlePush();
-    } else {
-      console.log("still on demo repo");
     }
     setNewFiles([]);
     setPendingChanges([]);
