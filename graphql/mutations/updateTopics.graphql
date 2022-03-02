@@ -1,0 +1,13 @@
+mutation UpdateTopics($repositoryId: ID!, $topicNames: [String!]!) {
+  updateTopics(
+    input: { repositoryId: $repositoryId, topicNames: $topicNames }
+  ) {
+    repository {
+      name
+      url
+      id
+      createdAt
+      updatedAt
+    }
+  }
+}

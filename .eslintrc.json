@@ -1,0 +1,7 @@
+{
+  "extends": "next/core-web-vitals",
+  "plugins": ["react-jss"],
+  "rules": {
+    "react-jss/prefer-object": "warn"
+  }
+}

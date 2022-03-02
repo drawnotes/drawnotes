@@ -1,0 +1,5 @@
+query checkRepo($name: String!, $owner: String!) {
+  repository(name: $name, owner: $owner) {
+    isPrivate
+  }
+}

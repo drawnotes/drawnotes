@@ -1,0 +1,16 @@
+query FetchRepos {
+  viewer {
+    repositories(first: 100, orderBy: { field: CREATED_AT, direction: DESC }) {
+      totalCount
+      pageInfo {
+        startCursor
+        endCursor
+        hasNextPage
+        hasPreviousPage
+      }
+      nodes {
+        ...repoFields
+      }
+    }
+  }
+}

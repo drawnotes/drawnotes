@@ -1,0 +1,15 @@
+overwrite: true
+schema: "utils/githubSchemaLoader.js"
+documents: "graphql/**/*.graphql"
+generates:
+  generated/graphql.ts:
+    config:
+      documentMode: string
+    plugins:
+      - "typescript"
+      - "typescript-operations"
+      - "typescript-urql"
+      - "urql-introspection"
+  generated/graphql.schema.json:
+    plugins:
+      - "introspection"

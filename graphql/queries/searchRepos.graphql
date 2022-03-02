@@ -1,0 +1,9 @@
+query SearchRepos($query: String!) {
+  search(first: 100, type: REPOSITORY, query: $query) {
+    nodes {
+      ... on Repository {
+        ...repoFields
+      }
+    }
+  }
+}

@@ -1,0 +1,15 @@
+fragment repoFields on Repository {
+  name
+  id
+  visibility
+  description
+  url
+  repositoryTopics(first: 100) {
+    nodes {
+      topic {
+        name
+        id
+      }
+    }
+  }
+}

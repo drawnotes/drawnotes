@@ -1,0 +1,19 @@
+mutation UpdateRepo(
+  $repositoryId: ID!
+  $name: String!
+  $description: String!
+  $homepageUrl: URI!
+) {
+  updateRepository(
+    input: {
+      repositoryId: $repositoryId
+      name: $name
+      description: $description
+      homepageUrl: $homepageUrl
+    }
+  ) {
+    repository {
+      ...repoFields
+    }
+  }
+}

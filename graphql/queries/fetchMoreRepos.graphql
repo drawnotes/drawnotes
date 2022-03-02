@@ -1,0 +1,20 @@
+query FetchMoreRepos($cursor: String!) {
+  viewer {
+    repositories(
+      first: 100
+      after: $cursor
+      orderBy: { field: CREATED_AT, direction: DESC }
+    ) {
+      totalCount
+      pageInfo {
+        startCursor
+        endCursor
+        hasNextPage
+        hasPreviousPage
+      }
+      nodes {
+        ...repoFields
+      }
+    }
+  }
+}

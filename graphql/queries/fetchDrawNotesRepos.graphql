@@ -1,0 +1,17 @@
+query FetchDrawNotesRepos($query: String!) {
+  search(first: 50, query: $query, type: REPOSITORY) {
+    pageInfo {
+      hasNextPage
+      endCursor
+    }
+    nodes {
+      ... on Repository {
+        name
+        url
+        id
+        createdAt
+        updatedAt
+      }
+    }
+  }
+}
