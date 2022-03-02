@@ -13,6 +13,10 @@ const loginRoute = async (req: NextApiRequest, res: NextApiResponse) => {
   const accessToken = await getGithubAccessToken(authorizationCode);
   const userProfile: githubUser = await fetchProfile(accessToken);
   const userEmail = await fetchEmail(accessToken);
+  const email =
+    userEmail.visibility === "private"
+      ? `${userProfile.id}+${userProfile.login}@users.noreply.github.com`
+      : userEmail.email;
   const user: User = {
     isLoggedIn: true,
     login: userProfile.login,
@@ -20,7 +24,7 @@ const loginRoute = async (req: NextApiRequest, res: NextApiResponse) => {
     avatar: userProfile.avatar_url,
     url: userProfile.url,
     name: userProfile.name,
-    email: userEmail.email,
+    email: email,
     accessToken: accessToken,
   };
   req.session.user = user;
