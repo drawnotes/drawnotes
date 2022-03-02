@@ -519,9 +519,13 @@ const Main: NextPage<Props> = ({}) => {
 
   const handleAddCommitPush = async () => {
     const filesToAdd = files.map((file) => file.path);
-    await handleGitAdd(filesToAdd);
-    await handleCommit();
-    await handlePush();
+    if (repoUrl !== demoRepo) {
+      await handleGitAdd(filesToAdd);
+      await handleCommit();
+      await handlePush();
+    } else {
+      console.log("still on demo repo");
+    }
     setNewFiles([]);
     setPendingChanges([]);
     saveToLocalFiles([], []);
@@ -548,6 +552,10 @@ const Main: NextPage<Props> = ({}) => {
         return updatedPendingChanges;
       }
     });
+  };
+
+  const handleUpdateEditorView = (str: string) => {
+    setSelectedFileContent(str);
   };
 
   return (
@@ -709,6 +717,7 @@ const Main: NextPage<Props> = ({}) => {
                       selectedFileContent={selectedFileContent}
                       fs={fs!}
                       handleSetPendingChanges={handleSetPendingChanges}
+                      handleUpdateEditorView={handleUpdateEditorView}
                     />
                   );
                 case "md":
@@ -723,6 +732,7 @@ const Main: NextPage<Props> = ({}) => {
                       selectedFileContent={selectedFileContent}
                       fs={fs!}
                       handleSetPendingChanges={handleSetPendingChanges}
+                      handleUpdateEditorView={handleUpdateEditorView}
                     />
                   );
                 case "csv":
@@ -737,6 +747,7 @@ const Main: NextPage<Props> = ({}) => {
                       selectedFileContent={selectedFileContent}
                       fs={fs!}
                       handleSetPendingChanges={handleSetPendingChanges}
+                      handleUpdateEditorView={handleUpdateEditorView}
                     />
                   );
                 default:
@@ -746,6 +757,7 @@ const Main: NextPage<Props> = ({}) => {
                       selectedFileContent={selectedFileContent}
                       fs={fs!}
                       handleSetPendingChanges={handleSetPendingChanges}
+                      handleUpdateEditorView={handleUpdateEditorView}
                     >
                       {isFirstLoad && (
                         <Blankslate

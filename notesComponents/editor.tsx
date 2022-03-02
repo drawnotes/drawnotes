@@ -22,6 +22,7 @@ interface Props {
   selectedFileContent: string | undefined;
   fs: LightningFS;
   handleSetPendingChanges: () => void;
+  handleUpdateEditorView: (str: string) => void;
 }
 
 const Editor: NextPage<Props> = ({
@@ -30,6 +31,7 @@ const Editor: NextPage<Props> = ({
   selectedFileContent,
   fs,
   handleSetPendingChanges,
+  handleUpdateEditorView,
 }) => {
   const { colorScheme } = useTheme();
   const theme = colorScheme!.includes("dark") ? "dark" : "light";
@@ -94,6 +96,7 @@ const Editor: NextPage<Props> = ({
   }, [Excalidraw, selectedFile, selectedFileContent]);
 
   const handleEditorChange: OnChange = (value, event) => {
+    handleUpdateEditorView(value!);
     clearTimeout(debounceRef.current);
     debounceRef.current = window.setTimeout(async () => {
       await fs.promises.writeFile(selectedFile!.path, value!);
