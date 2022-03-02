@@ -530,10 +530,12 @@ const Main: NextPage<Props> = ({}) => {
   };
 
   const handleLoadProject = async (url: string) => {
-    indexedDB.deleteDatabase("fs");
-    setRepoUrl(url);
+    if (url !== repoUrl) {
+      indexedDB.deleteDatabase("fs");
+      setRepoUrl(url);
+      await handleRevert();
+    }
     setSelectedTab("explorer");
-    await handleRevert();
   };
 
   const handleNewProject = () => {
