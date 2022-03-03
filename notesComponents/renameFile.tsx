@@ -36,7 +36,11 @@ const RenameFile: NextPage<Props> = ({
         handleCancelRename();
       }
     };
-    const handleEscape = () => handleCancelRename();
+    const handleEscape = (event: any) => {
+      if (event.key === "Escape") {
+        handleCancelRename();
+      }
+    };
     document.addEventListener("mousedown", handleClickOutside);
     document.addEventListener("keydown", handleEscape);
 
