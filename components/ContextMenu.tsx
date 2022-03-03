@@ -35,12 +35,39 @@ const Menu = ({
     { text: "Delete", onClick: handleDelete },
   ];
 
+  const MenuItem = ({
+    children,
+    item,
+    index,
+  }: {
+    children: ReactNode;
+    item: { text: string; onClick: (file: File) => void };
+    index: number;
+  }) => {
+    return (
+      <Box
+        key={index}
+        px={3}
+        py={1}
+        sx={{
+          "&:hover": {
+            bg: "accent.emphasis",
+            color: "fg.onEmphasis",
+          },
+        }}
+        onClick={() => item.onClick(file)}
+      >
+        {children}
+      </Box>
+    );
+  };
+
   return (
     <Box ref={ref}>
       {children}
       {show && (
         <Box
-          borderRadius={1}
+          borderRadius={4}
           fontSize={13}
           p={1}
           bg="canvas.subtle"
@@ -59,37 +86,19 @@ const Menu = ({
           }}
         >
           {items.map((item, index) => (
-            <Box
-              key={index}
-              px={3}
-              py={1}
-              sx={{
-                "&:hover": {
-                  bg: "accent.emphasis",
-                  color: "fg.onEmphasis",
-                },
-              }}
-              onClick={() => item.onClick(file)}
-            >
+            <MenuItem item={item} index={index}>
               {item.text}
-            </Box>
+            </MenuItem>
           ))}
-          <hr />
+          <Box
+            width="100%"
+            borderBottom="1px solid"
+            borderColor="border.default"
+          />
           {items2.map((item, index) => (
-            <Box
-              key={index}
-              px={3}
-              py={1}
-              sx={{
-                "&:hover": {
-                  bg: "accent.emphasis",
-                  color: "fg.onEmphasis",
-                },
-              }}
-              onClick={() => item.onClick(file)}
-            >
+            <MenuItem item={item} index={index}>
               {item.text}
-            </Box>
+            </MenuItem>
           ))}
         </Box>
       )}

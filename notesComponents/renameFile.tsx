@@ -60,10 +60,10 @@ const RenameFile: NextPage<Props> = ({
           defaultValue={file.path.replace("/root/", "")}
           onChange={handleChange}
           onKeyPress={handleSubmit}
-          autocomplete="off"
-          autocorrect="off"
-          autocapitalize="off"
-          spellcheck="false"
+          autoComplete="off"
+          autoCorrect="off"
+          autoCapitalize="off"
+          spellCheck="false"
         />
       </Box>
     </Box>
