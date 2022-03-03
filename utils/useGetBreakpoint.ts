@@ -37,16 +37,21 @@ export const useGetBreakpoint = () => {
       });
     };
   });
-  switch (breakpoints.find((breakpoint) => width! < breakpoint)) {
-    case breakpoints[0]:
-      return 0;
-    case breakpoints[1]:
-      return 1;
-    case breakpoints[2]:
-      return 2;
-    case breakpoints[3]:
-      return 3;
-    default:
-      return 3;
-  }
+  const breakpoint = (() => {
+    {
+      switch (breakpoints.find((breakpoint) => width! < breakpoint)) {
+        case breakpoints[0]:
+          return 0;
+        case breakpoints[1]:
+          return 1;
+        case breakpoints[2]:
+          return 2;
+        case breakpoints[3]:
+          return 3;
+        default:
+          return 3;
+      }
+    }
+  })();
+  return { width, breakpoint };
 };

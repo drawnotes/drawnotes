@@ -6,7 +6,7 @@ import { useGetBreakpoint } from "../utils/useGetBreakpoint";
 interface Props {}
 
 const Test: NextPage<Props> = ({}) => {
-  const breakpoint = useGetBreakpoint();
+  const { breakpoint } = useGetBreakpoint();
   const bg = ["#227C9D", "#17C3B2", "#FFCB77", "#FE6D73"][breakpoint];
   return (
     <Box
