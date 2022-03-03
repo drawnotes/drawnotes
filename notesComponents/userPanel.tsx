@@ -9,9 +9,12 @@ import {
 } from "@primer/react";
 import type { NextPage } from "next";
 import Image from "next/image";
+import { useRouter } from "next/router";
 import { Resizable } from "re-resizable";
-import { ReactNode } from "react";
+import { MouseEvent, ReactNode } from "react";
 import { User } from "../types";
+
+const logout = "/api/logout";
 
 interface Props {
   children?: ReactNode;
@@ -19,6 +22,13 @@ interface Props {
 }
 
 const UserPanel: NextPage<Props> = ({ children, user }) => {
+  const router = useRouter();
+  const handleLogout = (event: MouseEvent) => {
+    event.preventDefault();
+    localStorage.clear();
+    indexedDB.deleteDatabase("fs");
+    router.push(logout);
+  };
   return (
     <Resizable
       defaultSize={{
@@ -69,7 +79,7 @@ const UserPanel: NextPage<Props> = ({ children, user }) => {
               <Box m={3}>
                 <Header>
                   <Header.Item>
-                    <Header.Link href="/api/logout">
+                    <Header.Link onClick={handleLogout}>
                       <Box display="flex">
                         <Box mr={2}>
                           <StyledOcticon icon={SignOutIcon} />

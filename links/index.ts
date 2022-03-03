@@ -40,8 +40,4 @@ export const links: PageLink[] = [
     title: "User",
     url: "/api/user",
   },
-  {
-    title: "Logout",
-    url: "/api/logout",
-  },
 ];
