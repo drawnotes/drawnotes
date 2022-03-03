@@ -2,10 +2,11 @@ import { Box, Link } from "@primer/react";
 import type { NextPage } from "next";
 import ColorModeSwitcher from "../components/ColorModeSwitcher";
 import { useGetBreakpoint } from "../utils/useGetBreakpoint";
-
+import { useGetOrientation } from "../utils/useGetOrientation";
 interface Props {}
 
 const Test: NextPage<Props> = ({}) => {
+  const { orientation } = useGetOrientation();
   const { breakpoint } = useGetBreakpoint();
   const bg = ["#227C9D", "#17C3B2", "#FFCB77", "#FE6D73"][breakpoint];
   return (
@@ -22,7 +23,8 @@ const Test: NextPage<Props> = ({}) => {
     >
       <ColorModeSwitcher />
       <Link href="/">Home</Link>
-      <Box>{breakpoint}</Box>
+      <Box>orientation: {orientation}</Box>
+      <Box>breakpoint: {breakpoint}</Box>
     </Box>
   );
 };
