@@ -71,19 +71,21 @@ function ColorModeIcon() {
               <StyledOcticon color="fg.default" icon={current.icon} size={20} />
             </Box>
           </ButtonInvisible>
-          <SelectMenu.Modal align="right">
-            <SelectMenu.List>
-              {schemes.map((scheme) => (
-                <SelectMenu.Item
-                  key={scheme.value}
-                  selected={scheme.value === colorScheme}
-                  onClick={() => setScheme(scheme.value)}
-                >
-                  {scheme.name}
-                </SelectMenu.Item>
-              ))}
-            </SelectMenu.List>
-          </SelectMenu.Modal>
+          <Box position="absolute" top="25%" left="10%">
+            <SelectMenu.Modal>
+              <SelectMenu.List>
+                {schemes.map((scheme) => (
+                  <SelectMenu.Item
+                    key={scheme.value}
+                    selected={scheme.value === colorScheme}
+                    onClick={() => setScheme(scheme.value)}
+                  >
+                    {scheme.name}
+                  </SelectMenu.Item>
+                ))}
+              </SelectMenu.List>
+            </SelectMenu.Modal>
+          </Box>
         </SelectMenu>
       </Box>
     </Box>
