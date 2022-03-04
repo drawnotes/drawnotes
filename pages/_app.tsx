@@ -51,6 +51,7 @@ function App({
           colorMode={colorMode as ColorModeWithAuto}
           dayScheme={dayScheme}
           nightScheme={nightScheme}
+          preventSSRMismatch
         >
           <BaseStyles />
           <Component {...props} />
@@ -65,7 +66,7 @@ App.getInitialProps = async ({ ctx }: any) => {
   const colorMode =
     cookies && cookie.parse(cookies).colorMode
       ? cookie.parse(cookies).colorMode
-      : "auto";
+      : "day";
   const dayScheme =
     cookies && cookie.parse(cookies).dayScheme
       ? cookie.parse(cookies).dayScheme
