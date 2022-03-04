@@ -531,11 +531,36 @@ const Main: NextPage<Props> = ({}) => {
 
   const handleLoadProject = async (url: string) => {
     if (url !== repoUrl) {
-      indexedDB.deleteDatabase("fs");
+      resetState();
       setRepoUrl(url);
-      await handleRevert();
+      setSelectedTab("explorer");
+      setIsLoading(true);
+      try {
+        setLoadingMessage("Initializing filesystem...");
+        indexedDB.deleteDatabase("fs");
+        fs = new LightningFS("fs");
+        await fs.promises.mkdir(dir);
+        const options = {
+          fs: fs,
+          http,
+          dir,
+          corsProxy: GITHUB_GIT_PROXY,
+          url: url,
+          ref: "master",
+          singleBranch: true,
+          depth: 10,
+        };
+        setLoadingMessage("Cloning from GitHub...");
+        await git.clone(options);
+        setLoadingMessage("Reading files...");
+        setFiles(await readDir(fs, dir));
+        setIsLoading(false);
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      setSelectedTab("explorer");
     }
-    setSelectedTab("explorer");
   };
 
   const handleNewProject = () => {
