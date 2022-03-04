@@ -60,7 +60,7 @@ const Home: NextPage<Props> = ({}) => {
         flexDirection="column"
         alignItems="center"
       >
-        <Box m={1} width={[50, 50, 50, 50]}>
+        <Box m={1} width={[50, 60, 80, 100]}>
           <svg viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg">
             <g fill="none" fill-rule="evenodd">
               <path
