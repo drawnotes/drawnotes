@@ -274,44 +274,32 @@ const Main: NextPage<Props> = ({}) => {
   };
 
   const handleRevert = async () => {
-    indexedDB.deleteDatabase("fs");
-    setSelectedFile(undefined);
-    setSelectedFileContent(undefined);
-    setFiles([]);
-    setNewFiles([]);
-    setPendingChanges([]);
-    saveToLocalFiles([], []);
+    resetState();
     setIsLoading(true);
+    saveToLocalFiles([], []);
     try {
-      const savedRepo = window.localStorage.getItem("saved-repo");
-      const currentRepo = savedRepo ? JSON.parse(savedRepo) : demoRepo;
       setLoadingMessage("Initializing filesystem...");
+      indexedDB.deleteDatabase("fs");
+      fs = new LightningFS("fs");
       await fs.promises.mkdir(dir);
       const options = {
         fs: fs,
         http,
         dir,
         corsProxy: GITHUB_GIT_PROXY,
-        url: currentRepo,
+        url: repoUrl,
         ref: "master",
         singleBranch: true,
         depth: 10,
       };
       setLoadingMessage("Cloning from GitHub...");
       await git.clone(options);
-    } catch (err) {
-      const error: any = err;
-      if (error.message !== "EEXIST") {
-      }
+      setLoadingMessage("Reading files...");
+      setFiles(await readDir(fs, dir));
+      setIsLoading(false);
+    } catch (error) {
+      console.log(error);
     }
-    setLoadingMessage("Reading files...");
-    setFiles(await readDir(fs, dir));
-    if (isLocalFiles()) {
-      const { savedNewFiles, savedPendingChanges } = importFromLocalFiles();
-      setNewFiles(savedNewFiles);
-      setPendingChanges(savedPendingChanges);
-    }
-    setIsLoading(false);
   };
 
   const handleAddNewFile = async (str: string) => {
