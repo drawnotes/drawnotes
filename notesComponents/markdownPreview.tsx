@@ -10,7 +10,6 @@ const MarkdownPreview: NextPage<Props> = ({ selectedFileContent }) => {
   return (
     <Box
       p="3rem"
-      mb="10rem"
       bg="canvas.default"
       color="fg.default"
       maxHeight="100%"

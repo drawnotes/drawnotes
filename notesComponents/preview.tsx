@@ -69,7 +69,9 @@ const Preview: NextPage<Props> = ({ selectedFile, selectedFileContent }) => {
               );
             case "md":
               return (
-                <MarkdownPreview selectedFileContent={selectedFileContent} />
+                <Box mb={100}>
+                  <MarkdownPreview selectedFileContent={selectedFileContent} />
+                </Box>
               );
             case "csv":
               return <CSVPreview selectedFileContent={selectedFileContent} />;
