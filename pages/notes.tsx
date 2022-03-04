@@ -52,15 +52,7 @@ const Main: NextPage<Props> = ({}) => {
   if (typeof window !== "undefined") {
     fs = new LightningFS("fs");
   }
-  const {
-    setColorMode,
-    setDayScheme,
-    setNightScheme,
-    colorMode,
-    colorScheme,
-    resolvedColorMode,
-    resolvedColorScheme,
-  } = useTheme();
+  const { setDayScheme, setNightScheme } = useTheme();
   const encoder = new TextEncoder();
   const decoder = new TextDecoder();
   const dir = "/root";
@@ -89,7 +81,6 @@ const Main: NextPage<Props> = ({}) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedForDelete, setSelectedForDelete] = useState<any>();
   const { breakpoint, width } = useGetBreakpoint();
-  const [showPanel, setShowPanel] = useState(true);
 
   useEffect(() => {
     if (typeof window !== undefined) {
@@ -115,12 +106,10 @@ const Main: NextPage<Props> = ({}) => {
 
   const handleHidePanel = () => {
     setSelectedTab("");
-    setShowPanel(false);
   };
 
   const handleShowPanel = () => {
     setSelectedTab("explorer");
-    setShowPanel(true);
   };
 
   useEffect(() => {
