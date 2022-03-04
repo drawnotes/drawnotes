@@ -25,7 +25,12 @@ const Tabs: NextPage<Props> = ({
   const size = 20;
 
   return (
-    <Box bg="canvas.subtle">
+    <Box
+      bg="canvas.subtle"
+      borderColor="border.default"
+      borderRightWidth={1}
+      borderRightStyle="solid"
+    >
       <SideNav>
         <SideNav.Link
           sx={{

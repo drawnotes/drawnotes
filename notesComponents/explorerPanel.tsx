@@ -47,8 +47,8 @@ const ExplorerPanel: NextPage<Props> = ({
       maxWidth={800}
     >
       <Box
-        borderWidth="1px"
-        borderStyle="solid"
+        borderRightWidth="1px"
+        borderRightStyle="solid"
         borderColor="border.default"
         backgroundColor="canvas.subtle"
         height="100%"
