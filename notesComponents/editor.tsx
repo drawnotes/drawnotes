@@ -146,9 +146,7 @@ const Editor: NextPage<Props> = ({
 
   return (
     <Box height="100%" width="100%" bg="canvas.default">
-      <Box position="absolute" left="40%" top="20%" zIndex={10}>
-        {children}
-      </Box>
+      <Box>{children}</Box>
       {selectedFile &&
         (() => {
           switch (selectedFile.extension) {

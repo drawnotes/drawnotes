@@ -28,6 +28,20 @@ const Preview: NextPage<Props> = ({ selectedFile, selectedFileContent }) => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  const observer = useRef(
+    new ResizeObserver((entries) => {
+      const { width, height } = entries[0].contentRect;
+      setMapSize({ width: width, height: height });
+    })
+  );
+
+  useEffect(() => {
+    if (deckRef.current) {
+      observer.current.observe(deckRef.current);
+    }
+    return () => observer.current.unobserve(deckRef.current);
+  }, [deckRef, observer]);
+
   return (
     <Box
       height="100%"
