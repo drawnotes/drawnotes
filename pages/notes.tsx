@@ -448,7 +448,7 @@ const Main: NextPage<Props> = ({}) => {
     }
   };
 
-  const handleCommit = async (message = "Update from DrawNotes") => {
+  const handleCommit = async (message = "Update from Draw Notes") => {
     try {
       const commit = {
         author: { name: user!.login, email: user!.email },
@@ -508,7 +508,7 @@ const Main: NextPage<Props> = ({}) => {
           contents:
             "# " +
             repoName +
-            "\n\nRepos created by DrawNotes will be tagged with the label `drawnotes` so they can be seen by DrawNotes.\n\n" +
+            "\n\nRepos created by Draw Notes will be tagged with the label `drawnotes` so they can be seen by Draw Notes.\n\n" +
             "Feel free to edit or remove this file.",
         };
         await handleWriteFile(file);

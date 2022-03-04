@@ -171,7 +171,7 @@ const SettingsPanel: NextPage<Props> = ({
             )}
             {projectRepos && (
               <Box ml={3} mt={6} mb={3}>
-                <Text fontWeight="bold">DrawNotes Projects:</Text>
+                <Text fontWeight="bold">Draw Notes Projects:</Text>
               </Box>
             )}
             {projectRepos?.map((repo, index) => (

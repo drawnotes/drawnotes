@@ -64,7 +64,7 @@ const Blankslate: NextPage<Props> = ({ handleNewProject, handleOpenDemo }) => {
               </Box>
             )}
             <Box color="fg.default" m={3}>
-              <Heading sx={{ fontSize: 3 }}>Welcome to DrawNotes!</Heading>
+              <Heading sx={{ fontSize: 3 }}>Welcome to Draw Notes!</Heading>
             </Box>
             <Box
               color="fg.default"

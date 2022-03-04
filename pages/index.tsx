@@ -45,10 +45,10 @@ const Home: NextPage<Props> = ({}) => {
               <Text>Typescript, React, Next.js, GraphQL</Text>
             </Box>
             <Box m={2}>
-              <Text>Realtime data visualization</Text>
+              <Text>Mapping, GIS, data wrangling</Text>
             </Box>
             <Box m={2}>
-              <Text>Mapping, GIS</Text>
+              <Text>Realtime data visualization</Text>
             </Box>
             <Box m={2}>
               <Text>IoT</Text>
