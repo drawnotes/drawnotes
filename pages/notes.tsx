@@ -213,6 +213,9 @@ const Main: NextPage<Props> = ({}) => {
       setFileLoading(true);
       setSelectedFileContent(undefined);
       await openFile(file);
+      if (breakpoint < 3) {
+        handleHidePanel();
+      }
     }
   };
 
