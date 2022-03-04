@@ -20,6 +20,9 @@ export default function useGetClasses(theme: string) {
           padding: "1rem",
           overflow: "scroll",
         },
+        "& code": {
+          backgroundColor: bgColor,
+        },
         "& table": {
           padding: "1rem",
           border: "1px solid",
