@@ -14,12 +14,3 @@ a {
 * {
   box-sizing: border-box;
 }
-
-.test button {
-  margin: 0.5em;
-}
-
-.test .clickable:hover {
-  color: tomato;
-  cursor: pointer;
-}

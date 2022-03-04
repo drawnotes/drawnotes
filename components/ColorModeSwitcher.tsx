@@ -1,5 +1,11 @@
 import { MoonIcon, SunIcon } from "@primer/octicons-react";
-import { Box, Button, SelectMenu, useTheme } from "@primer/react";
+import {
+  Box,
+  ButtonInvisible,
+  SelectMenu,
+  StyledOcticon,
+  useTheme,
+} from "@primer/react";
 
 function ColorModeSwitcher() {
   const { setDayScheme, setNightScheme, colorScheme } = useTheme();
@@ -55,13 +61,9 @@ function ColorModeSwitcher() {
     <Box position="absolute" top={0} right={0} p={3} zIndex={100}>
       <Box position="relative" display="flex" justifyContent="flex-end">
         <SelectMenu>
-          <Button as="summary" variant="small">
-            <current.icon />
-            <Box display="inline-block" ml={2}>
-              {" "}
-              {current.name}
-            </Box>
-          </Button>
+          <ButtonInvisible as="summary" variant="small">
+            <StyledOcticon color="fg.default" icon={current.icon} size={20} />
+          </ButtonInvisible>
           <SelectMenu.Modal align="right">
             <SelectMenu.List>
               {schemes.map((scheme) => (

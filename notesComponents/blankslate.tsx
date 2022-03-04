@@ -52,7 +52,7 @@ const Blankslate: NextPage<Props> = ({ handleNewProject, handleOpenDemo }) => {
             bg="canvas.subtle"
             p={[1, 1, 3, 3]}
             m={2}
-            mt={[2, 2, "20%", "20%"]}
+            mt={[2, 2, "10%", "10%"]}
           >
             {height && height < 700 ? null : (
               <Box>

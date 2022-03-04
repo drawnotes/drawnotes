@@ -667,6 +667,11 @@
   resolved "https://registry.yarnpkg.com/@excalidraw/utils/-/utils-0.1.0-temp.tgz#66b6b414e040dc50d43f215890d021e6496d7e93"
   integrity sha512-8rWzVNMGws3Od9AL0QzZibBIz+sfFvf6+wJZ51ndUYJl85Iav+GKsKvNgur3VZCsZW+YTihWPicMtf9E8RN4wA==
 
+"@fontsource/libre-baskerville@^4.5.2":
+  version "4.5.2"
+  resolved "https://registry.yarnpkg.com/@fontsource/libre-baskerville/-/libre-baskerville-4.5.2.tgz#cac00e49c68e538e3d050400d38f71952a8fe8c7"
+  integrity sha512-yFBfEvdzQnJPiqog0Oro2S5pY3UwvtusxewDsOAaFfBmj1O1yTVKeKP3zJHqQ9jvfR/MpkdwRR1qHj/wQdqieQ==
+
 "@graphql-codegen/cli@^2.6.2":
   version "2.6.2"
   resolved "https://registry.yarnpkg.com/@graphql-codegen/cli/-/cli-2.6.2.tgz#a9aa4656141ee0998cae8c7ad7d0bf9ca8e0c9ae"

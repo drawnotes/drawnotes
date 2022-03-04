@@ -519,12 +519,12 @@ const Icons: NextPage<Props> = ({}) => {
   return (
     <Box
       width="100vw"
-      height="100vh"
       display="flex"
       flexDirection="column"
       alignItems="center"
       color="fg.default"
       bg="canvas.default"
+      pb={100}
     >
       <ColorModeSwitcher />
       <Box mt={10}>
