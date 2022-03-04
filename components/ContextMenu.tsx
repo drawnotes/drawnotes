@@ -46,7 +46,6 @@ const Menu = ({
   }) => {
     return (
       <Box
-        key={index}
         px={3}
         py={1}
         sx={{
@@ -86,7 +85,7 @@ const Menu = ({
           }}
         >
           {items.map((item, index) => (
-            <MenuItem item={item} index={index}>
+            <MenuItem item={item} index={index} key={index}>
               {item.text}
             </MenuItem>
           ))}
@@ -96,7 +95,7 @@ const Menu = ({
             borderColor="border.default"
           />
           {items2.map((item, index) => (
-            <MenuItem item={item} index={index}>
+            <MenuItem item={item} index={index} key={index}>
               {item.text}
             </MenuItem>
           ))}
