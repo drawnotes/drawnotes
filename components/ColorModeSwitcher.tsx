@@ -8,15 +8,18 @@ import {
 } from "@primer/react";
 
 function ColorModeSwitcher() {
-  const { setDayScheme, setNightScheme, colorScheme } = useTheme();
+  const { setDayScheme, setNightScheme, colorScheme, setColorMode } =
+    useTheme();
 
   const setScheme = (schemeValue: string) => {
     if (schemeValue.includes("dark")) {
       document.cookie = `colorMode=night; samesite=strict; max-age=31536000`;
       document.cookie = `nightScheme=${schemeValue}; samesite=strict; max-age=31536000`;
+      setColorMode("night");
     } else {
       document.cookie = `colorMode=day; samesite=strict; max-age=31536000`;
       document.cookie = `dayScheme=${schemeValue}; samesite=strict; max-age=31536000`;
+      setColorMode("day");
     }
     setDayScheme(schemeValue);
     setNightScheme(schemeValue);

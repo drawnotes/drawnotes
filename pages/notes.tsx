@@ -52,7 +52,7 @@ const Main: NextPage<Props> = ({}) => {
   if (typeof window !== "undefined") {
     fs = new LightningFS("fs");
   }
-  const { setDayScheme, setNightScheme } = useTheme();
+  const { setDayScheme, setNightScheme, setColorMode } = useTheme();
   const encoder = new TextEncoder();
   const decoder = new TextDecoder();
   const dir = "/root";
@@ -89,6 +89,7 @@ const Main: NextPage<Props> = ({}) => {
         if (preferredMode === "night") {
           const preferredScheme = Cookie.get("nightScheme") as string;
           setTimeout(() => {
+            setColorMode("night");
             setDayScheme(preferredScheme);
             setNightScheme(preferredScheme);
           }, 50);
@@ -96,6 +97,7 @@ const Main: NextPage<Props> = ({}) => {
         if (preferredMode === "day") {
           const preferredScheme = Cookie.get("dayScheme") as string;
           setTimeout(() => {
+            setColorMode("day");
             setDayScheme(preferredScheme);
             setNightScheme(preferredScheme);
           }, 50);
