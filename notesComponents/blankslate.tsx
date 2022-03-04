@@ -49,11 +49,11 @@ const Blankslate: NextPage<Props> = ({ handleNewProject, handleOpenDemo }) => {
             borderStyle="solid"
             borderRadius={2}
             bg="canvas.subtle"
-            p={3}
+            p={[1, 1, 3, 3]}
             m={2}
-            mt="20%"
+            mt={[2, 2, "20%", "20%"]}
           >
-            <Box m={3}>
+            <Box>
               <Image src="/assets/Code_hosting.svg" height={150} width={150} />
             </Box>
             <Box color="fg.default" m={3}>
