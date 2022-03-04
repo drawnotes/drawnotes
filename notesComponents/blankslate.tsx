@@ -10,6 +10,7 @@ import {
 import type { NextPage } from "next";
 import Image from "next/image";
 import { useState } from "react";
+import { useGetOrientation } from "../utils/useGetOrientation";
 
 interface Props {
   handleNewProject: () => void;
@@ -18,7 +19,7 @@ interface Props {
 
 const Blankslate: NextPage<Props> = ({ handleNewProject, handleOpenDemo }) => {
   const [show, setShow] = useState<boolean>(true);
-
+  const { orientation, height } = useGetOrientation();
   const handleClose = () => {
     handleOpenDemo();
     setShow(false);
@@ -53,9 +54,15 @@ const Blankslate: NextPage<Props> = ({ handleNewProject, handleOpenDemo }) => {
             m={2}
             mt={[2, 2, "20%", "20%"]}
           >
-            <Box>
-              <Image src="/assets/Code_hosting.svg" height={150} width={150} />
-            </Box>
+            {height && height < 700 ? null : (
+              <Box>
+                <Image
+                  src="/assets/Code_hosting.svg"
+                  height={150}
+                  width={150}
+                />
+              </Box>
+            )}
             <Box color="fg.default" m={3}>
               <Heading sx={{ fontSize: 3 }}>Welcome to DrawNotes!</Heading>
             </Box>

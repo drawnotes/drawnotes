@@ -6,7 +6,7 @@ import { useGetOrientation } from "../utils/useGetOrientation";
 interface Props {}
 
 const Test: NextPage<Props> = ({}) => {
-  const { orientation } = useGetOrientation();
+  const { orientation, height } = useGetOrientation();
   const { breakpoint, width } = useGetBreakpoint();
   const bg = ["#227C9D", "#17C3B2", "#FFCB77", "#FE6D73"][breakpoint];
   return (
@@ -25,7 +25,8 @@ const Test: NextPage<Props> = ({}) => {
       <Link href="/">Home</Link>
       <Box>orientation: {orientation}</Box>
       <Box>breakpoint: {breakpoint}</Box>
-      <Box>{width}</Box>
+      <Box>width: {width}</Box>
+      <Box>height: {height}</Box>
     </Box>
   );
 };
