@@ -11,7 +11,7 @@ import git from "isomorphic-git";
 import http from "isomorphic-git/http/web";
 import Cookie from "js-cookie";
 import type { NextPage } from "next";
-import { useCallback, useEffect, useLayoutEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { OperationResult } from "urql";
 import ColorModeSwitcher from "../components/ColorModeSwitcher";
 import {
@@ -91,7 +91,7 @@ const Main: NextPage<Props> = ({}) => {
   const { breakpoint, width } = useGetBreakpoint();
   const [showPanel, setShowPanel] = useState(true);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (typeof window !== undefined) {
       const preferredMode = Cookie.get("colorMode");
       if (preferredMode) {
@@ -100,14 +100,14 @@ const Main: NextPage<Props> = ({}) => {
           setTimeout(() => {
             setDayScheme(preferredScheme);
             setNightScheme(preferredScheme);
-          }, 100);
+          }, 50);
         }
         if (preferredMode === "day") {
           const preferredScheme = Cookie.get("dayScheme") as string;
           setTimeout(() => {
             setDayScheme(preferredScheme);
             setNightScheme(preferredScheme);
-          }, 100);
+          }, 50);
         }
       }
     }
