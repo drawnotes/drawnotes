@@ -33,6 +33,7 @@ import {
 } from "../utils/localFiles";
 import { readDir } from "../utils/readDir";
 import useFetchUser from "../utils/useFetchUser";
+import { useGetBreakpoint } from "../utils/useGetBreakpoint";
 
 const demoRepo = "https://github.com/drawnotes/drawnotes-sample-files";
 
@@ -70,6 +71,26 @@ const Main: NextPage<Props> = ({}) => {
   const [fileType, setFileType] = useState<string>();
   const [isOpen, setIsOpen] = useState(false);
   const [selectedForDelete, setSelectedForDelete] = useState<any>();
+  const { breakpoint, width } = useGetBreakpoint();
+  const [showPanel, setShowPanel] = useState(true);
+
+  const handleHidePanel = () => {
+    setSelectedTab("");
+    setShowPanel(false);
+  };
+
+  const handleShowPanel = () => {
+    setSelectedTab("explorer");
+    setShowPanel(true);
+  };
+
+  useEffect(() => {
+    if (breakpoint < 3) {
+      handleHidePanel();
+    } else {
+      handleShowPanel();
+    }
+  }, [breakpoint]);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -266,7 +287,11 @@ const Main: NextPage<Props> = ({}) => {
   };
 
   const handleSelectedTab = (tab: string) => {
-    setSelectedTab(tab);
+    if (tab === selectedTab) {
+      handleHidePanel();
+    } else {
+      setSelectedTab(tab);
+    }
   };
 
   const handleSelectedView = (view: string) => {
@@ -669,36 +694,7 @@ const Main: NextPage<Props> = ({}) => {
               case "user":
                 return <UserPanel user={user} />;
               default:
-                return (
-                  <ExplorerPanel
-                    handleRevert={handleRevert}
-                    isLoading={isLoading}
-                    onDrop={onDrop}
-                    repoUrl={repoUrl}
-                    handleNewFile={handleNewFile}
-                    loadingMessage={loadingMessage}
-                  >
-                    <FileList
-                      files={files}
-                      handleOpen={handleOpen}
-                      handleDownload={handleDownload}
-                      handleRename={handleRename}
-                      handleRenameFile={handleRenameFile}
-                      handleDelete={handleDelete}
-                      newFiles={newFiles}
-                      pendingChanges={pendingChanges}
-                      selectedFile={selectedFile}
-                      showRenameFile={showRenameFile}
-                      handleCancelRename={handleCancelRename}
-                    />
-                    {showNewFile && (
-                      <NewFile
-                        handleAddNewFile={handleAddNewFile}
-                        handleCancelNewFile={handleCancelNewFile}
-                      />
-                    )}
-                  </ExplorerPanel>
-                );
+                return null;
             }
           })()}
         </Box>
