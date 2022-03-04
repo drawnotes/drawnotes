@@ -7,8 +7,9 @@ import {
 } from "@primer/octicons-react";
 import { Box, SideNav } from "@primer/react";
 import type { NextPage } from "next";
+import ColorModeIcon from "../components/ColorModeIcon";
 import IconPair from "../components/IconPair";
-
+import { useGetBreakpoint } from "../utils/useGetBreakpoint";
 interface Props {
   handleSelectedTab: (tab: string) => void;
   selectedTab: string;
@@ -22,6 +23,8 @@ const Tabs: NextPage<Props> = ({
   newFileCount,
   pendingChangesCount,
 }: Props) => {
+  const { breakpoint, width } = useGetBreakpoint();
+
   const size = 20;
 
   return (
@@ -100,6 +103,7 @@ const Tabs: NextPage<Props> = ({
           <IconPair size={size} icon={PersonIcon} />
         </SideNav.Link>
       </SideNav>
+      {breakpoint < 2 && <ColorModeIcon />}
     </Box>
   );
 };

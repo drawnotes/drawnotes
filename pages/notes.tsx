@@ -601,7 +601,7 @@ const Main: NextPage<Props> = ({}) => {
 
   return (
     <Box width="100vw" height="auto" overflow="hidden">
-      <ColorModeSwitcher />
+      {breakpoint > 1 && <ColorModeSwitcher />}
       <Dialog
         isOpen={isOpen}
         onDismiss={() => setIsOpen(false)}
