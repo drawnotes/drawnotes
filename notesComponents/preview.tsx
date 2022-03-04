@@ -12,7 +12,7 @@ interface Props {
 }
 
 const Preview: NextPage<Props> = ({ selectedFile, selectedFileContent }) => {
-  const deckRef = useRef<any>(null);
+  const deckRef = useRef<HTMLDivElement>(null);
   const [mapSize, setMapSize] = useState<any>();
 
   useEffect(() => {
@@ -39,7 +39,11 @@ const Preview: NextPage<Props> = ({ selectedFile, selectedFileContent }) => {
     if (deckRef.current) {
       observer.current.observe(deckRef.current);
     }
-    return () => observer.current.unobserve(deckRef.current);
+    return () => {
+      if (deckRef.current !== null) {
+        observer.current.unobserve(deckRef.current);
+      }
+    };
   }, [deckRef, observer]);
 
   return (
