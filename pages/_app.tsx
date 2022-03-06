@@ -61,7 +61,7 @@ function App({
   );
 }
 
-App.getInitialProps = async ({ ctx }: any) => {
+App.getServerSideProps = async ({ ctx }: any) => {
   const cookies = ctx.req?.headers.cookie;
   const colorMode =
     cookies && cookie.parse(cookies).colorMode
