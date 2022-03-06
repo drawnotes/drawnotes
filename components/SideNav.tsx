@@ -31,7 +31,7 @@ const SideNavLink: FunctionComponent<SideNavLinkProps> = ({
     <Box
       {...props}
       as="nav"
-      p="12px"
+      p="15px"
       borderWidth={1}
       borderStyle="solid"
       borderColor="border.default"
