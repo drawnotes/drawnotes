@@ -5,11 +5,13 @@ import {
   SearchIcon,
   ToolsIcon,
 } from "@primer/octicons-react";
-import { Box, SideNav } from "@primer/react";
+import { Box } from "@primer/react";
 import type { NextPage } from "next";
 import ColorModeIcon from "../components/ColorModeIcon";
 import IconPair from "../components/IconPair";
+import SideNav from "../components/SideNav";
 import { useGetBreakpoint } from "../utils/useGetBreakpoint";
+
 interface Props {
   handleSelectedTab: (tab: string) => void;
   selectedTab: string;
@@ -36,11 +38,6 @@ const Tabs: NextPage<Props> = ({
     >
       <SideNav>
         <SideNav.Link
-          sx={{
-            "&:hover": {
-              cursor: "pointer",
-            },
-          }}
           onClick={() => handleSelectedTab("explorer")}
           selected={selectedTab === "explorer"}
         >
@@ -51,22 +48,12 @@ const Tabs: NextPage<Props> = ({
           />
         </SideNav.Link>
         <SideNav.Link
-          sx={{
-            "&:hover": {
-              cursor: "pointer",
-            },
-          }}
           onClick={() => handleSelectedTab("search")}
           selected={selectedTab === "search"}
         >
           <IconPair size={size} icon={SearchIcon} />
         </SideNav.Link>
         <SideNav.Link
-          sx={{
-            "&:hover": {
-              cursor: "pointer",
-            },
-          }}
           onClick={() => handleSelectedTab("git")}
           selected={selectedTab === "git"}
         >
@@ -81,22 +68,12 @@ const Tabs: NextPage<Props> = ({
           />
         </SideNav.Link>
         <SideNav.Link
-          sx={{
-            "&:hover": {
-              cursor: "pointer",
-            },
-          }}
           onClick={() => handleSelectedTab("settings")}
           selected={selectedTab === "settings"}
         >
           <IconPair size={size} icon={ToolsIcon} />
         </SideNav.Link>
         <SideNav.Link
-          sx={{
-            "&:hover": {
-              cursor: "pointer",
-            },
-          }}
           onClick={() => handleSelectedTab("user")}
           selected={selectedTab === "user"}
         >
