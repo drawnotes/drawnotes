@@ -5,6 +5,7 @@ import {
   ButtonDanger,
   Dialog,
   Text,
+  ThemeProvider,
   useTheme,
 } from "@primer/react";
 import git from "isomorphic-git";
@@ -45,6 +46,9 @@ import { useGetBreakpoint } from "../utils/useGetBreakpoint";
 
 const demoRepo = "https://github.com/drawnotes/drawnotes-sample-files";
 
+declare type ColorMode = "day" | "night";
+declare type ColorModeWithAuto = ColorMode | "auto";
+
 interface Props {}
 
 const Main: NextPage<Props> = ({}) => {
@@ -52,7 +56,7 @@ const Main: NextPage<Props> = ({}) => {
   if (typeof window !== "undefined") {
     fs = new LightningFS("fs");
   }
-  const { setDayScheme, setNightScheme, setColorMode } = useTheme();
+  const { setDayScheme, setNightScheme, resolvedColorMode } = useTheme();
   const encoder = new TextEncoder();
   const decoder = new TextDecoder();
   const dir = "/root";
@@ -81,6 +85,9 @@ const Main: NextPage<Props> = ({}) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedForDelete, setSelectedForDelete] = useState<any>();
   const { breakpoint, width } = useGetBreakpoint();
+  const [colorMode, setColorMode] = useState<ColorModeWithAuto>(
+    resolvedColorMode || "day"
+  );
 
   useEffect(() => {
     if (typeof window !== undefined) {
@@ -630,191 +637,193 @@ const Main: NextPage<Props> = ({}) => {
   };
 
   return (
-    <Box width="100vw" height="auto" overflow="hidden">
-      {breakpoint > 1 && <ColorModeSwitcher />}
-      <Dialog
-        isOpen={isOpen}
-        onDismiss={() => setIsOpen(false)}
-        aria-labelledby="header-id"
-      >
-        <Dialog.Header id="header-id" justifyContent="center">
-          <Box color="fg.default">Confirm Delete</Box>
-        </Dialog.Header>
-        <Box
-          p={4}
-          display="flex"
-          flexDirection="column"
-          alignItems="center"
-          color="fg.default"
+    <ThemeProvider>
+      <Box width="100vw" height="auto" overflow="hidden">
+        {breakpoint > 1 && <ColorModeSwitcher />}
+        <Dialog
+          isOpen={isOpen}
+          onDismiss={() => setIsOpen(false)}
+          aria-labelledby="header-id"
         >
-          <Box>
-            <Text fontFamily="sans-serif">Are you sure?</Text>
-          </Box>
-          <Box display="flex" m={4}>
-            <Box m={2}>
-              <ButtonDanger onClick={handleRmFile}>Delete</ButtonDanger>
+          <Dialog.Header id="header-id" justifyContent="center">
+            <Box color="fg.default">Confirm Delete</Box>
+          </Dialog.Header>
+          <Box
+            p={4}
+            display="flex"
+            flexDirection="column"
+            alignItems="center"
+            color="fg.default"
+          >
+            <Box>
+              <Text fontFamily="sans-serif">Are you sure?</Text>
             </Box>
-            <Box m={2}>
-              <Button onClick={handleCancelDelete}>Cancel</Button>
+            <Box display="flex" m={4}>
+              <Box m={2}>
+                <ButtonDanger onClick={handleRmFile}>Delete</ButtonDanger>
+              </Box>
+              <Box m={2}>
+                <Button onClick={handleCancelDelete}>Cancel</Button>
+              </Box>
             </Box>
           </Box>
-        </Box>
-      </Dialog>
-      <Box display={"flex"} height={"100vh"}>
-        <Tabs
-          handleSelectedTab={handleSelectedTab}
-          selectedTab={selectedTab}
-          newFileCount={newFiles.length}
-          pendingChangesCount={newFiles.length + pendingChanges.length}
-        />
-        <Box>
-          {(() => {
-            switch (selectedTab) {
-              case "explorer":
-                return (
-                  <ExplorerPanel
-                    handleRevert={handleRevert}
-                    isLoading={isLoading}
-                    onDrop={onDrop}
-                    repoUrl={repoUrl}
-                    handleNewFile={handleNewFile}
-                    loadingMessage={loadingMessage}
-                  >
-                    <FileList
-                      files={files}
-                      handleOpen={handleOpen}
-                      handleDownload={handleDownload}
-                      handleRename={handleRename}
-                      handleRenameFile={handleRenameFile}
-                      handleDelete={handleDelete}
-                      newFiles={newFiles}
-                      pendingChanges={pendingChanges}
-                      selectedFile={selectedFile}
-                      showRenameFile={showRenameFile}
-                      handleCancelRename={handleCancelRename}
-                    />
-                    {showNewFile && (
-                      <NewFile
-                        handleAddNewFile={handleAddNewFile}
-                        handleCancelNewFile={handleCancelNewFile}
-                      />
-                    )}
-                  </ExplorerPanel>
-                );
-              case "search":
-                return <SearchPanel />;
-              case "git":
-                return (
-                  <GitPanel
-                    user={user}
-                    files={files}
-                    newFiles={newFiles}
-                    pendingChanges={pendingChanges}
-                    handleAddCommitPush={handleAddCommitPush}
-                    isPushing={false}
-                  />
-                );
-              case "settings":
-                return (
-                  <SettingsPanel
-                    handleCreateRepo={handleCreateRepo}
-                    user={user}
-                    handleLoadProject={handleLoadProject}
-                    createRepoData={createRepoData}
-                    gitMessage={gitMessage}
-                  />
-                );
-              case "user":
-                return <UserPanel user={user} />;
-              default:
-                return null;
-            }
-          })()}
-        </Box>
-        <Box
-          display={"flex"}
-          flexDirection={"column"}
-          width="100%"
-          height="100%"
-        >
-          <Menu
-            handleSelectedView={handleSelectedView}
-            selectedView={selectedView}
-            fileType={fileType}
+        </Dialog>
+        <Box display={"flex"} height={"100vh"}>
+          <Tabs
+            handleSelectedTab={handleSelectedTab}
+            selectedTab={selectedTab}
+            newFileCount={newFiles.length}
+            pendingChangesCount={newFiles.length + pendingChanges.length}
           />
-          {fileLoading ? (
-            <FileLoading />
-          ) : (
-            (() => {
-              switch (selectedFile?.extension) {
-                case "geojson":
-                  return selectedView === "mapPreview" ? (
-                    <Preview
-                      selectedFile={selectedFile}
-                      selectedFileContent={selectedFileContent}
-                    />
-                  ) : (
-                    <Editor
-                      selectedFile={selectedFile}
-                      selectedFileContent={selectedFileContent}
-                      fs={fs!}
-                      handleSetPendingChanges={handleSetPendingChanges}
-                      handleUpdateEditorView={handleUpdateEditorView}
-                    />
-                  );
-                case "md":
-                  return selectedView === "markdownPreview" ? (
-                    <Preview
-                      selectedFile={selectedFile}
-                      selectedFileContent={selectedFileContent}
-                    />
-                  ) : (
-                    <Editor
-                      selectedFile={selectedFile}
-                      selectedFileContent={selectedFileContent}
-                      fs={fs!}
-                      handleSetPendingChanges={handleSetPendingChanges}
-                      handleUpdateEditorView={handleUpdateEditorView}
-                    />
-                  );
-                case "csv":
-                  return selectedView === "csvPreview" ? (
-                    <Preview
-                      selectedFile={selectedFile}
-                      selectedFileContent={selectedFileContent}
-                    />
-                  ) : (
-                    <Editor
-                      selectedFile={selectedFile}
-                      selectedFileContent={selectedFileContent}
-                      fs={fs!}
-                      handleSetPendingChanges={handleSetPendingChanges}
-                      handleUpdateEditorView={handleUpdateEditorView}
-                    />
-                  );
-                default:
+          <Box>
+            {(() => {
+              switch (selectedTab) {
+                case "explorer":
                   return (
-                    <Editor
-                      selectedFile={selectedFile}
-                      selectedFileContent={selectedFileContent}
-                      fs={fs!}
-                      handleSetPendingChanges={handleSetPendingChanges}
-                      handleUpdateEditorView={handleUpdateEditorView}
+                    <ExplorerPanel
+                      handleRevert={handleRevert}
+                      isLoading={isLoading}
+                      onDrop={onDrop}
+                      repoUrl={repoUrl}
+                      handleNewFile={handleNewFile}
+                      loadingMessage={loadingMessage}
                     >
-                      {isFirstLoad && (
-                        <Blankslate
-                          handleNewProject={handleNewProject}
-                          handleOpenDemo={handleOpenDemo}
+                      <FileList
+                        files={files}
+                        handleOpen={handleOpen}
+                        handleDownload={handleDownload}
+                        handleRename={handleRename}
+                        handleRenameFile={handleRenameFile}
+                        handleDelete={handleDelete}
+                        newFiles={newFiles}
+                        pendingChanges={pendingChanges}
+                        selectedFile={selectedFile}
+                        showRenameFile={showRenameFile}
+                        handleCancelRename={handleCancelRename}
+                      />
+                      {showNewFile && (
+                        <NewFile
+                          handleAddNewFile={handleAddNewFile}
+                          handleCancelNewFile={handleCancelNewFile}
                         />
                       )}
-                    </Editor>
+                    </ExplorerPanel>
                   );
+                case "search":
+                  return <SearchPanel />;
+                case "git":
+                  return (
+                    <GitPanel
+                      user={user}
+                      files={files}
+                      newFiles={newFiles}
+                      pendingChanges={pendingChanges}
+                      handleAddCommitPush={handleAddCommitPush}
+                      isPushing={false}
+                    />
+                  );
+                case "settings":
+                  return (
+                    <SettingsPanel
+                      handleCreateRepo={handleCreateRepo}
+                      user={user}
+                      handleLoadProject={handleLoadProject}
+                      createRepoData={createRepoData}
+                      gitMessage={gitMessage}
+                    />
+                  );
+                case "user":
+                  return <UserPanel user={user} />;
+                default:
+                  return null;
               }
-            })()
-          )}
+            })()}
+          </Box>
+          <Box
+            display={"flex"}
+            flexDirection={"column"}
+            width="100%"
+            height="100%"
+          >
+            <Menu
+              handleSelectedView={handleSelectedView}
+              selectedView={selectedView}
+              fileType={fileType}
+            />
+            {fileLoading ? (
+              <FileLoading />
+            ) : (
+              (() => {
+                switch (selectedFile?.extension) {
+                  case "geojson":
+                    return selectedView === "mapPreview" ? (
+                      <Preview
+                        selectedFile={selectedFile}
+                        selectedFileContent={selectedFileContent}
+                      />
+                    ) : (
+                      <Editor
+                        selectedFile={selectedFile}
+                        selectedFileContent={selectedFileContent}
+                        fs={fs!}
+                        handleSetPendingChanges={handleSetPendingChanges}
+                        handleUpdateEditorView={handleUpdateEditorView}
+                      />
+                    );
+                  case "md":
+                    return selectedView === "markdownPreview" ? (
+                      <Preview
+                        selectedFile={selectedFile}
+                        selectedFileContent={selectedFileContent}
+                      />
+                    ) : (
+                      <Editor
+                        selectedFile={selectedFile}
+                        selectedFileContent={selectedFileContent}
+                        fs={fs!}
+                        handleSetPendingChanges={handleSetPendingChanges}
+                        handleUpdateEditorView={handleUpdateEditorView}
+                      />
+                    );
+                  case "csv":
+                    return selectedView === "csvPreview" ? (
+                      <Preview
+                        selectedFile={selectedFile}
+                        selectedFileContent={selectedFileContent}
+                      />
+                    ) : (
+                      <Editor
+                        selectedFile={selectedFile}
+                        selectedFileContent={selectedFileContent}
+                        fs={fs!}
+                        handleSetPendingChanges={handleSetPendingChanges}
+                        handleUpdateEditorView={handleUpdateEditorView}
+                      />
+                    );
+                  default:
+                    return (
+                      <Editor
+                        selectedFile={selectedFile}
+                        selectedFileContent={selectedFileContent}
+                        fs={fs!}
+                        handleSetPendingChanges={handleSetPendingChanges}
+                        handleUpdateEditorView={handleUpdateEditorView}
+                      >
+                        {isFirstLoad && (
+                          <Blankslate
+                            handleNewProject={handleNewProject}
+                            handleOpenDemo={handleOpenDemo}
+                          />
+                        )}
+                      </Editor>
+                    );
+                }
+              })()
+            )}
+          </Box>
         </Box>
       </Box>
-    </Box>
+    </ThemeProvider>
   );
 };
 
