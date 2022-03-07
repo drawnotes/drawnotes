@@ -1,12 +1,6 @@
 import "@fontsource/libre-baskerville";
 import { MarkGithubIcon } from "@primer/octicons-react";
-import {
-  Box,
-  StyledOcticon,
-  Text,
-  ThemeProvider,
-  useTheme,
-} from "@primer/react";
+import { Box, StyledOcticon, Text, ThemeProvider } from "@primer/react";
 import Cookie from "js-cookie";
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
@@ -20,14 +14,25 @@ import { useGetOrientation } from "../utils/useGetOrientation";
 declare type ColorMode = "day" | "night";
 declare type ColorModeWithAuto = ColorMode | "auto";
 
-interface Props {}
+interface Props {
+  preferredColorMode: ColorModeWithAuto;
+  preferredDayScheme: string;
+  preferredNightScheme: string;
+}
 
-const Home: NextPage<Props> = ({}) => {
+const Home: NextPage<Props> = ({
+  preferredColorMode,
+  preferredDayScheme,
+  preferredNightScheme,
+}) => {
   const { orientation, height } = useGetOrientation();
   const router = useRouter();
-  const { setDayScheme, setNightScheme, resolvedColorMode } = useTheme();
   const [colorMode, setColorMode] = useState<ColorModeWithAuto>(
-    resolvedColorMode || "day"
+    preferredColorMode || "day"
+  );
+  const [dayScheme, setDayScheme] = useState(preferredDayScheme || "light");
+  const [nightScheme, setNightScheme] = useState(
+    preferredNightScheme || "dark"
   );
 
   useEffect(() => {
@@ -55,7 +60,11 @@ const Home: NextPage<Props> = ({}) => {
   }, []);
 
   return (
-    <ThemeProvider colorMode={colorMode}>
+    <ThemeProvider
+      colorMode={colorMode}
+      dayScheme={dayScheme}
+      nightScheme={nightScheme}
+    >
       <Box
         width="100vw"
         height="100vh"
@@ -178,5 +187,20 @@ const Home: NextPage<Props> = ({}) => {
     </ThemeProvider>
   );
 };
+
+export async function getServerSideProps(context: any) {
+  const cookies = context.req.cookies;
+  const colorMode = cookies && cookies.colorMode ? cookies.colorMode : "day";
+  const dayScheme = cookies && cookies.dayScheme ? cookies.dayScheme : "light";
+  const nightScheme =
+    cookies && cookies.nightScheme ? cookies.nightScheme : "dark";
+  return {
+    props: {
+      preferredColorMode: colorMode,
+      preferredDayScheme: dayScheme,
+      preferredNightScheme: nightScheme,
+    },
+  };
+}
 
 export default Home;

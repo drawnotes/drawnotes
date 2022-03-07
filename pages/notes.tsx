@@ -6,7 +6,6 @@ import {
   Dialog,
   Text,
   ThemeProvider,
-  useTheme,
 } from "@primer/react";
 import git from "isomorphic-git";
 import http from "isomorphic-git/http/web";
@@ -49,14 +48,21 @@ const demoRepo = "https://github.com/drawnotes/drawnotes-sample-files";
 declare type ColorMode = "day" | "night";
 declare type ColorModeWithAuto = ColorMode | "auto";
 
-interface Props {}
+interface Props {
+  preferredColorMode: ColorModeWithAuto;
+  preferredDayScheme: string;
+  preferredNightScheme: string;
+}
 
-const Main: NextPage<Props> = ({}) => {
+const Main: NextPage<Props> = ({
+  preferredColorMode,
+  preferredDayScheme,
+  preferredNightScheme,
+}) => {
   let fs: LightningFS;
   if (typeof window !== "undefined") {
     fs = new LightningFS("fs");
   }
-  const { setDayScheme, setNightScheme, resolvedColorMode } = useTheme();
   const encoder = new TextEncoder();
   const decoder = new TextDecoder();
   const dir = "/root";
@@ -86,7 +92,11 @@ const Main: NextPage<Props> = ({}) => {
   const [selectedForDelete, setSelectedForDelete] = useState<any>();
   const { breakpoint, width } = useGetBreakpoint();
   const [colorMode, setColorMode] = useState<ColorModeWithAuto>(
-    resolvedColorMode || "day"
+    preferredColorMode || "day"
+  );
+  const [dayScheme, setDayScheme] = useState(preferredDayScheme || "light");
+  const [nightScheme, setNightScheme] = useState(
+    preferredNightScheme || "dark"
   );
 
   useEffect(() => {
@@ -637,7 +647,11 @@ const Main: NextPage<Props> = ({}) => {
   };
 
   return (
-    <ThemeProvider>
+    <ThemeProvider
+      colorMode={colorMode}
+      dayScheme={dayScheme}
+      nightScheme={nightScheme}
+    >
       <Box width="100vw" height="auto" overflow="hidden">
         {breakpoint > 1 && <ColorModeSwitcher />}
         <Dialog
@@ -826,5 +840,21 @@ const Main: NextPage<Props> = ({}) => {
     </ThemeProvider>
   );
 };
+
+export async function getServerSideProps(context: any) {
+  const cookies = context.req.cookies;
+  console.log(cookies);
+  const colorMode = cookies && cookies.colorMode ? cookies.colorMode : "day";
+  const dayScheme = cookies && cookies.dayScheme ? cookies.dayScheme : "light";
+  const nightScheme =
+    cookies && cookies.nightScheme ? cookies.nightScheme : "dark";
+  return {
+    props: {
+      colorMode: colorMode,
+      dayScheme: dayScheme,
+      nightScheme: nightScheme,
+    },
+  };
+}
 
 export default Main;
