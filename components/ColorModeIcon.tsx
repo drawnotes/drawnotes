@@ -1,6 +1,6 @@
 import { MoonIcon, SunIcon } from "@primer/octicons-react";
-import { Box, StyledOcticon, useTheme } from "@primer/react";
-import { ActionList, ActionMenu } from "@primer/react/drafts";
+import { Box, Dialog, StyledOcticon, useTheme } from "@primer/react";
+import { ActionList } from "@primer/react/drafts";
 import { useRef, useState } from "react";
 
 function ColorModeIcon() {
@@ -85,21 +85,23 @@ function ColorModeIcon() {
           <StyledOcticon color="fg.default" icon={current.icon} size={20} />
         </Box>
       </Box>
-      <ActionMenu open={isOpen} onOpenChange={setIsOpen} anchorRef={anchorRef}>
-        <ActionMenu.Overlay width="medium">
-          <ActionList selectionVariant="single">
-            {schemes.map((scheme) => (
-              <ActionList.Item
-                key={scheme.value}
-                onSelect={() => setScheme(scheme.value)}
-                selected={colorScheme === scheme.value}
-              >
-                {scheme.name}
-              </ActionList.Item>
-            ))}
-          </ActionList>
-        </ActionMenu.Overlay>
-      </ActionMenu>
+      <Dialog
+        isOpen={isOpen}
+        onDismiss={() => setIsOpen(false)}
+        aria-labelledby="header-id"
+      >
+        <ActionList selectionVariant="single">
+          {schemes.map((scheme) => (
+            <ActionList.Item
+              key={scheme.value}
+              onSelect={() => setScheme(scheme.value)}
+              selected={colorScheme === scheme.value}
+            >
+              {scheme.name}
+            </ActionList.Item>
+          ))}
+        </ActionList>
+      </Dialog>
     </Box>
   );
 }
