@@ -32,18 +32,13 @@ function ColorModeSwitcher() {
       icon: SunIcon,
     },
     {
-      name: "Light colorblind",
-      value: "light_colorblind",
+      name: "Light high contrast",
+      value: "light_high_contrast",
       icon: SunIcon,
     },
     {
       name: "Dark",
       value: "dark",
-      icon: MoonIcon,
-    },
-    {
-      name: "Dark colorblind",
-      value: "dark_colorblind",
       icon: MoonIcon,
     },
     {
