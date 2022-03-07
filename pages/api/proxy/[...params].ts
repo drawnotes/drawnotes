@@ -38,6 +38,7 @@ const removeParams = ["city", "region", "ua", "country", "ip", "long", "lat"];
 
 async function proxyRoute(req: NextApiRequest, res: NextApiResponse) {
   try {
+    console.log(req.url);
     // Remove Next.js API route from url
     const baseUrl = req.url!.replace("/api/proxy/", "");
     const url = new URL("https://" + baseUrl);
