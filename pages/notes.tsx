@@ -843,7 +843,6 @@ const Main: NextPage<Props> = ({
 
 export async function getServerSideProps(context: any) {
   const cookies = context.req.cookies;
-  console.log(cookies);
   const colorMode = cookies && cookies.colorMode ? cookies.colorMode : "day";
   const dayScheme = cookies && cookies.dayScheme ? cookies.dayScheme : "light";
   const nightScheme =
