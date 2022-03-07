@@ -19,6 +19,7 @@
     "@primer/octicons-react": "^16.3.1",
     "@primer/react": "^34.5.0",
     "@react-aria/ssr": "^3.1.2",
+    "@slack/bolt": "^3.10.0",
     "@turf/bbox": "^6.5.0",
     "@urql/exchange-graphcache": "^4.3.6",
     "deck.gl": "^8.6.8",
