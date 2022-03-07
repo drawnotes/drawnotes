@@ -58,36 +58,44 @@ function ColorModeIcon() {
   const current = schemes.find((scheme) => scheme.value === colorScheme)!;
 
   return (
-    <Box>
-      <Box
-        textAlign="center"
-        borderTopWidth="1px"
-        borderTopStyle="solid"
-        borderColor="border.default"
-      >
-        <SelectMenu>
-          <ButtonInvisible as="summary" variant="small">
-            <Box mt={3}>
-              <StyledOcticon color="fg.default" icon={current.icon} size={20} />
-            </Box>
-          </ButtonInvisible>
-          <Box position="absolute" top="25%" left="10%">
-            <SelectMenu.Modal>
-              <SelectMenu.List>
-                {schemes.map((scheme) => (
-                  <SelectMenu.Item
-                    key={scheme.value}
-                    selected={scheme.value === colorScheme}
-                    onClick={() => setScheme(scheme.value)}
-                  >
-                    {scheme.name}
-                  </SelectMenu.Item>
-                ))}
-              </SelectMenu.List>
-            </SelectMenu.Modal>
+    <Box
+      display="flex"
+      flexDirection="column"
+      justifyContent="center"
+      borderWidth={1}
+      borderStyle="solid"
+      borderColor="border.default"
+      bg="neutral.subtle"
+      color="fg.default"
+      sx={{
+        "&:hover": {
+          cursor: "pointer",
+          bg: "neutral.muted",
+        },
+      }}
+    >
+      <SelectMenu>
+        <ButtonInvisible as="summary" variant="small">
+          <Box my={2}>
+            <StyledOcticon color="fg.default" icon={current.icon} size={20} />
           </Box>
-        </SelectMenu>
-      </Box>
+        </ButtonInvisible>
+        <Box position="absolute" top="25%" left="10%">
+          <SelectMenu.Modal>
+            <SelectMenu.List>
+              {schemes.map((scheme) => (
+                <SelectMenu.Item
+                  key={scheme.value}
+                  selected={scheme.value === colorScheme}
+                  onClick={() => setScheme(scheme.value)}
+                >
+                  {scheme.name}
+                </SelectMenu.Item>
+              ))}
+            </SelectMenu.List>
+          </SelectMenu.Modal>
+        </Box>
+      </SelectMenu>
     </Box>
   );
 }
