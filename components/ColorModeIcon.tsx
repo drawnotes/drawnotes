@@ -1,15 +1,12 @@
 import { MoonIcon, SunIcon } from "@primer/octicons-react";
-import {
-  Box,
-  ButtonInvisible,
-  SelectMenu,
-  StyledOcticon,
-  useTheme,
-} from "@primer/react";
+import { Box, StyledOcticon, useTheme } from "@primer/react";
+import { ActionList, ActionMenu } from "@primer/react/drafts";
+import { useRef, useState } from "react";
 
 function ColorModeIcon() {
+  const anchorRef = useRef(null);
   const { setDayScheme, setNightScheme, colorScheme } = useTheme();
-
+  const [isOpen, setIsOpen] = useState(false);
   const setScheme = (schemeValue: string) => {
     if (schemeValue.includes("dark")) {
       document.cookie = `colorMode=night; samesite=strict; max-age=31536000`;
@@ -62,40 +59,47 @@ function ColorModeIcon() {
       display="flex"
       flexDirection="column"
       justifyContent="center"
+      alignItems="center"
       borderWidth={1}
       borderStyle="solid"
       borderColor="border.default"
       bg="neutral.subtle"
       color="fg.default"
-      sx={{
-        "&:hover": {
-          cursor: "pointer",
-          bg: "neutral.muted",
-        },
-      }}
     >
-      <SelectMenu>
-        <ButtonInvisible as="summary" variant="small">
-          <Box my={2}>
-            <StyledOcticon color="fg.default" icon={current.icon} size={20} />
-          </Box>
-        </ButtonInvisible>
-        <Box position="absolute" top="25%" left="10%">
-          <SelectMenu.Modal>
-            <SelectMenu.List>
-              {schemes.map((scheme) => (
-                <SelectMenu.Item
-                  key={scheme.value}
-                  selected={scheme.value === colorScheme}
-                  onClick={() => setScheme(scheme.value)}
-                >
-                  {scheme.name}
-                </SelectMenu.Item>
-              ))}
-            </SelectMenu.List>
-          </SelectMenu.Modal>
+      <Box
+        width="100%"
+        display="flex"
+        flexDirection="column"
+        justifyContent="center"
+        alignItems="center"
+        ref={anchorRef}
+        onClick={() => setIsOpen(!isOpen)}
+        sx={{
+          "&:hover": {
+            cursor: "pointer",
+            bg: "neutral.muted",
+          },
+        }}
+      >
+        <Box my={3}>
+          <StyledOcticon color="fg.default" icon={current.icon} size={20} />
         </Box>
-      </SelectMenu>
+      </Box>
+      <ActionMenu open={isOpen} onOpenChange={setIsOpen} anchorRef={anchorRef}>
+        <ActionMenu.Overlay width="medium">
+          <ActionList selectionVariant="single">
+            {schemes.map((scheme) => (
+              <ActionList.Item
+                key={scheme.value}
+                onSelect={() => setScheme(scheme.value)}
+                selected={colorScheme === scheme.value}
+              >
+                {scheme.name}
+              </ActionList.Item>
+            ))}
+          </ActionList>
+        </ActionMenu.Overlay>
+      </ActionMenu>
     </Box>
   );
 }
