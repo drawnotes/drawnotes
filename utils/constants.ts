@@ -18,4 +18,4 @@ export const GITHUB_GIT_PROXY =
 export const SLACK_WEBHOOK = process.env.SLACK_WEBHOOK as string;
 export const SLACK_CHANNEL_ID = process.env
   .NEXT_PUBLIC_SLACK_CHANNEL_ID as string;
-export const IS_PROD = process.env.VERCEL_ENV || false;
+export const IS_PROD = process.env.VERCEL_ENV === "production" ? true : false;
