@@ -2,7 +2,6 @@ import { Box, Text } from "@primer/react";
 import type { GetServerSidePropsContext, NextPage } from "next";
 import { useEffect, useMemo } from "react";
 import ColorModeSwitcher from "../components/ColorModeSwitcher";
-import { SLACK_CHANNEL_ID } from "../utils/constants";
 
 export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   try {
@@ -43,7 +42,6 @@ const Location: NextPage<Props> = (props: Props) => {
       device = `\n${location.ua.device.vendor} ${location.ua.device.model}`;
     }
     const blocks = {
-      channel: SLACK_CHANNEL_ID,
       text: `New user from ${location.city}, ${location.region} ${location.country}${device}`,
       blocks: [
         {

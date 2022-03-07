@@ -9,7 +9,6 @@ import { AiOutlineLinkedin } from "react-icons/ai";
 import { VscFilePdf } from "react-icons/vsc";
 import ColorModeSwitcher from "../components/ColorModeSwitcher";
 import NotesLogo from "../components/NotesLogo";
-import { SLACK_CHANNEL_ID } from "../utils/constants";
 import { useGetOrientation } from "../utils/useGetOrientation";
 
 declare type ColorMode = "day" | "night";
@@ -67,7 +66,6 @@ const Home: NextPage<Props> = ({
       device = `\n${location.ua.device.vendor} ${location.ua.device.model}`;
     }
     const blocks = {
-      channel: SLACK_CHANNEL_ID,
       text: `New user from ${location.city}, ${location.region} ${location.country}${device}`,
       blocks: [
         {

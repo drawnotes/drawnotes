@@ -16,6 +16,4 @@ export const GITHUB_GRAPHQL_PROXY =
 export const GITHUB_GIT_PROXY =
   process.env.NEXT_PUBLIC_GITHUB_GIT_PROXY || "http://localhost:3000/api/proxy";
 export const SLACK_WEBHOOK = process.env.SLACK_WEBHOOK as string;
-export const SLACK_CHANNEL_ID = process.env
-  .NEXT_PUBLIC_SLACK_CHANNEL_ID as string;
 export const IS_PROD = process.env.VERCEL_ENV === "production" ? true : false;
