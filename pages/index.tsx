@@ -4,11 +4,12 @@ import { Box, StyledOcticon, Text, ThemeProvider } from "@primer/react";
 import Cookie from "js-cookie";
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { AiOutlineLinkedin } from "react-icons/ai";
 import { VscFilePdf } from "react-icons/vsc";
 import ColorModeSwitcher from "../components/ColorModeSwitcher";
 import NotesLogo from "../components/NotesLogo";
+import { SLACK_CHANNEL_ID } from "../utils/constants";
 import { useGetOrientation } from "../utils/useGetOrientation";
 
 declare type ColorMode = "day" | "night";
@@ -18,12 +19,26 @@ interface Props {
   preferredColorMode: ColorModeWithAuto;
   preferredDayScheme: string;
   preferredNightScheme: string;
+  country: string;
+  region: string;
+  city: string;
+  lat: string;
+  long: string;
+  ip: string;
+  ua: string;
 }
 
 const Home: NextPage<Props> = ({
   preferredColorMode,
   preferredDayScheme,
   preferredNightScheme,
+  country,
+  region,
+  city,
+  lat,
+  long,
+  ip,
+  ua,
 }) => {
   const { orientation, height } = useGetOrientation();
   const router = useRouter();
@@ -34,6 +49,70 @@ const Home: NextPage<Props> = ({
   const [nightScheme, setNightScheme] = useState(
     preferredNightScheme || "dark"
   );
+
+  const message = useMemo(() => {
+    const decodedCity = decodeURIComponent(city);
+    const decodedUa = decodeURIComponent(ua);
+    const location = {
+      city: decodedCity,
+      region: region,
+      country: country,
+      lat: lat,
+      long: long,
+      ip: ip,
+      ua: JSON.parse(decodedUa),
+    };
+    let device = "";
+    if (location.ua.device.vendor && location.ua.device.model) {
+      device = `\n${location.ua.device.vendor} ${location.ua.device.model}`;
+    }
+    const blocks = {
+      channel: SLACK_CHANNEL_ID,
+      text: `New user from ${location.city}, ${location.region} ${location.country}${device}`,
+      blocks: [
+        {
+          type: "section",
+          text: {
+            type: "mrkdwn",
+            text: `${location.city}, ${location.region} ${location.country}${device}
+  ${location.ua.os.name} ${location.ua.os.version}
+  ${location.ua.browser.name} ${location.ua.browser.version}
+  ${location.ip}`,
+          },
+        },
+        {
+          type: "actions",
+          elements: [
+            {
+              type: "button",
+              text: {
+                type: "plain_text",
+                text: "Google Map",
+              },
+              url: `https://www.google.com/maps/search/?api=1&query=${location.lat},${location.long}`,
+            },
+          ],
+        },
+      ],
+    };
+    return blocks;
+  }, [country, region, city, lat, long, ip, ua]);
+
+  useEffect(() => {
+    async function sendBeacon(msg: string) {
+      await fetch("/api/beacon", {
+        method: "POST",
+        body: msg,
+      });
+    }
+    if (typeof window !== "undefined") {
+      if (navigator.sendBeacon) {
+        navigator.sendBeacon("/api/beacon", JSON.stringify(message));
+      } else {
+        sendBeacon(JSON.stringify(message));
+      }
+    }
+  }, [message]);
 
   useEffect(() => {
     if (typeof window !== undefined) {
@@ -194,11 +273,19 @@ export async function getServerSideProps(context: any) {
   const dayScheme = cookies && cookies.dayScheme ? cookies.dayScheme : "light";
   const nightScheme =
     cookies && cookies.nightScheme ? cookies.nightScheme : "dark";
+  const { country, region, city, lat, long, ip, ua } = context.query;
   return {
     props: {
       preferredColorMode: colorMode,
       preferredDayScheme: dayScheme,
       preferredNightScheme: nightScheme,
+      country: country,
+      region: region,
+      city: city,
+      lat: lat,
+      long: long,
+      ip: ip,
+      ua: ua,
     },
   };
 }
