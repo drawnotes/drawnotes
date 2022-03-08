@@ -33,7 +33,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     } catch (error: any) {
       if (error.message !== "An API error occurred: message_not_found") {
         console.log(error);
-        res.status(500).send("something went wrong.");
+        res.status(500).send(error.message);
       }
     }
   } else {
