@@ -9,7 +9,6 @@ import {
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const body = req.body;
   const challenge = body.challenge;
-  res.status(200).send(challenge);
   try {
     const app = new App({
       token: SLACK_BOT_TOKEN,
@@ -23,6 +22,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   } catch (error) {
     console.log(error);
   }
+  res.status(200).send(challenge);
 };
 
 export default handler;
