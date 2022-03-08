@@ -3,6 +3,7 @@ const { App } = require("@slack/bolt");
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const body = req.body;
+  console.log(body);
   const challenge = body.challenge;
   if (body.event && body.event.type === "message") {
     const app = new App({
@@ -10,7 +11,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       signingSecret: process.env.SLACK_SIGNING_SECRET,
     });
     await app.client.chat.postMessage({
-      channel: body.event.channel,
+      channel: process.env.SLACK_GENERAL_CHANNEL,
       text: "Hello, Dave",
     });
   }
