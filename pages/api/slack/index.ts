@@ -10,7 +10,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       signingSecret: process.env.SLACK_SIGNING_SECRET,
     });
     await app.client.chat.postMessage({
-      channel: process.env.SLACK_GENERAL_CHANNEL,
+      channel: body.event.channel,
       text: "Hello, Dave",
     });
   }
