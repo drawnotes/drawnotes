@@ -2,27 +2,35 @@ import { NextApiRequest, NextApiResponse } from "next";
 const { App } = require("@slack/bolt");
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-  console.log(req.headers);
-  console.log(req.url);
-  console.log(req.method);
-  console.log(req.body || "no request body");
+  const app = new App({
+    token: process.env.SLACK_BOT_TOKEN,
+    signingSecret: process.env.SLACK_SIGNING_SECRET,
+  });
+
+  const headers = req.headers;
+  const url = req.url;
+  const method = req.method;
   const body = req.body;
+  const event = req.body.event;
+  console.log({ headers });
+  console.log({ url });
+  console.log({ method });
   const challenge = body.challenge;
-  if (body.event && body.event.type === "message") {
-    const app = new App({
-      token: process.env.SLACK_BOT_TOKEN,
-      signingSecret: process.env.SLACK_SIGNING_SECRET,
-    });
-    await app.client.chat.postMessage({
-      channel: process.env.SLACK_GENERAL_CHANNEL,
-      text: "Hello, Dave",
-    });
-  }
   if (challenge) {
+    console.log({ challenge });
     res.status(200).send(challenge);
-  } else {
-    res.status(200).send("OK");
   }
+  if (event && event.type === "message") {
+    const text = event.text;
+    const channel = event.channel;
+    console.log({ text });
+    console.log({ channel });
+    await app.client.chat.postMessage({
+      channel: event.channel,
+      text: "Did you say something?",
+    });
+  }
+  res.status(200).send("OK");
 };
 
 export default handler;
