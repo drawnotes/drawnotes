@@ -12,6 +12,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const event = req.body.event;
   console.log({ headers });
   console.log({ body });
+  console.log(body.event.blocks);
   const challenge = body.challenge;
   if (challenge) {
     res.status(200).send(challenge);
