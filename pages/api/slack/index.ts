@@ -8,26 +8,19 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   });
 
   const headers = req.headers;
-  const url = req.url;
-  const method = req.method;
   const body = req.body;
   const event = req.body.event;
   console.log({ headers });
-  console.log({ url });
-  console.log({ method });
   console.log({ body });
   const challenge = body.challenge;
   if (challenge) {
-    console.log({ challenge });
     res.status(200).send(challenge);
   }
   if (event && event.type === "app_mention") {
     const text = event.text;
     const channel = event.channel;
-    console.log({ text });
-    console.log({ channel });
     await app.client.chat.postMessage({
-      channel: event.channel,
+      channel: channel,
       text: "Did you say something?",
     });
   }
