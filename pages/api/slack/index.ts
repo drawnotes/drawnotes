@@ -43,6 +43,21 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
           });
         }
       }
+      const cleanup = await botApp.client.search.messages({
+        token: SLACK_USER_OAUTH_TOKEN,
+        query: "cleanup",
+        sort: "timestamp",
+        sort_dir: "desc",
+      });
+      if (cleanup.messages && cleanup.messages?.matches!.length > 0) {
+        for (const match of cleanup.messages.matches!) {
+          await userApp.client.chat.delete({
+            channel: match.channel!.id as string,
+            ts: match.ts as string,
+            as_user: true,
+          });
+        }
+      }
     } else {
       await botApp.client.chat.postMessage({
         channel: channel,
