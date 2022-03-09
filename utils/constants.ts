@@ -25,3 +25,5 @@ export const SLACK_GENERAL_CHANNEL = process.env
   .SLACK_GENERAL_CHANNEL as string;
 export const SLACK_USERLOGS_CHANNEL = process.env
   .SLACK_USERLOGS_CHANNEL as string;
+export const SLACK_VERIFICATION_TOKEN = process.env
+  .SLACK_VERIFICATION_TOKEN as string;
