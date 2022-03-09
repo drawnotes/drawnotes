@@ -4,7 +4,6 @@ import {
   SLACK_BOT_TOKEN,
   SLACK_SIGNING_SECRET,
   SLACK_USER_OAUTH_TOKEN,
-  SLACK_WEBHOOK,
 } from "../../../utils/constants";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -22,50 +21,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const body = req.body;
   const event = req.body.event;
   const challenge = body.challenge;
-  const location = {
-    city: headers["x-vercel-ip-city"],
-    region: headers["x-vercel-ip-country-region"],
-    country: headers["x-vercel-ip-country"],
-    lat: headers["x-vercel-ip-latitude"],
-    long: headers["x-vercel-ip-longitude"],
-    ip: headers["x-real-ip"],
-    ua: headers["user-agent"],
-  };
-  const blocks = {
-    text: `Server request from ${location.city}, ${location.region} ${location.country}`,
-    blocks: [
-      {
-        type: "section",
-        text: {
-          type: "mrkdwn",
-          text: `${location.ua}
-${location.city}, ${location.region} ${location.country}
-${location.ip}`,
-        },
-      },
-      {
-        type: "actions",
-        elements: [
-          {
-            type: "button",
-            text: {
-              type: "plain_text",
-              text: "Google Map",
-            },
-            url: `https://www.google.com/maps/search/?api=1&query=${location.lat},${location.long}`,
-          },
-        ],
-      },
-    ],
-  };
-  await fetch(SLACK_WEBHOOK, {
-    method: "POST",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(blocks),
-  });
   if (challenge) {
     res.status(200).send(challenge);
   }
@@ -75,7 +30,7 @@ ${location.ip}`,
     if (text.includes("cleanup")) {
       const results = await botApp.client.search.messages({
         token: SLACK_USER_OAUTH_TOKEN,
-        query: "drawnotes",
+        query: channel === "C02SFS0T28L" ? "google" : "drawnotes",
         sort: "timestamp",
         sort_dir: "desc",
       });
