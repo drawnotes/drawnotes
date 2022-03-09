@@ -27,16 +27,13 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     const text = event.text;
     const channel = event.channel;
     if (text.includes("cleanup")) {
-      const results = await botApp.client.search.messages({
-        token: SLACK_USER_OAUTH_TOKEN,
-        query: channel === "C02SFS0T28L" ? "google" : "drawnotes",
-        sort: "timestamp",
-        sort_dir: "desc",
+      const results = await botApp.client.conversations.history({
+        channel: channel,
       });
-      if (results.messages && results.messages?.matches!.length > 0) {
-        for (const match of results.messages.matches!) {
+      if (results.messages && results.messages.length > 0) {
+        for (const match of results.messages) {
           await userApp.client.chat.delete({
-            channel: match.channel!.id as string,
+            channel: channel,
             ts: match.ts as string,
             as_user: true,
           });
