@@ -17,7 +17,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     signingSecret: SLACK_SIGNING_SECRET,
   });
 
-  const headers = req.headers;
   const body = req.body;
   const event = req.body.event;
   const challenge = body.challenge;
@@ -43,21 +42,11 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
           });
         }
       }
-      const cleanup = await botApp.client.search.messages({
-        token: SLACK_USER_OAUTH_TOKEN,
-        query: "cleanup",
-        sort: "timestamp",
-        sort_dir: "desc",
+      await userApp.client.chat.delete({
+        channel: channel,
+        ts: event.ts,
+        as_user: true,
       });
-      if (cleanup.messages && cleanup.messages?.matches!.length > 0) {
-        for (const match of cleanup.messages.matches!) {
-          await userApp.client.chat.delete({
-            channel: match.channel!.id as string,
-            ts: match.ts as string,
-            as_user: true,
-          });
-        }
-      }
     } else {
       await botApp.client.chat.postMessage({
         channel: channel,
