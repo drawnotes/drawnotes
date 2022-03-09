@@ -17,6 +17,7 @@ function ColorModeIcon() {
     }
     setDayScheme(schemeValue);
     setNightScheme(schemeValue);
+    setIsOpen(false);
   };
 
   const schemes = [
