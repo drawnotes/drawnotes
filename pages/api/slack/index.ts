@@ -15,6 +15,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   console.log({ headers });
   console.log({ url });
   console.log({ method });
+  console.log({ body });
   const challenge = body.challenge;
   if (challenge) {
     console.log({ challenge });
