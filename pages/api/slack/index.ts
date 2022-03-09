@@ -21,7 +21,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     console.log({ challenge });
     res.status(200).send(challenge);
   }
-  if (event && event.type === "message") {
+  if (event && event.type === "app_mention") {
     const text = event.text;
     const channel = event.channel;
     console.log({ text });
