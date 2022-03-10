@@ -1,13 +1,15 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import fetch from "node-fetch";
 import pkg from "protobufjs";
-const { Root } = pkg;
 import gtfs from "../../../protobuf/gtfs.json";
+import { APIKEY } from "../../../utils/constants";
+const { Root } = pkg;
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const headers = req.headers;
-    const { apikey, url } = headers;
+    const url = headers.url;
+    const apikey = headers.apikey || APIKEY;
     const schema = await Root.fromJSON(gtfs);
     const FeedMessage = schema.lookupType("transit_realtime.FeedMessage");
     const response = await fetch(url as string, {

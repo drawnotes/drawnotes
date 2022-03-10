@@ -1,4 +1,4 @@
-import { GeoJsonLayer } from "@deck.gl/layers";
+import { GeoJsonLayer, ScatterplotLayer } from "@deck.gl/layers";
 import DeckGL from "@deck.gl/react";
 import { Box, Button, Dialog, Text, useTheme } from "@primer/react";
 import bbox from "@turf/bbox";
@@ -13,9 +13,21 @@ import {
 } from "react-map-gl";
 import ColorModeSwitcher from "../components/ColorModeSwitcher";
 import routes from "../sampledata/routes.json";
+import sampleGTFS from "../sampledata/sampleGTFS.json";
 import stops from "../sampledata/stops.json";
 import { hexToRgb } from "../utils/color";
 import { MAPBOX_ACCESS_TOKEN } from "../utils/constants";
+// import {GTFS} from '../utils/transit'
+// import useFetch from "../utils/useFetch";
+
+// const url = "/api/gtfs";
+// const URL = "https://api.stm.info/pub/od/gtfs-rt/ic/v2/vehiclePositions";
+// const options = {
+//   method: "GET",
+//   headers: {
+//     url: URL,
+//   },
+// };
 
 interface Props {}
 
@@ -26,6 +38,8 @@ const LIGHT_MAP_STYLE =
   "https://basemaps.cartocdn.com/gl/positron-gl-style/style.json";
 
 const MapPage: NextPage<Props> = ({}) => {
+  // const { data, error } = useFetch(url, options);
+
   const { colorScheme } = useTheme();
   const mapStyle = colorScheme!.includes("dark")
     ? DARK_MAP_STYLE
@@ -35,6 +49,7 @@ const MapPage: NextPage<Props> = ({}) => {
     ? hexToRgb("#c9d1d9")
     : hexToRgb("#24292f");
 
+  const data = sampleGTFS.entity;
   const pointData = stops as FeatureCollection;
   const lineData = routes as FeatureCollection;
 
@@ -68,8 +83,28 @@ const MapPage: NextPage<Props> = ({}) => {
   const handleClose = () => setIsOpen(false);
 
   const layers = [
+    new ScatterplotLayer({
+      id: "scatterplot-layer",
+      data,
+      pickable: true,
+      opacity: 0.8,
+      stroked: true,
+      filled: true,
+      radiusScale: 6,
+      radiusMinPixels: 1,
+      radiusMaxPixels: 100,
+      lineWidthMinPixels: 1,
+      getPosition: (d: any) => [
+        d.vehicle.position.longitude,
+        d.vehicle.position.latitude,
+      ],
+      getRadius: () => 30,
+      getFillColor: (d) => [255, 140, 0],
+      getLineColor: (d) => [0, 0, 0],
+    }),
     new GeoJsonLayer({
       id: "line-layer",
+      visible: false,
       data: lineData,
       opacity: 0.8,
       filled: false,
@@ -99,6 +134,7 @@ const MapPage: NextPage<Props> = ({}) => {
     }),
     new GeoJsonLayer({
       id: "point-layer",
+      visible: false,
       data: pointData,
       opacity: 0.8,
       pointType: "circle",

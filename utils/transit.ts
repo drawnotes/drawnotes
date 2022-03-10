@@ -1,5 +1,83 @@
 import Papa from "papaparse";
 
+// GTFS structure
+
+/*
+{
+  "header": {
+    "gtfsRealtimeVersion": "2.0",
+    "incrementality": "FULL_DATASET",
+    "timestamp": "1644449198"
+  },
+  "entity": [
+    {
+      "id": "40065",
+      "vehicle": {
+        "trip": {
+          "tripId": "241756458",
+          "startTime": "17:50:00",
+          "startDate": "20220209",
+          "routeId": "90"
+        },
+        "position": {
+          "latitude": 45.43852233886719,
+          "longitude": -73.65660095214844,
+          "bearing": 231,
+          "speed": 17.500139236450195
+        },
+        "currentStopSequence": 37,
+        "currentStatus": "IN_TRANSIT_TO",
+        "timestamp": "1644449187",
+        "vehicle": {
+          "id": "40065"
+        },
+        "occupancyStatus": "MANY_SEATS_AVAILABLE"
+      }
+    }
+  ]
+}
+
+*/
+
+interface Header {
+  gtfsRealtimeVersion: string;
+  incrementality: string;
+  timestamp: string;
+}
+
+interface Trip {
+  tripId: string;
+  startTime: string;
+  startDate: string;
+  routeId: string;
+}
+
+interface Position {
+  latitude: number;
+  longitude: number;
+  bearing: number;
+  speed: number;
+}
+
+interface Vehicle {
+  trip: Trip;
+  position: Position;
+  currentStopSequence: number;
+  currentStatus: string;
+  vehicle: { id: string };
+  occupancyStatus: string;
+}
+
+interface Entity {
+  id: string;
+  vehicle: Vehicle;
+}
+
+export interface GTFS {
+  header: Header;
+  entity: Entity[];
+}
+
 // returns a GeoJSON LineString FeatureCollection from a GTFS shapes.txt file of transit routes
 // where headers should be
 // fields: [ 'shape_id', 'shape_pt_lat', 'shape_pt_lon', 'shape_pt_sequence' ]

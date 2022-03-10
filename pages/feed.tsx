@@ -1,7 +1,6 @@
 import { Box } from "@primer/react";
 import { NextPage } from "next";
 import ColorModeSwitcher from "../components/ColorModeSwitcher";
-import { APIKEY } from "../utils/constants";
 import useFetch from "../utils/useFetch";
 
 interface Props {}
@@ -11,7 +10,7 @@ const URL = "https://api.stm.info/pub/od/gtfs-rt/ic/v2/vehiclePositions";
 const options = {
   method: "GET",
   headers: {
-    apikey: APIKEY,
+    // apikey: APIKEY,
     url: URL,
   },
 };
