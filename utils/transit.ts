@@ -6,7 +6,7 @@ interface Header {
   timestamp: string;
 }
 
-interface Trip {
+interface VehicleTrip {
   tripId: string;
   startTime: string;
   startDate: string;
@@ -21,7 +21,7 @@ interface Position {
 }
 
 interface Vehicle {
-  trip: Trip;
+  trip: VehicleTrip;
   position: Position;
   currentStopSequence: number;
   currentStatus: string;
@@ -154,7 +154,7 @@ export const getPointsFromStops = (csv: string) => {
   return geojson;
 };
 
-interface Trip {
+export interface Trip {
   id: string;
   vehicle: Vehicle;
   path: [number, number][];
@@ -206,65 +206,4 @@ export const mergeTrips = (current: Trip[], prev?: Trip[]) => {
     return mergedTrips;
   }
   return current;
-};
-
-export const mergeGTFS = (current: GTFS, prev?: GTFS) => {
-  const tripsMap = new Map();
-  current.entity.forEach((entity) => {
-    const trip = {
-      id: entity.id,
-      vehicle: entity.vehicle,
-      path: [
-        [entity.vehicle.position.longitude, entity.vehicle.position.latitude],
-      ],
-      timestamps: [entity.vehicle.timestamp],
-    };
-    tripsMap.set(entity.id, trip);
-  });
-  if (prev) {
-    const mergedMap = new Map();
-    let newIds: string[] = [];
-    prev.entity.forEach((entity) => {
-      const previousEntity = tripsMap.get(entity.id);
-      if (previousEntity) {
-        const previousPath = previousEntity.path;
-        const previousTimestamps = previousEntity.timestamps;
-        const trip = {
-          id: entity.id,
-          vehicle: entity.vehicle,
-          path: [
-            ...previousPath,
-            [
-              entity.vehicle.position.longitude,
-              entity.vehicle.position.latitude,
-            ],
-          ],
-          timestamps: [...previousTimestamps, entity.vehicle.timestamp],
-        };
-        mergedMap.set(entity.id, trip);
-      } else {
-        const trip = {
-          id: entity.id,
-          vehicle: entity.vehicle,
-          path: [
-            [
-              entity.vehicle.position.longitude,
-              entity.vehicle.position.latitude,
-            ],
-          ],
-          timestamps: [entity.vehicle.timestamp],
-        };
-        mergedMap.set(entity.id, trip);
-        newIds.push(entity.id);
-      }
-    });
-    const trips = Object.fromEntries(mergedMap);
-    const mergedTrips = Object.values(trips).filter(
-      (entity) =>
-        (entity as Trip).path.length > 1 || newIds.includes((entity as Trip).id)
-    );
-    return mergedTrips;
-  }
-  const trips = Object.fromEntries(tripsMap);
-  return Object.values(trips);
 };
