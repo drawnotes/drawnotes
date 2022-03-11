@@ -68,7 +68,7 @@ interface Vehicle {
   occupancyStatus: string;
 }
 
-interface Entity {
+export interface Entity {
   id: string;
   vehicle: Vehicle;
 }

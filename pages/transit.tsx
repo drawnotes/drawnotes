@@ -12,22 +12,13 @@ import {
   WebMercatorViewport,
 } from "react-map-gl";
 import ColorModeSwitcher from "../components/ColorModeSwitcher";
+import frame01 from "../sampledata/frame01.json";
+import frame02 from "../sampledata/frame02.json";
 import routes from "../sampledata/routes.json";
-import sampleGTFS from "../sampledata/sampleGTFS.json";
 import stops from "../sampledata/stops.json";
 import { hexToRgb } from "../utils/color";
 import { MAPBOX_ACCESS_TOKEN } from "../utils/constants";
-// import {GTFS} from '../utils/transit'
-// import useFetch from "../utils/useFetch";
-
-// const url = "/api/gtfs";
-// const URL = "https://api.stm.info/pub/od/gtfs-rt/ic/v2/vehiclePositions";
-// const options = {
-//   method: "GET",
-//   headers: {
-//     url: URL,
-//   },
-// };
+import { Entity, GTFS } from "../utils/transit";
 
 interface Props {}
 
@@ -38,8 +29,6 @@ const LIGHT_MAP_STYLE =
   "https://basemaps.cartocdn.com/gl/positron-gl-style/style.json";
 
 const MapPage: NextPage<Props> = ({}) => {
-  // const { data, error } = useFetch(url, options);
-
   const { colorScheme } = useTheme();
   const mapStyle = colorScheme!.includes("dark")
     ? DARK_MAP_STYLE
@@ -49,7 +38,10 @@ const MapPage: NextPage<Props> = ({}) => {
     ? hexToRgb("#c9d1d9")
     : hexToRgb("#24292f");
 
-  const data = sampleGTFS.entity;
+  const prev = frame01 as GTFS;
+  const current = frame02 as GTFS;
+
+  const data = frame01 as GTFS;
   const pointData = stops as FeatureCollection;
   const lineData = routes as FeatureCollection;
 
@@ -83,18 +75,31 @@ const MapPage: NextPage<Props> = ({}) => {
   const handleClose = () => setIsOpen(false);
 
   const layers = [
-    new ScatterplotLayer({
+    // new TripsLayer({
+    //   id: 'trips',
+    //   data: data,
+    //   getPath: d => d.path,
+    //   getTimestamps: d => d.timestamps,
+    //   getColor: d => (d.vendor === 0 ? [253, 128, 93] : [23, 184, 190]),
+    //   opacity: 0.5,
+    //   widthMinPixels: 3,
+    //   rounded: true,
+    //   trailLength: 150,
+    //   currentTime: 0,
+    // }),
+    new ScatterplotLayer<Entity>({
       id: "scatterplot-layer",
-      data,
+      visible: false,
+      data: data.entity,
       pickable: true,
       opacity: 0.8,
       stroked: true,
       filled: true,
-      radiusScale: 6,
-      radiusMinPixels: 1,
-      radiusMaxPixels: 100,
+      radiusScale: 2,
+      radiusMinPixels: 2,
+      radiusMaxPixels: 10,
       lineWidthMinPixels: 1,
-      getPosition: (d: any) => [
+      getPosition: (d) => [
         d.vehicle.position.longitude,
         d.vehicle.position.latitude,
       ],
