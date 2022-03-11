@@ -64,6 +64,7 @@ interface Vehicle {
   position: Position;
   currentStopSequence: number;
   currentStatus: string;
+  timestamp: string;
   vehicle: { id: string };
   occupancyStatus: string;
 }
@@ -191,3 +192,118 @@ function getPointsFromStops(csv: string) {
   };
   return geojson;
 }
+
+interface Trip {
+  id: string;
+  vehicle: Vehicle;
+  path: [number, number][];
+  timestamps: string[];
+}
+
+const GTFStoTrips = (gtfs: GTFS) => {
+  const trips = gtfs.entity.map((entity) => ({
+    id: entity.id,
+    vehicle: entity.vehicle,
+    path: [
+      [entity.vehicle.position.longitude, entity.vehicle.position.latitude],
+    ],
+    timestamps: [entity.vehicle.timestamp],
+  }));
+  return trips as Trip[];
+};
+
+const mergeTrips = (current: Trip[], prev?: Trip[]) => {
+  if (prev) {
+    const prevMap = new Map();
+    prev.forEach((trip) => {
+      prevMap.set(trip.id, trip);
+    });
+    const mergedMap = new Map();
+    let newIds: string[] = [];
+    current.forEach((entity) => {
+      const previousEntity = prevMap.get(entity.id);
+      if (previousEntity) {
+        const previousPath = previousEntity.path;
+        const previousTimestamps = previousEntity.timestamps;
+        const trip = {
+          id: entity.id,
+          vehicle: entity.vehicle,
+          path: [...previousPath, ...entity.path],
+          timestamps: [...previousTimestamps, ...entity.timestamps],
+        };
+        mergedMap.set(entity.id, trip);
+      } else {
+        mergedMap.set(entity.id, entity);
+        newIds.push(entity.id);
+      }
+    });
+    const trips = Object.fromEntries(mergedMap);
+    const mergedTrips = Object.values(trips).filter(
+      (entity) =>
+        (entity as Trip).path.length > 1 || newIds.includes((entity as Trip).id)
+    );
+    return mergedTrips;
+  }
+  return current;
+};
+
+const mergeGTFS = (current: GTFS, prev?: GTFS) => {
+  const tripsMap = new Map();
+  current.entity.forEach((entity) => {
+    const trip = {
+      id: entity.id,
+      vehicle: entity.vehicle,
+      path: [
+        [entity.vehicle.position.longitude, entity.vehicle.position.latitude],
+      ],
+      timestamps: [entity.vehicle.timestamp],
+    };
+    tripsMap.set(entity.id, trip);
+  });
+  if (prev) {
+    const mergedMap = new Map();
+    let newIds: string[] = [];
+    prev.entity.forEach((entity) => {
+      const previousEntity = tripsMap.get(entity.id);
+      if (previousEntity) {
+        const previousPath = previousEntity.path;
+        const previousTimestamps = previousEntity.timestamps;
+        const trip = {
+          id: entity.id,
+          vehicle: entity.vehicle,
+          path: [
+            ...previousPath,
+            [
+              entity.vehicle.position.longitude,
+              entity.vehicle.position.latitude,
+            ],
+          ],
+          timestamps: [...previousTimestamps, entity.vehicle.timestamp],
+        };
+        mergedMap.set(entity.id, trip);
+      } else {
+        const trip = {
+          id: entity.id,
+          vehicle: entity.vehicle,
+          path: [
+            [
+              entity.vehicle.position.longitude,
+              entity.vehicle.position.latitude,
+            ],
+          ],
+          timestamps: [entity.vehicle.timestamp],
+        };
+        mergedMap.set(entity.id, trip);
+        newIds.push(entity.id);
+      }
+    });
+    const trips = Object.fromEntries(mergedMap);
+    const mergedTrips = Object.values(trips).filter(
+      (entity) =>
+        (entity as Trip).path.length > 1 || newIds.includes((entity as Trip).id)
+    );
+    return mergedTrips;
+  }
+  const trips = Object.fromEntries(tripsMap);
+  return Object.values(trips);
+};
