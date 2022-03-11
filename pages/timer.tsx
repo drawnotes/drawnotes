@@ -15,7 +15,7 @@ const options = {
   },
 };
 
-const FeedPage: NextPage<Props> = ({}) => {
+const TimerPage: NextPage<Props> = ({}) => {
   const { data, error } = useIntervalFetch<GTFS>(url, 20000, options);
   const now = data
     ? new Date(parseInt(data.header.timestamp) * 1000)
@@ -40,4 +40,4 @@ const FeedPage: NextPage<Props> = ({}) => {
   );
 };
 
-export default FeedPage;
+export default TimerPage;
