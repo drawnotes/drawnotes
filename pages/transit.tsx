@@ -1,4 +1,4 @@
-import { GeoJsonLayer, ScatterplotLayer } from "@deck.gl/layers";
+import { GeoJsonLayer } from "@deck.gl/layers";
 import DeckGL from "@deck.gl/react";
 import { Box, Button, Dialog, Text, useTheme } from "@primer/react";
 import bbox from "@turf/bbox";
@@ -12,13 +12,10 @@ import {
   WebMercatorViewport,
 } from "react-map-gl";
 import ColorModeSwitcher from "../components/ColorModeSwitcher";
-import frame01 from "../sampledata/frame01.json";
-import frame02 from "../sampledata/frame02.json";
 import routes from "../sampledata/routes.json";
 import stops from "../sampledata/stops.json";
 import { hexToRgb } from "../utils/color";
 import { MAPBOX_ACCESS_TOKEN } from "../utils/constants";
-import { Entity, GTFS } from "../utils/transit";
 
 interface Props {}
 
@@ -38,14 +35,11 @@ const MapPage: NextPage<Props> = ({}) => {
     ? hexToRgb("#c9d1d9")
     : hexToRgb("#24292f");
 
-  const prev = frame01 as GTFS;
-  const current = frame02 as GTFS;
-
-  const data = frame01 as GTFS;
   const pointData = stops as FeatureCollection;
   const lineData = routes as FeatureCollection;
 
   const bounding = useMemo(() => bbox(lineData), [lineData]);
+  // [-73.956862, 45.402657, -73.480099, 45.701392];
 
   const [viewState, setViewState] = useState<any>(null);
   const [hoverInfo, setHoverInfo] = useState<any>(null);
@@ -75,38 +69,6 @@ const MapPage: NextPage<Props> = ({}) => {
   const handleClose = () => setIsOpen(false);
 
   const layers = [
-    // new TripsLayer({
-    //   id: 'trips',
-    //   data: data,
-    //   getPath: d => d.path,
-    //   getTimestamps: d => d.timestamps,
-    //   getColor: d => (d.vendor === 0 ? [253, 128, 93] : [23, 184, 190]),
-    //   opacity: 0.5,
-    //   widthMinPixels: 3,
-    //   rounded: true,
-    //   trailLength: 150,
-    //   currentTime: 0,
-    // }),
-    new ScatterplotLayer<Entity>({
-      id: "scatterplot-layer",
-      visible: false,
-      data: data.entity,
-      pickable: true,
-      opacity: 0.8,
-      stroked: true,
-      filled: true,
-      radiusScale: 2,
-      radiusMinPixels: 2,
-      radiusMaxPixels: 10,
-      lineWidthMinPixels: 1,
-      getPosition: (d) => [
-        d.vehicle.position.longitude,
-        d.vehicle.position.latitude,
-      ],
-      getRadius: () => 30,
-      getFillColor: (d) => [255, 140, 0],
-      getLineColor: (d) => [0, 0, 0],
-    }),
     new GeoJsonLayer({
       id: "line-layer",
       visible: false,

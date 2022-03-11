@@ -201,7 +201,9 @@ export const mergeTrips = (current: Trip[], prev?: Trip[]) => {
     const trips = Object.fromEntries(mergedMap);
     const mergedTrips = Object.values(trips).filter(
       (entity) =>
-        (entity as Trip).path.length > 1 || newIds.includes((entity as Trip).id)
+        newIds.includes((entity as Trip).id) ||
+        (entity as Trip).path.length >
+          prevMap.get((entity as Trip).id).path.length
     );
     return mergedTrips;
   }
