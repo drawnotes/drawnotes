@@ -71,7 +71,6 @@ const MapPage: NextPage<Props> = ({}) => {
   const layers = [
     new GeoJsonLayer({
       id: "line-layer",
-      visible: false,
       data: lineData,
       opacity: 0.8,
       filled: false,
@@ -101,7 +100,6 @@ const MapPage: NextPage<Props> = ({}) => {
     }),
     new GeoJsonLayer({
       id: "point-layer",
-      visible: false,
       data: pointData,
       opacity: 0.8,
       pointType: "circle",
