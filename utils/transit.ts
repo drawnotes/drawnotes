@@ -1,44 +1,5 @@
 import Papa from "papaparse";
 
-// GTFS structure
-
-/*
-{
-  "header": {
-    "gtfsRealtimeVersion": "2.0",
-    "incrementality": "FULL_DATASET",
-    "timestamp": "1644449198"
-  },
-  "entity": [
-    {
-      "id": "40065",
-      "vehicle": {
-        "trip": {
-          "tripId": "241756458",
-          "startTime": "17:50:00",
-          "startDate": "20220209",
-          "routeId": "90"
-        },
-        "position": {
-          "latitude": 45.43852233886719,
-          "longitude": -73.65660095214844,
-          "bearing": 231,
-          "speed": 17.500139236450195
-        },
-        "currentStopSequence": 37,
-        "currentStatus": "IN_TRANSIT_TO",
-        "timestamp": "1644449187",
-        "vehicle": {
-          "id": "40065"
-        },
-        "occupancyStatus": "MANY_SEATS_AVAILABLE"
-      }
-    }
-  ]
-}
-
-*/
-
 interface Header {
   gtfsRealtimeVersion: string;
   incrementality: string;
@@ -159,7 +120,7 @@ interface Stop {
   wheelchair_boarding: number;
 }
 
-function getPointsFromStops(csv: string) {
+export const getPointsFromStops = (csv: string) => {
   const lastChar = csv[csv.length - 1];
   let str = csv;
   if (lastChar === "\n") {
@@ -191,7 +152,7 @@ function getPointsFromStops(csv: string) {
     features: features,
   };
   return geojson;
-}
+};
 
 interface Trip {
   id: string;
@@ -200,7 +161,7 @@ interface Trip {
   timestamps: string[];
 }
 
-const GTFStoTrips = (gtfs: GTFS) => {
+export const GTFStoTrips = (gtfs: GTFS) => {
   const trips = gtfs.entity.map((entity) => ({
     id: entity.id,
     vehicle: entity.vehicle,
@@ -212,7 +173,7 @@ const GTFStoTrips = (gtfs: GTFS) => {
   return trips as Trip[];
 };
 
-const mergeTrips = (current: Trip[], prev?: Trip[]) => {
+export const mergeTrips = (current: Trip[], prev?: Trip[]) => {
   if (prev) {
     const prevMap = new Map();
     prev.forEach((trip) => {
@@ -247,7 +208,7 @@ const mergeTrips = (current: Trip[], prev?: Trip[]) => {
   return current;
 };
 
-const mergeGTFS = (current: GTFS, prev?: GTFS) => {
+export const mergeGTFS = (current: GTFS, prev?: GTFS) => {
   const tripsMap = new Map();
   current.entity.forEach((entity) => {
     const trip = {
