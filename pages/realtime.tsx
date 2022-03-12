@@ -103,40 +103,37 @@ const MapPage: NextPage<Props> = ({}) => {
     });
   };
 
-  const layers = tripsData
-    ? [
-        new TripsLayer({
-          id: "trips",
-          visible: true,
-          data: tripsData ? tripsData.trips : undefined,
-          getPath: (d: any) => (tripsData ? d.path : undefined),
-          getTimestamps: (d) => (tripsData ? d.timestamps : undefined),
-          getColor: () => [23, 184, 190] as any,
-          opacity: 100,
-          widthMinPixels: 4,
-          jointRounded: true,
-          trailLength: 1,
-          currentTime: tripsData ? tripsData.timestamp : undefined,
-        }),
-        new ScatterplotLayer({
-          id: "scatterplot-layer",
-          data: tripsData ? tripsData.trips : undefined,
-          pickable: true,
-          opacity: 0.8,
-          stroked: false,
-          filled: true,
-          radiusScale: 2,
-          radiusMinPixels: 2,
-          radiusMaxPixels: 10,
-          lineWidthMinPixels: 1,
-          getPosition: (d: any) =>
-            tripsData ? d.path[d.path.length - 1] : undefined,
-          getRadius: () => 6,
-          getFillColor: () => [253, 128, 93],
-          getLineColor: () => [0, 0, 0],
-        }),
-      ]
-    : [];
+  const layers = tripsData && [
+    new TripsLayer({
+      id: "trips",
+      visible: true,
+      data: tripsData.trips,
+      getPath: (d: any) => d.path,
+      getTimestamps: (d) => d.timestamps,
+      getColor: () => [23, 184, 190] as any,
+      opacity: 100,
+      widthMinPixels: 4,
+      jointRounded: true,
+      trailLength: 1,
+      currentTime: tripsData.timestamp,
+    }),
+    new ScatterplotLayer({
+      id: "scatterplot-layer",
+      data: tripsData.trips,
+      pickable: true,
+      opacity: 0.8,
+      stroked: false,
+      filled: true,
+      radiusScale: 2,
+      radiusMinPixels: 2,
+      radiusMaxPixels: 10,
+      lineWidthMinPixels: 1,
+      getPosition: (d: any) => d.path[d.path.length - 1],
+      getRadius: () => 6,
+      getFillColor: () => [253, 128, 93],
+      getLineColor: () => [0, 0, 0],
+    }),
+  ];
   return (
     <Box width="100vw" height="100vh" color="fg.default" bg="canvas.default">
       <ColorModeSwitcher />
