@@ -11,9 +11,18 @@ import {
   WebMercatorViewport,
 } from "react-map-gl";
 import ColorModeSwitcher from "../components/ColorModeSwitcher";
-import trips from "../sampledata/trips.json";
 import { MAPBOX_ACCESS_TOKEN } from "../utils/constants";
-import { Trips } from "../utils/transit";
+import { GTFS, GTFStoTrips, mergeTrips } from "../utils/transit";
+import useIntervalFetch from "../utils/useIntervalFetch";
+
+const url = "/api/gtfs";
+const URL = "https://api.stm.info/pub/od/gtfs-rt/ic/v2/vehiclePositions";
+const options = {
+  method: "GET",
+  headers: {
+    url: URL,
+  },
+};
 
 interface Props {}
 
@@ -24,13 +33,18 @@ const LIGHT_MAP_STYLE =
   "https://basemaps.cartocdn.com/gl/positron-nolabels-gl-style/style.json";
 
 const MapPage: NextPage<Props> = ({}) => {
+  const { data, error } = useIntervalFetch<GTFS>(url, 20000, options);
+  const [current, setCurrent] = useState<any>();
+  const [previous, setPrevious] = useState<any>();
+  const [tripsData, setTripsData] = useState<any>();
   const [viewState, setViewState] = useState<any>(null);
   const [hoverInfo, setHoverInfo] = useState<any>(null);
   const [dialogInfo, setDialogInfo] = useState<any>(null);
   const [isOpen, setIsOpen] = useState(false);
   const [info, setInfo] = useState<any>(null);
   const { colorScheme } = useTheme();
-  const data = trips as Trips;
+
+  // const tripsData = trips as Trips;
   const mapStyle = colorScheme!.includes("dark")
     ? DARK_MAP_STYLE
     : LIGHT_MAP_STYLE;
@@ -49,6 +63,22 @@ const MapPage: NextPage<Props> = ({}) => {
       setInfo({ lat: viewport.latitude, long: viewport.longitude });
     }
   }, []);
+
+  useEffect(() => {
+    if (data) {
+      if (current) {
+        setPrevious(current);
+        const currentTrips = GTFStoTrips(data);
+        setCurrent(currentTrips);
+        const merged = mergeTrips(currentTrips, previous);
+        setTripsData(merged);
+      } else {
+        const currentTrips = GTFStoTrips(data);
+        setCurrent(currentTrips);
+        setTripsData(currentTrips);
+      }
+    }
+  }, [data]);
 
   const handleChangeViewState = ({ viewState }: any) => {
     setViewState(viewState);
@@ -73,37 +103,40 @@ const MapPage: NextPage<Props> = ({}) => {
     });
   };
 
-  const layers = [
-    new TripsLayer({
-      id: "trips",
-      visible: true,
-      data: data.trips,
-      getPath: (d: any) => d.path,
-      getTimestamps: (d) => d.timestamps,
-      getColor: (d) => [23, 184, 190] as any,
-      opacity: 100,
-      widthMinPixels: 4,
-      jointRounded: true,
-      trailLength: 10,
-      currentTime: data.timestamp,
-    }),
-    new ScatterplotLayer({
-      id: "scatterplot-layer",
-      data: data.trips,
-      pickable: true,
-      opacity: 0.8,
-      stroked: false,
-      filled: true,
-      radiusScale: 2,
-      radiusMinPixels: 2,
-      radiusMaxPixels: 10,
-      lineWidthMinPixels: 1,
-      getPosition: (d: any) => d.path[d.path.length - 1],
-      getRadius: (d) => 6,
-      getFillColor: (d) => [253, 128, 93],
-      getLineColor: (d) => [0, 0, 0],
-    }),
-  ];
+  const layers = tripsData
+    ? [
+        new TripsLayer({
+          id: "trips",
+          visible: true,
+          data: tripsData ? tripsData.trips : undefined,
+          getPath: (d: any) => (tripsData ? d.path : undefined),
+          getTimestamps: (d) => (tripsData ? d.timestamps : undefined),
+          getColor: () => [23, 184, 190] as any,
+          opacity: 100,
+          widthMinPixels: 4,
+          jointRounded: true,
+          trailLength: 1,
+          currentTime: tripsData ? tripsData.timestamp : undefined,
+        }),
+        new ScatterplotLayer({
+          id: "scatterplot-layer",
+          data: tripsData ? tripsData.trips : undefined,
+          pickable: true,
+          opacity: 0.8,
+          stroked: false,
+          filled: true,
+          radiusScale: 2,
+          radiusMinPixels: 2,
+          radiusMaxPixels: 10,
+          lineWidthMinPixels: 1,
+          getPosition: (d: any) =>
+            tripsData ? d.path[d.path.length - 1] : undefined,
+          getRadius: () => 6,
+          getFillColor: () => [253, 128, 93],
+          getLineColor: () => [0, 0, 0],
+        }),
+      ]
+    : [];
   return (
     <Box width="100vw" height="100vh" color="fg.default" bg="canvas.default">
       <ColorModeSwitcher />
