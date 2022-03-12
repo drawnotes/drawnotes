@@ -1,4 +1,5 @@
 import { TripsLayer } from "@deck.gl/geo-layers";
+import { ScatterplotLayer } from "@deck.gl/layers";
 import DeckGL from "@deck.gl/react";
 import { Box, Button, Dialog, Text, useTheme } from "@primer/react";
 import "mapbox-gl/dist/mapbox-gl.css";
@@ -83,8 +84,24 @@ const MapPage: NextPage<Props> = ({}) => {
       opacity: 100,
       widthMinPixels: 4,
       jointRounded: true,
-      trailLength: 1,
+      trailLength: 10,
       currentTime: data.timestamp,
+    }),
+    new ScatterplotLayer({
+      id: "scatterplot-layer",
+      data: data.trips,
+      pickable: true,
+      opacity: 0.8,
+      stroked: false,
+      filled: true,
+      radiusScale: 2,
+      radiusMinPixels: 2,
+      radiusMaxPixels: 10,
+      lineWidthMinPixels: 1,
+      getPosition: (d: any) => d.path[d.path.length - 1],
+      getRadius: (d) => 6,
+      getFillColor: (d) => [253, 128, 93],
+      getLineColor: (d) => [0, 0, 0],
     }),
   ];
   return (
