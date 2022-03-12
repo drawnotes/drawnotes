@@ -158,7 +158,12 @@ export interface Trip {
   id: string;
   vehicle: Vehicle;
   path: [number, number][];
-  timestamps: string[];
+  timestamps: number[];
+}
+
+export interface Trips {
+  timestamp: number;
+  trips: Trip[];
 }
 
 export const GTFStoTrips = (gtfs: GTFS) => {
@@ -168,20 +173,23 @@ export const GTFStoTrips = (gtfs: GTFS) => {
     path: [
       [entity.vehicle.position.longitude, entity.vehicle.position.latitude],
     ],
-    timestamps: [entity.vehicle.timestamp],
+    timestamps: [parseInt(entity.vehicle.timestamp)],
   }));
-  return trips as Trip[];
+  return {
+    timestamp: parseInt(gtfs.header.timestamp),
+    trips: trips as Trip[],
+  };
 };
 
-export const mergeTrips = (current: Trip[], prev?: Trip[]) => {
+export const mergeTrips = (current: Trips, prev?: Trips) => {
   if (prev) {
     const prevMap = new Map();
-    prev.forEach((trip) => {
+    prev.trips.forEach((trip) => {
       prevMap.set(trip.id, trip);
     });
     const mergedMap = new Map();
     let newIds: string[] = [];
-    current.forEach((entity) => {
+    current.trips.forEach((entity) => {
       const previousEntity = prevMap.get(entity.id);
       if (previousEntity) {
         const previousPath = previousEntity.path;
@@ -205,7 +213,10 @@ export const mergeTrips = (current: Trip[], prev?: Trip[]) => {
         (entity as Trip).path.length >
           prevMap.get((entity as Trip).id).path.length
     );
-    return mergedTrips;
+    return {
+      timestamp: current.timestamp,
+      trips: mergedTrips as Trip[],
+    };
   }
   return current;
 };
