@@ -1,5 +1,6 @@
 import { TripsLayer } from "@deck.gl/geo-layers";
 import { ScatterplotLayer } from "@deck.gl/layers";
+import { ScenegraphLayer } from "@deck.gl/mesh-layers";
 import DeckGL from "@deck.gl/react";
 import { Box, Button, Dialog, Text, useTheme } from "@primer/react";
 import "mapbox-gl/dist/mapbox-gl.css";
@@ -12,8 +13,12 @@ import {
 } from "react-map-gl";
 import ColorModeSwitcher from "../components/ColorModeSwitcher";
 import { MAPBOX_ACCESS_TOKEN } from "../utils/constants";
-import { GTFS, GTFStoTrips, mergeTrips } from "../utils/transit";
+import { getBearing, GTFS, GTFStoTrips, mergeTrips } from "../utils/transit";
 import useIntervalFetch from "../utils/useIntervalFetch";
+// import {load} from '@loaders.gl/core';
+// import {GLTFLoader} from '@loaders.gl/gltf';
+
+const MODEL_URL = "assets/bus.glb";
 
 const url = "/api/gtfs";
 const URL = "https://api.stm.info/pub/od/gtfs-rt/ic/v2/vehiclePositions";
@@ -23,6 +28,12 @@ const options = {
     url: URL,
   },
 };
+
+const ANIMATIONS = {
+  "*": { speed: 0.25 },
+};
+
+const REFRESH_TIME = 30000;
 
 interface Props {}
 
@@ -44,7 +55,6 @@ const MapPage: NextPage<Props> = ({}) => {
   const [info, setInfo] = useState<any>(null);
   const { colorScheme } = useTheme();
 
-  // const tripsData = trips as Trips;
   const mapStyle = colorScheme!.includes("dark")
     ? DARK_MAP_STYLE
     : LIGHT_MAP_STYLE;
@@ -104,6 +114,28 @@ const MapPage: NextPage<Props> = ({}) => {
   };
 
   const layers = tripsData && [
+    new ScenegraphLayer({
+      id: "scenegraph-layer",
+      data: tripsData.trips,
+      pickable: true,
+      sizeScale: 10,
+      scenegraph: MODEL_URL as any,
+      // _animations: ANIMATIONS,
+      sizeMinPixels: 20,
+      sizeMaxPixels: 2,
+      getPosition: (d: any) => d.path[d.path.length - 1],
+      getOrientation: (d: any) => {
+        const start = d.path[0];
+        const end = d.path[d.path.length - 1];
+        const bearing = start
+          ? getBearing(start, end)
+          : 360 - d.vehicle.position.bearing;
+        return [0, 360 - d.vehicle.position.bearing, 90];
+      },
+      // transitions: {
+      //   getPosition: (REFRESH_TIME * 0.9) as any,
+      // },
+    }),
     new TripsLayer({
       id: "trips",
       visible: true,
@@ -119,6 +151,7 @@ const MapPage: NextPage<Props> = ({}) => {
     }),
     new ScatterplotLayer({
       id: "scatterplot-layer",
+      visible: false,
       data: tripsData.trips,
       pickable: true,
       opacity: 0.8,

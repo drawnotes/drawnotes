@@ -1,4 +1,16 @@
+import bearing from "@turf/bearing";
+import { bearingToAzimuth, point } from "@turf/helpers";
 import Papa from "papaparse";
+
+export const getBearing = (
+  startLongLat: [number, number],
+  endLongLat: [number, number]
+) => {
+  const point1 = point(startLongLat);
+  const point2 = point(endLongLat);
+  const result = bearing(point1, point2);
+  return 360 - bearingToAzimuth(result);
+};
 
 interface Header {
   gtfsRealtimeVersion: string;
