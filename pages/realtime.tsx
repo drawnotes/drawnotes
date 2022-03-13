@@ -13,7 +13,7 @@ import {
 } from "react-map-gl";
 import ColorModeSwitcher from "../components/ColorModeSwitcher";
 import { MAPBOX_ACCESS_TOKEN } from "../utils/constants";
-import { getBearing, GTFS, GTFStoTrips, mergeTrips } from "../utils/transit";
+import { GTFS, GTFStoTrips, mergeTrips } from "../utils/transit";
 import useIntervalFetch from "../utils/useIntervalFetch";
 
 const MODEL_URL = "assets/bus.glb";
@@ -28,10 +28,10 @@ const options = {
 };
 
 const ANIMATIONS = {
-  "*": { speed: 0.25 },
+  "*": { speed: 1 },
 };
 
-const REFRESH_TIME = 30000;
+const REFRESH_TIME = 20000;
 
 interface Props {}
 
@@ -118,18 +118,11 @@ const MapPage: NextPage<Props> = ({}) => {
       pickable: true,
       sizeScale: 10,
       scenegraph: MODEL_URL as any,
-      // _animations: ANIMATIONS,
-      sizeMinPixels: 20,
-      sizeMaxPixels: 2,
+      _animations: ANIMATIONS,
+      sizeMinPixels: 2,
+      sizeMaxPixels: 20,
       getPosition: (d: any) => d.path[d.path.length - 1],
-      getOrientation: (d: any) => {
-        const start = d.path[0];
-        const end = d.path[d.path.length - 1];
-        const bearing = start
-          ? getBearing(start, end)
-          : 360 - d.vehicle.position.bearing;
-        return [0, 360 - d.vehicle.position.bearing, 90];
-      },
+      getOrientation: (d: any) => [0, 360 - d.vehicle.position.bearing, 90],
       // transitions: {
       //   getPosition: (REFRESH_TIME * 0.9) as any,
       // },
