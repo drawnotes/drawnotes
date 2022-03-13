@@ -15,8 +15,6 @@ import ColorModeSwitcher from "../components/ColorModeSwitcher";
 import { MAPBOX_ACCESS_TOKEN } from "../utils/constants";
 import { getBearing, GTFS, GTFStoTrips, mergeTrips } from "../utils/transit";
 import useIntervalFetch from "../utils/useIntervalFetch";
-// import {load} from '@loaders.gl/core';
-// import {GLTFLoader} from '@loaders.gl/gltf';
 
 const MODEL_URL = "assets/bus.glb";
 
