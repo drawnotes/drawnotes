@@ -27,12 +27,6 @@ const options = {
   },
 };
 
-const ANIMATIONS = {
-  "*": { speed: 1 },
-};
-
-const REFRESH_TIME = 20000;
-
 interface Props {}
 
 const DARK_MAP_STYLE =
@@ -116,16 +110,18 @@ const MapPage: NextPage<Props> = ({}) => {
       id: "scenegraph-layer",
       data: tripsData.trips,
       pickable: true,
-      sizeScale: 10,
+      sizeScale: 50,
       scenegraph: MODEL_URL as any,
-      _animations: ANIMATIONS,
+      _animations: {
+        "*": { speed: 1 },
+      },
       sizeMinPixels: 2,
-      sizeMaxPixels: 20,
+      sizeMaxPixels: 4,
       getPosition: (d: any) => d.path[d.path.length - 1],
       getOrientation: (d: any) => [0, 360 - d.vehicle.position.bearing, 90],
-      // transitions: {
-      //   getPosition: (REFRESH_TIME * 0.9) as any,
-      // },
+      transitions: {
+        getPosition: 20000 as any,
+      },
     }),
     new TripsLayer({
       id: "trips",
