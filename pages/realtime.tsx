@@ -1,5 +1,5 @@
 import { TripsLayer } from "@deck.gl/geo-layers";
-import { ScatterplotLayer } from "@deck.gl/layers";
+import { GeoJsonLayer } from "@deck.gl/layers";
 import { ScenegraphLayer } from "@deck.gl/mesh-layers";
 import DeckGL from "@deck.gl/react";
 import { Box, Button, Dialog, Text, useTheme } from "@primer/react";
@@ -12,6 +12,7 @@ import {
   WebMercatorViewport,
 } from "react-map-gl";
 import ColorModeSwitcher from "../components/ColorModeSwitcher";
+import routes from "../sampledata/routes.json";
 import { MAPBOX_ACCESS_TOKEN } from "../utils/constants";
 import { GTFS, GTFStoTrips, mergeTrips } from "../utils/transit";
 import useIntervalFetch from "../utils/useIntervalFetch";
@@ -37,6 +38,7 @@ const LIGHT_MAP_STYLE =
 
 const MapPage: NextPage<Props> = ({}) => {
   const { data, error } = useIntervalFetch<GTFS>(url, 20000, options);
+  const lineData = routes;
   const [current, setCurrent] = useState<any>();
   const [previous, setPrevious] = useState<any>();
   const [tripsData, setTripsData] = useState<any>();
@@ -109,18 +111,35 @@ const MapPage: NextPage<Props> = ({}) => {
     new ScenegraphLayer({
       id: "scenegraph-layer",
       data: tripsData.trips,
-      pickable: true,
       sizeScale: 50,
       scenegraph: MODEL_URL as any,
-      _animations: {
-        "*": { speed: 1 },
-      },
-      sizeMinPixels: 2,
-      sizeMaxPixels: 4,
+      // _animations: {
+      //   "*": { speed: 1 },
+      // },
+      sizeMinPixels: 1,
+      sizeMaxPixels: 8,
       getPosition: (d: any) => d.path[d.path.length - 1],
-      getOrientation: (d: any) => [0, 360 - d.vehicle.position.bearing, 90],
-      transitions: {
-        getPosition: 20000 as any,
+      getOrientation: (d: any) => [0, 360 - d.properties.position.bearing, 90],
+      // transitions: {
+      //   getPosition: 20000 as any,
+      // },
+      pickable: true,
+      autoHighlight: true,
+      onClick: (info: any) => {
+        if (info.object) {
+          setDialogInfo(info);
+          setIsOpen(true);
+          setHoverInfo(null);
+        } else {
+          setDialogInfo(null);
+        }
+      },
+      onHover: (info: any) => {
+        if (info.object) {
+          setHoverInfo(info);
+        } else {
+          setHoverInfo(null);
+        }
       },
     }),
     new TripsLayer({
@@ -136,22 +155,35 @@ const MapPage: NextPage<Props> = ({}) => {
       trailLength: 1,
       currentTime: tripsData.timestamp,
     }),
-    new ScatterplotLayer({
-      id: "scatterplot-layer",
+    new GeoJsonLayer({
+      id: "line-layer",
       visible: false,
-      data: tripsData.trips,
-      pickable: true,
+      data: lineData,
       opacity: 0.8,
-      stroked: false,
-      filled: true,
-      radiusScale: 2,
-      radiusMinPixels: 2,
-      radiusMaxPixels: 10,
+      filled: false,
+      stroked: true,
+      getLineWidth: 10,
       lineWidthMinPixels: 1,
-      getPosition: (d: any) => d.path[d.path.length - 1],
-      getRadius: () => 6,
-      getFillColor: () => [253, 128, 93],
-      getLineColor: () => [0, 0, 0],
+      lineWidthMaxPixels: 4,
+      getLineColor: [23, 184, 190],
+      pickable: true,
+      autoHighlight: true,
+      onClick: (info: any) => {
+        if (info.object) {
+          setDialogInfo(info);
+          setIsOpen(true);
+          setHoverInfo(null);
+        } else {
+          setDialogInfo(null);
+        }
+      },
+      onHover: (info: any) => {
+        if (info.object) {
+          setHoverInfo(info);
+        } else {
+          setHoverInfo(null);
+        }
+      },
     }),
   ];
   return (
@@ -175,7 +207,10 @@ const MapPage: NextPage<Props> = ({}) => {
           <Dialog.Header id="header-id">Properties</Dialog.Header>
           <Box p={3} overflow="scroll">
             <Text fontFamily="sans-serif">
-              <pre>{JSON.stringify(dialogInfo.object.properties, null, 2)}</pre>
+              <pre>
+                {dialogInfo &&
+                  JSON.stringify(dialogInfo.object.properties, null, 2)}
+              </pre>
             </Text>
           </Box>
         </Dialog>

@@ -168,7 +168,7 @@ export const getPointsFromStops = (csv: string) => {
 
 export interface Trip {
   id: string;
-  vehicle: Vehicle;
+  properties: Vehicle;
   path: [number, number][];
   timestamps: number[];
 }
@@ -181,7 +181,7 @@ export interface Trips {
 export const GTFStoTrips = (gtfs: GTFS) => {
   const trips = gtfs.entity.map((entity) => ({
     id: entity.id,
-    vehicle: entity.vehicle,
+    properties: entity.vehicle,
     path: [
       [entity.vehicle.position.longitude, entity.vehicle.position.latitude],
     ],
@@ -208,7 +208,7 @@ export const mergeTrips = (current: Trips, prev?: Trips) => {
         const previousTimestamps = previousEntity.timestamps;
         const trip = {
           id: entity.id,
-          vehicle: entity.vehicle,
+          properties: entity.properties,
           path: [...previousPath, ...entity.path],
           timestamps: [...previousTimestamps, ...entity.timestamps],
         };
