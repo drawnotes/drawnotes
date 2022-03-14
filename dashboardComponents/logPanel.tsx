@@ -21,7 +21,9 @@ const logPanel: NextPage<Props> = ({ children, data }) => {
 
   useEffect(() => {
     if (logRef.current) {
-      logRef.current.scrollIntoView({ behavior: "smooth" });
+      const y =
+        logRef.current.getBoundingClientRect().top + window.pageYOffset - 10;
+      logRef.current.scrollTo({ top: y, behavior: "smooth" });
     }
   }, [data, logRef]);
 
