@@ -11,18 +11,11 @@ const Dashboard: NextPage<Props> = ({}) => {
   return (
     <Box color="fg.default" bg="canvas.default" width="100vw" height="100vh">
       <ColorModeSwitcher />
-      <Box display="flex" alignItems="flex-end">
-        <Box
-          width="100%"
-          display="flex"
-          flexDirection="column"
-          alignItems="flex-end"
-        >
+      <FilterPanel>
+        <LogPanel>
           <MapPanel />
-          <LogPanel />
-        </Box>
-        <FilterPanel />
-      </Box>
+        </LogPanel>
+      </FilterPanel>
     </Box>
   );
 };

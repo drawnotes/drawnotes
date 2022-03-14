@@ -4,26 +4,34 @@ import { Resizable } from "re-resizable";
 
 interface Props {}
 
-const logPanel: NextPage<Props> = ({}) => {
+const logPanel: NextPage<Props> = ({ children }) => {
   return (
-    <Resizable
-      defaultSize={{
-        width: "100%",
-        height: 300,
-      }}
-      boundsByDirection
+    <Box
+      width="100%"
+      display="flex"
+      flexDirection="column"
+      alignItems="flex-end"
     >
-      <Box
-        height="100%"
-        width="100%"
-        bg="canvas.subtle"
-        borderWidth={1}
-        borderStyle="solid"
-        borderColor="border.default"
+      {children}
+      <Resizable
+        defaultSize={{
+          width: "100%",
+          height: 300,
+        }}
+        boundsByDirection
       >
-        Logs
-      </Box>
-    </Resizable>
+        <Box
+          height="100%"
+          width="100%"
+          bg="canvas.subtle"
+          borderWidth={1}
+          borderStyle="solid"
+          borderColor="border.default"
+        >
+          Logs
+        </Box>
+      </Resizable>
+    </Box>
   );
 };
 
