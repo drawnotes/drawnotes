@@ -1,10 +1,12 @@
 import { Box, ThemeProvider } from "@primer/react";
+import { FeatureCollection } from "geojson";
 import { NextPage } from "next";
 import { useEffect, useRef, useState } from "react";
 import ColorModeSwitcher from "../components/ColorModeSwitcher";
 import FilterPanel from "../dashboardComponents/filterPanel";
 import LogPanel from "../dashboardComponents/logPanel";
 import MapPanel from "../dashboardComponents/mapPanel";
+import routes from "../sampledata/routes.json";
 
 declare type ColorMode = "day" | "night";
 declare type ColorModeWithAuto = ColorMode | "auto";
@@ -20,6 +22,8 @@ const Dashboard: NextPage<Props> = ({
   preferredDayScheme,
   preferredNightScheme,
 }) => {
+  const lineData = routes as FeatureCollection;
+
   const [colorMode, setColorMode] = useState<ColorModeWithAuto>(
     preferredColorMode || "day"
   );
@@ -73,8 +77,14 @@ const Dashboard: NextPage<Props> = ({
         <ColorModeSwitcher />
         <FilterPanel>
           <LogPanel>
-            <Box height="100%" width="100%" ref={deckRef}>
-              {mapSize && <MapPanel mapSize={mapSize} />}
+            <Box
+              height="100%"
+              width="100%"
+              ref={deckRef}
+              bg="canvas.default"
+              overflow="scroll"
+            >
+              {mapSize && <MapPanel mapSize={mapSize} data={lineData} />}
             </Box>
           </LogPanel>
         </FilterPanel>
