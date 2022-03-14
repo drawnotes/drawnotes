@@ -14,7 +14,7 @@ import {
 import ColorModeSwitcher from "../components/ColorModeSwitcher";
 import routes from "../sampledata/routes.json";
 import { MAPBOX_ACCESS_TOKEN } from "../utils/constants";
-import { GTFS, GTFStoTrips, mergeTrips } from "../utils/transit";
+import { GTFS, GTFStoTrips, mergeTrips, Trip } from "../utils/transit";
 import useIntervalFetch from "../utils/useIntervalFetch";
 
 const MODEL_URL = "assets/bus.glb";
@@ -121,25 +121,49 @@ const MapPage: NextPage<Props> = ({}) => {
           jointRounded: true,
           trailLength: 1,
           currentTime: tripsData.timestamp,
+          pickable: true,
+          autoHighlight: true,
+          onClick: (info: any) => {
+            if (info.object) {
+              setDialogInfo(info);
+              setIsOpen(true);
+              setHoverInfo(null);
+            } else {
+              setDialogInfo(null);
+            }
+          },
+          onHover: (info: any) => {
+            if (info.object) {
+              setHoverInfo(info);
+            } else {
+              setHoverInfo(null);
+            }
+          },
         }),
       ]
     : [];
 
-  const dataLayer = data
+  const currentLayer = current
     ? [
         new ScenegraphLayer({
           id: "scenegraph-layer",
-          data: data.entity,
+          data: current.trips,
           sizeScale: 50,
           scenegraph: MODEL_URL as any,
           _animations: {
             "*": { speed: 1 },
           },
           sizeMinPixels: 1,
-          sizeMaxPixels: 8,
-          getPosition: (d: any) =>
-            [d.vehicle.position.longitude, d.vehicle.position.latitude] as any,
-          getOrientation: (d: any) => [0, 360 - d.vehicle.position.bearing, 90],
+          sizeMaxPixels: 6,
+          getPosition: (d: Trip) => [
+            d.properties.position.longitude,
+            d.properties.position.latitude,
+            0,
+          ],
+          getOrientation: (d: any) => {
+            const bearing = d.properties.position.bearing || 0;
+            return [0, 360 - bearing, 90];
+          },
           // transitions: {
           //   getPosition: 20000 as any,
           // },
@@ -196,7 +220,7 @@ const MapPage: NextPage<Props> = ({}) => {
         }
       },
     }),
-    ...dataLayer,
+    ...currentLayer,
     ...tripsLayer,
   ];
 
