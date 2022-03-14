@@ -1,4 +1,4 @@
-import { Autocomplete, Box, Checkbox, FormControl, Text } from "@primer/react";
+import { Box, Checkbox, FormControl, Text } from "@primer/react";
 import { NextPage } from "next";
 import Image from "next/image";
 import { useRouter } from "next/router";
@@ -46,19 +46,19 @@ const filterPanel: NextPage<Props> = ({ children }) => {
             <Box mb={2}>Transit</Box>
             <Box>
               <form>
-                <FormControl>
+                <FormControl id="vehicles">
                   <Checkbox id="vehicles" />
                   <FormControl.Label>Vehicles</FormControl.Label>
                 </FormControl>
-                <FormControl>
+                <FormControl id="paths">
                   <Checkbox id="paths" checked />
                   <FormControl.Label>Paths</FormControl.Label>
                 </FormControl>
-                <FormControl>
+                <FormControl id="stops">
                   <Checkbox id="stops" />
                   <FormControl.Label>Stops</FormControl.Label>
                 </FormControl>
-                <FormControl>
+                <FormControl id="routes">
                   <Checkbox id="routes" checked />
                   <FormControl.Label>Routes</FormControl.Label>
                 </FormControl>
@@ -69,37 +69,27 @@ const filterPanel: NextPage<Props> = ({ children }) => {
             <Box mb={2}>Bike Paths</Box>
             <Box>
               <form>
-                <FormControl>
+                <FormControl id="separated">
                   <Checkbox id="separated" />
                   <FormControl.Label>Separated</FormControl.Label>
                 </FormControl>
-                <FormControl>
+                <FormControl id="Shared">
                   <Checkbox id="Shared" checked />
                   <FormControl.Label>Shared</FormControl.Label>
                 </FormControl>
-                <FormControl>
+                <FormControl id="multi">
                   <Checkbox id="multi" />
                   <FormControl.Label>Multi-use</FormControl.Label>
                 </FormControl>
               </form>
             </Box>
           </Box>
-          <Box m={4}>
-            <FormControl>
-              <FormControl.Label>Filter routes</FormControl.Label>
-              <Autocomplete>
-                <Autocomplete.Input />
-                <Autocomplete.Overlay>
-                  <Autocomplete.Menu
-                    items={routeNames.data.map((route) => ({
-                      text: route.route_long_name as string,
-                      id: route.route_id as number,
-                    }))}
-                    selectedItemIds={[]}
-                  />
-                </Autocomplete.Overlay>
-              </Autocomplete>
-            </FormControl>
+          <Box m={4} overflow="scroll" height="100%">
+            {routeNames.data.map((route, index) => (
+              <Box
+                key={index}
+              >{`${route.route_id} ${route.route_long_name},`}</Box>
+            ))}
           </Box>
         </Box>
       </Resizable>
