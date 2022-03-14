@@ -1,4 +1,5 @@
 import { Box, ThemeProvider } from "@primer/react";
+import Cookie from "js-cookie";
 import { NextPage } from "next";
 import { useEffect, useRef, useState } from "react";
 import ColorModeSwitcher from "../components/ColorModeSwitcher";
@@ -43,6 +44,30 @@ const Dashboard: NextPage<Props> = ({
   const deckRef = useRef<HTMLDivElement>(null);
   const observer = useRef<ResizeObserver>();
   const [mapSize, setMapSize] = useState<any>();
+
+  useEffect(() => {
+    if (typeof window !== undefined) {
+      const preferredMode = Cookie.get("colorMode");
+      if (preferredMode) {
+        if (preferredMode === "night") {
+          const preferredScheme = Cookie.get("nightScheme") as string;
+          setTimeout(() => {
+            setColorMode("night");
+            setDayScheme(preferredScheme);
+            setNightScheme(preferredScheme);
+          }, 50);
+        }
+        if (preferredMode === "day") {
+          const preferredScheme = Cookie.get("dayScheme") as string;
+          setTimeout(() => {
+            setColorMode("day");
+            setDayScheme(preferredScheme);
+            setNightScheme(preferredScheme);
+          }, 50);
+        }
+      }
+    }
+  }, []);
 
   useEffect(() => {
     function handleResize() {

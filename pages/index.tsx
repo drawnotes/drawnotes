@@ -174,7 +174,20 @@ const Home: NextPage<Props> = ({
                 <Text>Mapping, GIS, data wrangling</Text>
               </Box>
               <Box m={2}>
-                <Text>Realtime data visualization</Text>
+                <Text>
+                  <Box
+                    onClick={() => router.push("/dashboard")}
+                    sx={{
+                      textDecoration: "underline",
+                      "&:hover": {
+                        color: "accent.fg",
+                        cursor: "pointer",
+                      },
+                    }}
+                  >
+                    Realtime data visualization
+                  </Box>
+                </Text>
               </Box>
               <Box m={2}>
                 <Text>IoT</Text>
