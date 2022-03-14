@@ -1,17 +1,15 @@
-import {
-  Autocomplete,
-  Box,
-  Button,
-  Checkbox,
-  FormControl,
-} from "@primer/react";
+import { Autocomplete, Box, Checkbox, FormControl, Text } from "@primer/react";
 import { NextPage } from "next";
+import Image from "next/image";
+import { useRouter } from "next/router";
 import { Resizable } from "re-resizable";
 import routeNames from "../sampledata/routeNames.json";
 
 interface Props {}
 
 const filterPanel: NextPage<Props> = ({ children }) => {
+  const router = useRouter();
+
   return (
     <Box display="flex" alignItems="flex-end">
       {children}
@@ -30,8 +28,19 @@ const filterPanel: NextPage<Props> = ({ children }) => {
           borderStyle="solid"
           borderColor="border.default"
         >
+          <Box
+            m={4}
+            onClick={() => router.push("https://www.stm.info/en")}
+            sx={{
+              "&:hover": {
+                cursor: "pointer",
+              },
+            }}
+          >
+            <Image src="/assets/stmlogo.png" width="104px" height="48px" />
+          </Box>
           <Box m={4}>
-            <Button>Rotate</Button>
+            <Text>Montreal Realtime Transit Information</Text>
           </Box>
           <Box m={4}>
             <Box mb={2}>Transit</Box>

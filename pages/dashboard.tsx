@@ -33,7 +33,6 @@ const Dashboard: NextPage<Props> = ({
   preferredNightScheme,
 }) => {
   const { data, error } = useIntervalFetch<GTFS>(url, 20000, options);
-
   const [colorMode, setColorMode] = useState<ColorModeWithAuto>(
     preferredColorMode || "day"
   );

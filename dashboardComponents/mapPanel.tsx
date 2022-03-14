@@ -2,7 +2,15 @@ import { TripsLayer } from "@deck.gl/geo-layers";
 import { GeoJsonLayer } from "@deck.gl/layers";
 import { ScenegraphLayer } from "@deck.gl/mesh-layers";
 import DeckGL from "@deck.gl/react";
-import { Box, Button, Dialog, Text, useTheme } from "@primer/react";
+import { SearchIcon, SyncIcon } from "@primer/octicons-react";
+import {
+  Box,
+  Button,
+  Dialog,
+  StyledOcticon,
+  Text,
+  useTheme,
+} from "@primer/react";
 import "mapbox-gl/dist/mapbox-gl.css";
 import { NextPage } from "next";
 import { useEffect, useState } from "react";
@@ -103,6 +111,16 @@ const mapPanel: NextPage<Props> = ({ mapSize, data }) => {
   };
 
   const handleClose = () => setIsOpen(false);
+
+  const handleOrient = () => {
+    setViewState((prev: any) => {
+      return {
+        ...prev,
+        bearing: prev.bearing !== 0 ? 0 : -57.5,
+        transitionDuration: 500,
+      };
+    });
+  };
 
   const tripsLayer = tripsData
     ? [
@@ -219,10 +237,25 @@ const mapPanel: NextPage<Props> = ({ mapSize, data }) => {
 
   return (
     <Box position="relative" height="100%" width="100%">
-      <Box position="absolute" top={0} right={0} p={2} zIndex={5}>
-        <Button variant="small" onClick={handleZoomExtents}>
-          Zoom Extents
-        </Button>
+      <Box
+        position="absolute"
+        top={0}
+        right={0}
+        p={2}
+        zIndex={5}
+        display="flex"
+        flexDirection="column"
+      >
+        <Box>
+          <Button variant="small" onClick={handleZoomExtents}>
+            <StyledOcticon icon={SearchIcon} /> Extents
+          </Button>
+        </Box>
+        <Box mt={2}>
+          <Button variant="small" onClick={handleOrient}>
+            <StyledOcticon icon={SyncIcon} /> Rotate
+          </Button>
+        </Box>
       </Box>
       <Box
         sx={{
