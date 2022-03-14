@@ -11,16 +11,17 @@ const logPanel: NextPage<Props> = ({}) => {
         width: "100%",
         height: 300,
       }}
-      minHeight={150}
-      maxHeight={800}
+      boundsByDirection
     >
       <Box
-        width="100%"
         height="100%"
+        width="100%"
+        bg="canvas.subtle"
+        borderWidth={1}
         borderStyle="solid"
         borderColor="border.default"
       >
-        logPanel
+        Logs
       </Box>
     </Resizable>
   );

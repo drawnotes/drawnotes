@@ -7,20 +7,21 @@ interface Props {}
 const filterPanel: NextPage<Props> = ({}) => {
   return (
     <Resizable
+      boundsByDirection
       defaultSize={{
-        width: 300,
-        height: "100%",
+        width: 500,
+        height: "100vh",
       }}
-      minWidth={150}
-      maxWidth={800}
     >
       <Box
-        width="100%"
         height="100%"
+        width="100%"
+        bg="canvas.subtle"
+        borderWidth={1}
         borderStyle="solid"
         borderColor="border.default"
       >
-        filterPanel
+        Filters
       </Box>
     </Resizable>
   );
