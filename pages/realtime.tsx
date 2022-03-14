@@ -107,54 +107,65 @@ const MapPage: NextPage<Props> = ({}) => {
     });
   };
 
-  const layers = tripsData && [
-    new ScenegraphLayer({
-      id: "scenegraph-layer",
-      data: tripsData.trips,
-      sizeScale: 50,
-      scenegraph: MODEL_URL as any,
-      // _animations: {
-      //   "*": { speed: 1 },
-      // },
-      sizeMinPixels: 1,
-      sizeMaxPixels: 8,
-      getPosition: (d: any) => d.path[d.path.length - 1],
-      getOrientation: (d: any) => [0, 360 - d.properties.position.bearing, 90],
-      // transitions: {
-      //   getPosition: 20000 as any,
-      // },
-      pickable: true,
-      autoHighlight: true,
-      onClick: (info: any) => {
-        if (info.object) {
-          setDialogInfo(info);
-          setIsOpen(true);
-          setHoverInfo(null);
-        } else {
-          setDialogInfo(null);
-        }
-      },
-      onHover: (info: any) => {
-        if (info.object) {
-          setHoverInfo(info);
-        } else {
-          setHoverInfo(null);
-        }
-      },
-    }),
-    new TripsLayer({
-      id: "trips",
-      visible: true,
-      data: tripsData.trips,
-      getPath: (d: any) => d.path,
-      getTimestamps: (d) => d.timestamps,
-      getColor: () => [23, 184, 190] as any,
-      opacity: 100,
-      widthMinPixels: 4,
-      jointRounded: true,
-      trailLength: 1,
-      currentTime: tripsData.timestamp,
-    }),
+  const tripsLayer = tripsData
+    ? [
+        new TripsLayer({
+          id: "trips",
+          visible: true,
+          data: tripsData.trips,
+          getPath: (d: any) => d.path,
+          getTimestamps: (d) => d.timestamps,
+          getColor: () => [23, 184, 190] as any,
+          opacity: 100,
+          widthMinPixels: 4,
+          jointRounded: true,
+          trailLength: 1,
+          currentTime: tripsData.timestamp,
+        }),
+      ]
+    : [];
+
+  const dataLayer = data
+    ? [
+        new ScenegraphLayer({
+          id: "scenegraph-layer",
+          data: data.entity,
+          sizeScale: 50,
+          scenegraph: MODEL_URL as any,
+          _animations: {
+            "*": { speed: 1 },
+          },
+          sizeMinPixels: 1,
+          sizeMaxPixels: 8,
+          getPosition: (d: any) =>
+            [d.vehicle.position.longitude, d.vehicle.position.latitude] as any,
+          getOrientation: (d: any) => [0, 360 - d.vehicle.position.bearing, 90],
+          // transitions: {
+          //   getPosition: 20000 as any,
+          // },
+          pickable: true,
+          autoHighlight: true,
+          onClick: (info: any) => {
+            if (info.object) {
+              setDialogInfo(info);
+              setIsOpen(true);
+              setHoverInfo(null);
+            } else {
+              setDialogInfo(null);
+            }
+          },
+          onHover: (info: any) => {
+            if (info.object) {
+              setHoverInfo(info);
+            } else {
+              setHoverInfo(null);
+            }
+          },
+        }),
+      ]
+    : [];
+
+  const layers: any = [
     new GeoJsonLayer({
       id: "line-layer",
       visible: false,
@@ -185,7 +196,10 @@ const MapPage: NextPage<Props> = ({}) => {
         }
       },
     }),
+    ...dataLayer,
+    ...tripsLayer,
   ];
+
   return (
     <Box width="100vw" height="100vh" color="fg.default" bg="canvas.default">
       <ColorModeSwitcher />
