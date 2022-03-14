@@ -1,12 +1,25 @@
+import { TripsLayer } from "@deck.gl/geo-layers";
 import { GeoJsonLayer } from "@deck.gl/layers";
+import { ScenegraphLayer } from "@deck.gl/mesh-layers";
 import DeckGL from "@deck.gl/react";
-import { Box, Dialog, Text, useTheme } from "@primer/react";
-import { FeatureCollection } from "geojson";
+import { Box, Button, Dialog, Text, useTheme } from "@primer/react";
 import "mapbox-gl/dist/mapbox-gl.css";
 import { NextPage } from "next";
 import { useEffect, useState } from "react";
-import { StaticMap, WebMercatorViewport } from "react-map-gl";
+import {
+  FlyToInterpolator,
+  StaticMap,
+  WebMercatorViewport,
+} from "react-map-gl";
+import routes from "../sampledata/routes.json";
 import { MAPBOX_ACCESS_TOKEN } from "../utils/constants";
+import {
+  getBearing,
+  GTFS,
+  GTFStoTrips,
+  mergeTrips,
+  Trip,
+} from "../utils/transit";
 
 const DARK_MAP_STYLE =
   "https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json";
@@ -14,9 +27,11 @@ const DARK_MAP_STYLE =
 const LIGHT_MAP_STYLE =
   "https://basemaps.cartocdn.com/gl/positron-gl-style/style.json";
 
+const MODEL_URL = "assets/bus.glb";
+
 interface Props {
   mapSize: { width: number; height: number };
-  data: FeatureCollection | undefined;
+  data: GTFS | undefined;
 }
 
 const mapPanel: NextPage<Props> = ({ mapSize, data }) => {
@@ -25,6 +40,10 @@ const mapPanel: NextPage<Props> = ({ mapSize, data }) => {
     ? DARK_MAP_STYLE
     : LIGHT_MAP_STYLE;
 
+  const lineData = routes;
+  const [current, setCurrent] = useState<any>();
+  const [previous, setPrevious] = useState<any>();
+  const [tripsData, setTripsData] = useState<any>();
   const bounding = [-73.956862, 45.402657, -73.480099, 45.701392];
   const [viewState, setViewState] = useState<any>(null);
   const [hoverInfo, setHoverInfo] = useState<any>(null);
@@ -46,23 +65,135 @@ const mapPanel: NextPage<Props> = ({ mapSize, data }) => {
     }
   }, []);
 
+  useEffect(() => {
+    if (data) {
+      if (current) {
+        setPrevious(current);
+        const currentTrips = GTFStoTrips(data);
+        setCurrent(currentTrips);
+        const merged = mergeTrips(currentTrips, previous);
+        setTripsData(merged);
+      } else {
+        const currentTrips = GTFStoTrips(data);
+        setCurrent(currentTrips);
+        setTripsData(currentTrips);
+      }
+    }
+  }, [data]);
+
   const handleChangeViewState = ({ viewState }: any) => {
     setViewState(viewState);
     setInfo({ lat: viewState.latitude, long: viewState.longitude });
   };
 
+  const handleZoomExtents = () => {
+    const corners = [bounding.slice(0, 2), bounding.slice(2, 4)] as [
+      [number, number],
+      [number, number]
+    ];
+    const viewport = new WebMercatorViewport({
+      width: window.innerWidth,
+      height: window.innerHeight,
+    }).fitBounds(corners);
+    setViewState({
+      ...viewport,
+      transitionDuration: 1000,
+      transitionInterpolator: new FlyToInterpolator(),
+    });
+  };
+
   const handleClose = () => setIsOpen(false);
 
-  const layers = [
+  const tripsLayer = tripsData
+    ? [
+        new ScenegraphLayer({
+          id: "scenegraph-layer",
+          data: tripsData.trips,
+          sizeScale: 50,
+          scenegraph: MODEL_URL as any,
+          _animations: {
+            "*": { speed: 1 },
+          },
+          sizeMinPixels: 1,
+          sizeMaxPixels: 6,
+          getPosition: (d: Trip) => [
+            d.properties.position.longitude,
+            d.properties.position.latitude,
+            0,
+          ],
+          getOrientation: (d: any) => {
+            const calculatedBearing =
+              d.path.length > 1 ? getBearing(d.path[0], d.path[1]) : 90;
+            const bearing = d.properties.position.bearing || calculatedBearing;
+            return [0, 360 - bearing, 90];
+          },
+          // transitions: {
+          //   getPosition: 20000 as any,
+          // },
+          pickable: true,
+          autoHighlight: true,
+          onClick: (info: any) => {
+            if (info.object) {
+              setDialogInfo(info);
+              setIsOpen(true);
+              setHoverInfo(null);
+            } else {
+              setDialogInfo(null);
+            }
+          },
+          onHover: (info: any) => {
+            if (info.object) {
+              setHoverInfo(info);
+            } else {
+              setHoverInfo(null);
+            }
+          },
+        }),
+        new TripsLayer({
+          id: "trips",
+          visible: true,
+          data: tripsData.trips,
+          getPath: (d: any) => d.path,
+          getTimestamps: (d) => d.timestamps,
+          getColor: () => [23, 184, 190] as any,
+          opacity: 100,
+          widthMinPixels: 4,
+          jointRounded: true,
+          trailLength: 1,
+          currentTime: tripsData.timestamp,
+          pickable: true,
+          autoHighlight: true,
+          onClick: (info: any) => {
+            if (info.object) {
+              setDialogInfo(info);
+              setIsOpen(true);
+              setHoverInfo(null);
+            } else {
+              setDialogInfo(null);
+            }
+          },
+          onHover: (info: any) => {
+            if (info.object) {
+              setHoverInfo(info);
+            } else {
+              setHoverInfo(null);
+            }
+          },
+        }),
+      ]
+    : [];
+
+  const layers: any = [
     new GeoJsonLayer({
       id: "line-layer",
-      data: data,
+      visible: false,
+      data: lineData,
       opacity: 0.8,
       filled: false,
       stroked: true,
-      getLineWidth: 8,
+      getLineWidth: 10,
       lineWidthMinPixels: 1,
-      lineWidthMaxPixels: 8,
+      lineWidthMaxPixels: 4,
       getLineColor: [23, 184, 190],
       pickable: true,
       autoHighlight: true,
@@ -83,10 +214,16 @@ const mapPanel: NextPage<Props> = ({ mapSize, data }) => {
         }
       },
     }),
+    ...tripsLayer,
   ];
 
   return (
     <Box position="relative" height="100%" width="100%">
+      <Box position="absolute" top={0} right={0} p={2} zIndex={5}>
+        <Button variant="small" onClick={handleZoomExtents}>
+          Zoom Extents
+        </Button>
+      </Box>
       <Box
         sx={{
           position: "absolute",

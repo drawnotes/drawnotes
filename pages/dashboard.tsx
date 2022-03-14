@@ -1,15 +1,24 @@
 import { Box, ThemeProvider } from "@primer/react";
-import { FeatureCollection } from "geojson";
 import { NextPage } from "next";
 import { useEffect, useRef, useState } from "react";
 import ColorModeSwitcher from "../components/ColorModeSwitcher";
 import FilterPanel from "../dashboardComponents/filterPanel";
 import LogPanel from "../dashboardComponents/logPanel";
 import MapPanel from "../dashboardComponents/mapPanel";
-import routes from "../sampledata/routes.json";
+import { GTFS } from "../utils/transit";
+import useIntervalFetch from "../utils/useIntervalFetch";
 
 declare type ColorMode = "day" | "night";
 declare type ColorModeWithAuto = ColorMode | "auto";
+
+const url = "/api/gtfs";
+const URL = "https://api.stm.info/pub/od/gtfs-rt/ic/v2/vehiclePositions";
+const options = {
+  method: "GET",
+  headers: {
+    url: URL,
+  },
+};
 
 interface Props {
   preferredColorMode: ColorModeWithAuto;
@@ -22,7 +31,7 @@ const Dashboard: NextPage<Props> = ({
   preferredDayScheme,
   preferredNightScheme,
 }) => {
-  const lineData = routes as FeatureCollection;
+  const { data, error } = useIntervalFetch<GTFS>(url, 20000, options);
 
   const [colorMode, setColorMode] = useState<ColorModeWithAuto>(
     preferredColorMode || "day"
@@ -84,7 +93,7 @@ const Dashboard: NextPage<Props> = ({
               bg="canvas.default"
               overflow="scroll"
             >
-              {mapSize && <MapPanel mapSize={mapSize} data={lineData} />}
+              {mapSize && <MapPanel mapSize={mapSize} data={data} />}
             </Box>
           </LogPanel>
         </FilterPanel>
