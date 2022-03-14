@@ -6,13 +6,10 @@ interface Props {}
 
 const logPanel: NextPage<Props> = ({ children }) => {
   return (
-    <Box
-      width="100%"
-      display="flex"
-      flexDirection="column"
-      alignItems="flex-end"
-    >
-      {children}
+    <Box width="100%" height="100vh" display="flex" flexDirection="column">
+      <Box width="100%" height="100%">
+        {children}
+      </Box>
       <Resizable
         defaultSize={{
           width: "100%",
