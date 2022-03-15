@@ -11,15 +11,18 @@ import {
   Text,
   useTheme,
 } from "@primer/react";
+import bbox from "@turf/bbox";
+import { FeatureCollection } from "geojson";
 import "mapbox-gl/dist/mapbox-gl.css";
 import { NextPage } from "next";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   FlyToInterpolator,
   StaticMap,
   WebMercatorViewport,
 } from "react-map-gl";
 import routes from "../sampledata/routes.json";
+import stops from "../sampledata/stops.json";
 import { MAPBOX_ACCESS_TOKEN } from "../utils/constants";
 import {
   getBearing,
@@ -48,26 +51,34 @@ const mapPanel: NextPage<Props> = ({ mapSize, data }) => {
     ? DARK_MAP_STYLE
     : LIGHT_MAP_STYLE;
 
-  const lineData = routes;
+  const stopsData = stops as FeatureCollection;
+  const routesData = routes as FeatureCollection;
   const [current, setCurrent] = useState<any>();
   const [previous, setPrevious] = useState<any>();
   const [tripsData, setTripsData] = useState<any>();
-  const bounding = [-73.956862, 45.402657, -73.480099, 45.701392];
   const [viewState, setViewState] = useState<any>(null);
   const [hoverInfo, setHoverInfo] = useState<any>(null);
   const [dialogInfo, setDialogInfo] = useState<any>(null);
   const [isOpen, setIsOpen] = useState(false);
   const [info, setInfo] = useState<any>(null);
 
+  const bounding = useMemo(() => bbox(routesData), [routesData]);
+  const padding = 10;
+
   useEffect(() => {
     if (typeof window !== "undefined") {
       const viewport = new WebMercatorViewport({
         width: mapSize.width,
         height: mapSize.height,
-      }).fitBounds([bounding.slice(0, 2), bounding.slice(2, 4)] as [
-        [number, number],
-        [number, number]
-      ]);
+      }).fitBounds(
+        [bounding.slice(0, 2), bounding.slice(2, 4)] as [
+          [number, number],
+          [number, number]
+        ],
+        {
+          padding: padding,
+        }
+      );
       setViewState(viewport);
       setInfo({ lat: viewport.latitude, long: viewport.longitude });
     }
@@ -95,14 +106,18 @@ const mapPanel: NextPage<Props> = ({ mapSize, data }) => {
   };
 
   const handleZoomExtents = () => {
-    const corners = [bounding.slice(0, 2), bounding.slice(2, 4)] as [
-      [number, number],
-      [number, number]
-    ];
     const viewport = new WebMercatorViewport({
-      width: window.innerWidth,
-      height: window.innerHeight,
-    }).fitBounds(corners);
+      width: mapSize.width,
+      height: mapSize.height,
+    }).fitBounds(
+      [bounding.slice(0, 2), bounding.slice(2, 4)] as [
+        [number, number],
+        [number, number]
+      ],
+      {
+        padding: padding,
+      }
+    );
     setViewState({
       ...viewport,
       transitionDuration: 1000,
@@ -203,16 +218,45 @@ const mapPanel: NextPage<Props> = ({ mapSize, data }) => {
 
   const layers: any = [
     new GeoJsonLayer({
-      id: "line-layer",
-      visible: false,
-      data: lineData,
+      id: "routes-layer",
+      data: routesData,
       opacity: 0.8,
       filled: false,
       stroked: true,
-      getLineWidth: 10,
+      getLineWidth: 8,
       lineWidthMinPixels: 1,
-      lineWidthMaxPixels: 4,
+      lineWidthMaxPixels: 8,
       getLineColor: [23, 184, 190],
+      pickable: true,
+      autoHighlight: true,
+      onClick: (info: any) => {
+        if (info.object) {
+          setDialogInfo(info);
+          setIsOpen(true);
+          setHoverInfo(null);
+        } else {
+          setDialogInfo(null);
+        }
+      },
+      onHover: (info: any) => {
+        if (info.object) {
+          setHoverInfo(info);
+        } else {
+          setHoverInfo(null);
+        }
+      },
+    }),
+    new GeoJsonLayer({
+      id: "stops-layer",
+      data: stopsData,
+      opacity: 0.8,
+      pointType: "circle",
+      getPointRadius: 10,
+      pointRadiusMinPixels: 1,
+      pointRadiusMaxPixels: 10,
+      filled: true,
+      getFillColor: () => [255, 99, 71],
+      stroked: false,
       pickable: true,
       autoHighlight: true,
       onClick: (info: any) => {

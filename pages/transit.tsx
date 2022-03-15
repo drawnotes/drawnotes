@@ -38,24 +38,29 @@ const MapPage: NextPage<Props> = ({}) => {
   const pointData = stops as FeatureCollection;
   const lineData = routes as FeatureCollection;
 
-  const bounding = useMemo(() => bbox(lineData), [lineData]);
-  // [-73.956862, 45.402657, -73.480099, 45.701392];
-
   const [viewState, setViewState] = useState<any>(null);
   const [hoverInfo, setHoverInfo] = useState<any>(null);
   const [dialogInfo, setDialogInfo] = useState<any>(null);
   const [isOpen, setIsOpen] = useState(false);
   const [info, setInfo] = useState<any>(null);
 
+  const bounding = useMemo(() => bbox(lineData), [lineData]);
+  const padding = 10;
+
   useEffect(() => {
     if (typeof window !== "undefined") {
       const viewport = new WebMercatorViewport({
         width: window.innerWidth,
         height: window.innerHeight,
-      }).fitBounds([bounding.slice(0, 2), bounding.slice(2, 4)] as [
-        [number, number],
-        [number, number]
-      ]);
+      }).fitBounds(
+        [bounding.slice(0, 2), bounding.slice(2, 4)] as [
+          [number, number],
+          [number, number]
+        ],
+        {
+          padding: padding,
+        }
+      );
       setViewState(viewport);
       setInfo({ lat: viewport.latitude, long: viewport.longitude });
     }
@@ -131,14 +136,18 @@ const MapPage: NextPage<Props> = ({}) => {
   ];
 
   const handleZoomExtents = () => {
-    const corners = [bounding.slice(0, 2), bounding.slice(2, 4)] as [
-      [number, number],
-      [number, number]
-    ];
     const viewport = new WebMercatorViewport({
       width: window.innerWidth,
       height: window.innerHeight,
-    }).fitBounds(corners);
+    }).fitBounds(
+      [bounding.slice(0, 2), bounding.slice(2, 4)] as [
+        [number, number],
+        [number, number]
+      ],
+      {
+        padding: padding,
+      }
+    );
     setViewState({
       ...viewport,
       transitionDuration: 1000,

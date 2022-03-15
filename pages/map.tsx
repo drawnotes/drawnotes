@@ -12,7 +12,7 @@ import {
   WebMercatorViewport,
 } from "react-map-gl";
 import ColorModeSwitcher from "../components/ColorModeSwitcher";
-import neighbourhoods from "../sampledata/multiLineString.json";
+import bikePaths from "../sampledata/multiLineString.json";
 import { hexToRgb } from "../utils/color";
 import { MAPBOX_ACCESS_TOKEN } from "../utils/constants";
 import { lineFilter, pointFilter, polygonFilter } from "../utils/geo";
@@ -35,31 +35,33 @@ const MapPage: NextPage<Props> = ({}) => {
     ? hexToRgb("#c9d1d9")
     : hexToRgb("#24292f");
 
-  const data = neighbourhoods as
-    | FeatureCollection
-    | Feature
-    | GeometryCollection;
+  const data = bikePaths as FeatureCollection | Feature | GeometryCollection;
   const lineData = useMemo(() => lineFilter(data), [data]);
   const polygonData = useMemo(() => polygonFilter(data), [data]);
   const pointData = useMemo(() => pointFilter(data), [data]);
-
-  const bounding = useMemo(() => bbox(data), [data]);
-
   const [viewState, setViewState] = useState<any>(null);
   const [hoverInfo, setHoverInfo] = useState<any>(null);
   const [dialogInfo, setDialogInfo] = useState<any>(null);
   const [isOpen, setIsOpen] = useState(false);
   const [info, setInfo] = useState<any>(null);
 
+  const bounding = useMemo(() => bbox(data), [data]);
+  const padding = 10;
+
   useEffect(() => {
     if (typeof window !== "undefined") {
       const viewport = new WebMercatorViewport({
         width: window.innerWidth,
         height: window.innerHeight,
-      }).fitBounds([bounding.slice(0, 2), bounding.slice(2, 4)] as [
-        [number, number],
-        [number, number]
-      ]);
+      }).fitBounds(
+        [bounding.slice(0, 2), bounding.slice(2, 4)] as [
+          [number, number],
+          [number, number]
+        ],
+        {
+          padding: 10,
+        }
+      );
       setViewState(viewport);
       setInfo({ lat: viewport.latitude, long: viewport.longitude });
     }
@@ -169,14 +171,18 @@ const MapPage: NextPage<Props> = ({}) => {
   ];
 
   const handleZoomExtents = () => {
-    const corners = [bounding.slice(0, 2), bounding.slice(2, 4)] as [
-      [number, number],
-      [number, number]
-    ];
     const viewport = new WebMercatorViewport({
       width: window.innerWidth,
       height: window.innerHeight,
-    }).fitBounds(corners);
+    }).fitBounds(
+      [bounding.slice(0, 2), bounding.slice(2, 4)] as [
+        [number, number],
+        [number, number]
+      ],
+      {
+        padding: 10,
+      }
+    );
     setViewState({
       ...viewport,
       transitionDuration: 1000,
