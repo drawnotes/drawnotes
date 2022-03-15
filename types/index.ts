@@ -56,3 +56,13 @@ export type githubUser = {
   visibility: string;
   accessToken: string;
 };
+
+export interface VisibleLayers {
+  routes: boolean;
+  stops: boolean;
+  paths: boolean;
+  vehicles: boolean;
+  shared: boolean;
+  separated: boolean;
+  multiUse: boolean;
+}

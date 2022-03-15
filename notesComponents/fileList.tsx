@@ -1,6 +1,5 @@
 import { ChevronDownIcon, ChevronRightIcon } from "@primer/octicons-react";
-import { Box, StyledOcticon } from "@primer/react";
-import { ActionList } from "@primer/react/drafts";
+import { ActionList, Box, StyledOcticon } from "@primer/react";
 import { memo, useMemo } from "react";
 import ContextMenu from "../components/ContextMenu";
 import FileStatus from "../notesComponents/fileStatus";

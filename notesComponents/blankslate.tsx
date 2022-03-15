@@ -1,7 +1,7 @@
 import { MarkGithubIcon } from "@primer/octicons-react";
 import {
   Box,
-  ButtonPrimary,
+  Button,
   Header,
   Heading,
   Link,
@@ -78,9 +78,9 @@ const Blankslate: NextPage<Props> = ({ handleNewProject, handleOpenDemo }) => {
               project.
             </Box>
             <Box m={2}>
-              <ButtonPrimary onClick={handleNewProjectClose}>
+              <Button variant="primary" onClick={handleNewProjectClose}>
                 New Project
-              </ButtonPrimary>
+              </Button>
             </Box>
             <Box m={3}>
               <Link as="button" onClick={handleClose}>

@@ -1,11 +1,12 @@
 import { Box, ThemeProvider } from "@primer/react";
 import Cookie from "js-cookie";
 import { NextPage } from "next";
-import { useEffect, useRef, useState } from "react";
+import { ChangeEventHandler, useEffect, useRef, useState } from "react";
 import ColorModeSwitcher from "../components/ColorModeSwitcher";
 import FilterPanel from "../dashboardComponents/filterPanel";
 import LogPanel from "../dashboardComponents/logPanel";
 import MapPanel from "../dashboardComponents/mapPanel";
+import { VisibleLayers } from "../types";
 import { GTFS } from "../utils/transit";
 import useIntervalFetch from "../utils/useIntervalFetch";
 
@@ -43,6 +44,22 @@ const Dashboard: NextPage<Props> = ({
   const deckRef = useRef<HTMLDivElement>(null);
   const observer = useRef<ResizeObserver>();
   const [mapSize, setMapSize] = useState<any>();
+  const [visibleLayers, setVisibleLayers] = useState<VisibleLayers>({
+    routes: false,
+    stops: false,
+    paths: true,
+    vehicles: true,
+    shared: false,
+    separated: false,
+    multiUse: false,
+  });
+
+  const handleSetVisibleLayers = (
+    event: ChangeEventHandler<HTMLInputElement>
+  ) => {
+    const value = event.target.value;
+    setVisibleLayers((prev: any) => ({ ...prev, [value]: !prev[value] }));
+  };
 
   useEffect(() => {
     if (typeof window !== undefined) {
@@ -114,7 +131,7 @@ const Dashboard: NextPage<Props> = ({
         overflow="hidden"
       >
         <ColorModeSwitcher />
-        <FilterPanel>
+        <FilterPanel handleSetVisibleLayers={handleSetVisibleLayers}>
           <LogPanel data={data}>
             <Box
               height="100%"
@@ -123,7 +140,13 @@ const Dashboard: NextPage<Props> = ({
               bg="canvas.default"
               overflow="scroll"
             >
-              {mapSize && <MapPanel mapSize={mapSize} data={data} />}
+              {mapSize && (
+                <MapPanel
+                  mapSize={mapSize}
+                  data={data}
+                  visibleLayers={visibleLayers}
+                />
+              )}
             </Box>
           </LogPanel>
         </FilterPanel>
