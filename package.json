@@ -38,6 +38,7 @@
     "node-fetch": "^3.2.0",
     "pako": "^2.0.4",
     "papaparse": "^5.3.1",
+    "primer-next": "npm:@primer/react@next",
     "protobufjs": "^6.11.2",
     "re-resizable": "^6.9.1",
     "react": "^17.0.2",

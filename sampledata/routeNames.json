@@ -2189,8 +2189,7 @@
       "route_url": "http://www.stm.info/fr/infos/reseaux/bus",
       "route_color": "009EE0",
       "route_text_color": null
-    },
-    { "route_id": null }
+    }
   ],
   "errors": [
     {

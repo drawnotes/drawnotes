@@ -6040,6 +6040,30 @@ prepend-http@^2.0.0:
   resolved "https://registry.yarnpkg.com/prepend-http/-/prepend-http-2.0.0.tgz#e92434bfa5ea8c19f41cdfd401d741a3c819d897"
   integrity sha1-6SQ0v6XqjBn0HN/UAddBo8gZ2Jc=
 
+"primer-next@npm:@primer/react@next":
+  version "35.0.1-rc.3f8bcd32"
+  resolved "https://registry.yarnpkg.com/@primer/react/-/react-35.0.1-rc.3f8bcd32.tgz#69ad5d446fd988123c80d87712be1c401b9abf55"
+  integrity sha512-936WtCY0Bi+aKy6K9gU81Ms1QuhbaYjq5CKBGD5K0qX7axPsyKx02lc/9yjMBowb/cPqmYjdBWQR+qWHU43waQ==
+  dependencies:
+    "@primer/behaviors" "1.1.0"
+    "@primer/octicons-react" "16.1.1"
+    "@primer/primitives" "7.1.1"
+    "@radix-ui/react-polymorphic" "0.0.14"
+    "@react-aria/ssr" "3.1.0"
+    "@styled-system/css" "5.1.5"
+    "@styled-system/props" "5.1.5"
+    "@styled-system/theme-get" "5.1.2"
+    "@types/styled-components" "5.1.11"
+    "@types/styled-system" "5.1.12"
+    "@types/styled-system__css" "5.0.16"
+    "@types/styled-system__theme-get" "5.0.1"
+    classnames "2.3.1"
+    color2k "1.2.4"
+    deepmerge "4.2.2"
+    focus-visible "5.2.0"
+    history "5.0.0"
+    styled-system "5.1.5"
+
 printj@~1.3.1:
   version "1.3.1"
   resolved "https://registry.yarnpkg.com/printj/-/printj-1.3.1.tgz#9af6b1d55647a1587ac44f4c1654a4b95b8e12cb"
