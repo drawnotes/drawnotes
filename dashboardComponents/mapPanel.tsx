@@ -22,9 +22,9 @@ import {
   StaticMap,
   WebMercatorViewport,
 } from "react-map-gl";
-import * as bikePaths from "../sampleData/bikePaths.json";
-import * as routes from "../sampledata/routes.json";
-import * as stops from "../sampledata/stops.json";
+import bikePaths from "../sampleData/bikePaths.json";
+import routes from "../sampledata/routes.json";
+import stops from "../sampledata/stops.json";
 import { VisibleLayers } from "../types";
 import { hexToRgb, hexToRgb as rgb } from "../utils/color";
 import { MAPBOX_ACCESS_TOKEN } from "../utils/constants";
