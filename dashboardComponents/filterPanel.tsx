@@ -25,18 +25,13 @@ const filterPanel: NextPage<Props> = ({
 
   useEffect(() => {
     if (data) {
-      const speed = () => {
-        const speeds = data.entity
-          .map((entity) => entity.vehicle.position.speed)
-          .filter((speed) => speed > 0);
-        const max = Math.max(...speeds);
-        const sum = speeds.reduce((a, b) => a + b, 0);
-        const avg = (sum / speeds.length) * 3.6;
-        return {
-          avg: avg,
-          max: max,
-        };
-      };
+      const speeds = data.entity
+        .map((entity) => entity.vehicle.position.speed)
+        .filter((speed) => speed > 0);
+      const count = speeds.length;
+      const sum = speeds.reduce((a, b) => a + b);
+      const max = Math.max(...speeds);
+      const avg = (sum / count) * 3.6;
 
       const occStatus = () => {
         const statuses = data.entity.map(
@@ -56,8 +51,8 @@ const filterPanel: NextPage<Props> = ({
       };
 
       setStats({
-        avgSpeed: speed().avg,
-        maxSpeed: speed().max,
+        avgSpeed: avg,
+        maxSpeed: max,
         occStatus: occStatus(),
         routes: routes(),
       });
