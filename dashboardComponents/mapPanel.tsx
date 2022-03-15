@@ -26,7 +26,7 @@ import bikePaths from "../sampleData/multiLineString.json";
 import routes from "../sampledata/routes.json";
 import stops from "../sampledata/stops.json";
 import { VisibleLayers } from "../types";
-import { hexToRgb as rgb } from "../utils/color";
+import { hexToRgb, hexToRgb as rgb } from "../utils/color";
 import { MAPBOX_ACCESS_TOKEN } from "../utils/constants";
 import {
   getBearing,
@@ -239,6 +239,22 @@ const mapPanel: NextPage<Props> = ({ mapSize, data, visibleLayers }) => {
     }
   };
 
+  const getRouteColors = (d: any): RGBAColor => {
+    const id = d.properties.route;
+    switch (id) {
+      case "1":
+        return colorMode === "dark" ? rgb("#238636") : rgb("#2da44e");
+      case "2":
+        return colorMode === "dark" ? hexToRgb("#e7811d") : rgb("#dc6d1a");
+      case "4":
+        return colorMode === "dark" ? rgb("#ECC94B") : rgb("#F6E05E");
+      case "5":
+        return colorMode === "dark" ? rgb("#1f6feb") : rgb("#0969da");
+      default:
+        return [23, 184, 190];
+    }
+  };
+
   const layers: any = [
     new GeoJsonLayer({
       id: "bike-layer",
@@ -282,7 +298,7 @@ const mapPanel: NextPage<Props> = ({ mapSize, data, visibleLayers }) => {
       getLineWidth: 8,
       lineWidthMinPixels: 1,
       lineWidthMaxPixels: 8,
-      getLineColor: [23, 184, 190],
+      getLineColor: (d: any) => getRouteColors(d),
       pickable: true,
       autoHighlight: true,
       onClick: (info: any) => {

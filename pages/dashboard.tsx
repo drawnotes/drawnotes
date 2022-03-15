@@ -129,6 +129,7 @@ const Dashboard: NextPage<Props> = ({
       >
         <ColorModeSwitcher />
         <FilterPanel
+          data={data}
           visibleLayers={visibleLayers}
           handleSetVisibleLayers={handleSetVisibleLayers}
         >
