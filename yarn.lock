@@ -430,17 +430,10 @@
     core-js-pure "^3.20.2"
     regenerator-runtime "^0.13.4"
 
-"@babel/runtime@^7.0.0", "@babel/runtime@^7.10.2", "@babel/runtime@^7.12.0", "@babel/runtime@^7.12.5", "@babel/runtime@^7.16.3", "@babel/runtime@^7.3.1", "@babel/runtime@^7.6.2", "@babel/runtime@^7.8.3":
+"@babel/runtime@^7.0.0", "@babel/runtime@^7.10.2", "@babel/runtime@^7.12.0", "@babel/runtime@^7.12.5", "@babel/runtime@^7.16.3", "@babel/runtime@^7.3.1", "@babel/runtime@^7.6.2", "@babel/runtime@^7.7.6", "@babel/runtime@^7.8.3":
   version "7.17.2"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.17.2.tgz#66f68591605e59da47523c631416b18508779941"
   integrity sha512-hzeyJyMA1YGdJTuWU0e/j4wKXrU4OMFvY2MSlaI9B7VQb0r5cxTE3EAIS2Q7Tn2RIcDkRvTA/v2JsAEhxe99uw==
-  dependencies:
-    regenerator-runtime "^0.13.4"
-
-"@babel/runtime@^7.7.6":
-  version "7.17.7"
-  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.17.7.tgz#a5f3328dc41ff39d803f311cfe17703418cf9825"
-  integrity sha512-L6rvG9GDxaLgFjg41K+5Yv9OMrU98sWe+Ykmc6FDJW/+vYZMhdOMKkISgzptMaERHvS2Y2lw9MDRm2gHhlQQoA==
   dependencies:
     regenerator-runtime "^0.13.4"
 
@@ -1584,10 +1577,10 @@
   resolved "https://registry.yarnpkg.com/@primer/primitives/-/primitives-7.1.1.tgz#46edb7f06fbe8809ebe2822bc692fc6c74dba98c"
   integrity sha512-+Gwo89YK1OFi6oubTlah/zPxxzMNaMLy+inECAYI646KIFdzzhAsKWb3z5tSOu5Ff7no4isRV64rWfMSKLZclw==
 
-"@primer/react@^35.0.0":
-  version "35.0.0"
-  resolved "https://registry.yarnpkg.com/@primer/react/-/react-35.0.0.tgz#4e112527126caa155b207b96451c780554801375"
-  integrity sha512-pjraRDHoT6Lwmto31ZN+WrtNCDA6lieOhr+4XC1z8wuq/JSGJVB3gHePi2/yIZldy2WoK55O1lsyp8llUiakog==
+"@primer/react@^34.5.0":
+  version "34.6.0"
+  resolved "https://registry.yarnpkg.com/@primer/react/-/react-34.6.0.tgz#22aa29a185224e748cbd0fe932f44ca4e2226112"
+  integrity sha512-a0Mh6YmpEyQF6ad0mnfOJoC+y1heDM4uuvBcQQKJQ28DVeif5mn+slCD2C9ZQvnhkl4qnh3iqXOTxmKN5fCHNQ==
   dependencies:
     "@primer/behaviors" "1.1.0"
     "@primer/octicons-react" "16.1.1"

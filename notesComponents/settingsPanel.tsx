@@ -1,7 +1,7 @@
 import { MarkGithubIcon, RepoIcon } from "@primer/octicons-react";
 import {
   Box,
-  Button,
+  ButtonPrimary,
   Header,
   Heading,
   Link,
@@ -145,10 +145,10 @@ const SettingsPanel: NextPage<Props> = ({
                 spellCheck="false"
               />
               <Box m={1}>
-                <Button varient="primary" onClick={handleButton}>
+                <ButtonPrimary onClick={handleButton}>
                   <StyledOcticon icon={RepoIcon} />
                   <Text m={1}>New</Text>
-                </Button>
+                </ButtonPrimary>
               </Box>
             </Box>
             {createRepoData && createRepoData.error ? (

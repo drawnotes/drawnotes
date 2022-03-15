@@ -3,12 +3,9 @@ import { NextPage } from "next";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { Resizable } from "re-resizable";
-import { ChangeEventHandler } from "react";
-// import routeNames from "../sampledata/routeNames.json";
+import routeNames from "../sampledata/routeNames.json";
 
-interface Props {
-  handleSetVisibleLayers: (event: ChangeEventHandler<HTMLInputElement>) => void;
-}
+interface Props {}
 
 const filterPanel: NextPage<Props> = ({ children }) => {
   const router = useRouter();
@@ -47,19 +44,30 @@ const filterPanel: NextPage<Props> = ({ children }) => {
           </Box>
           <Box m={4}>
             <Box mb={2}>Transit</Box>
-            <Box>Select transit layers</Box>
+            <Box>transit filters</Box>
           </Box>
           <Box m={4}>
             <Box mb={2}>Bike Paths</Box>
-            <Box>select bike layers</Box>
+            <Box>bike path filters</Box>
           </Box>
-          {/* <Box m={4} overflow="scroll" height="100%">
-            {routeNames.data.map((route, index) => (
-              <Box
-                key={index}
-              >{`${route.route_id} ${route.route_long_name},`}</Box>
-            ))}
-          </Box> */}
+          <Box m={4} overflow="scroll" height="100%">
+            {routeNames.data.map((route, index) => {
+              if (index === routeNames.data.length - 1) {
+                return (
+                  <Box
+                    key={index}
+                    mb="400px"
+                  >{`${route.route_id} ${route.route_long_name},`}</Box>
+                );
+              } else {
+                return (
+                  <Box
+                    key={index}
+                  >{`${route.route_id} ${route.route_long_name},`}</Box>
+                );
+              }
+            })}
+          </Box>
         </Box>
       </Resizable>
     </Box>

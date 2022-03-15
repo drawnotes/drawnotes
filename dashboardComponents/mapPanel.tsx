@@ -23,7 +23,6 @@ import {
 } from "react-map-gl";
 import routes from "../sampledata/routes.json";
 import stops from "../sampledata/stops.json";
-import { VisibleLayers } from "../types";
 import { MAPBOX_ACCESS_TOKEN } from "../utils/constants";
 import {
   getBearing,
@@ -44,10 +43,9 @@ const MODEL_URL = "assets/bus.glb";
 interface Props {
   mapSize: { width: number; height: number };
   data: GTFS | undefined;
-  visibleLayers: VisibleLayers;
 }
 
-const mapPanel: NextPage<Props> = ({ mapSize, data, visibleLayers }) => {
+const mapPanel: NextPage<Props> = ({ mapSize, data }) => {
   const { colorScheme } = useTheme();
   const mapStyle = colorScheme!.includes("dark")
     ? DARK_MAP_STYLE

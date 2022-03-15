@@ -1,5 +1,12 @@
 import LightningFS from "@isomorphic-git/lightning-fs";
-import { Box, Button, Dialog, Text, ThemeProvider } from "@primer/react";
+import {
+  Box,
+  Button,
+  ButtonDanger,
+  Dialog,
+  Text,
+  ThemeProvider,
+} from "@primer/react";
 import git from "isomorphic-git";
 import http from "isomorphic-git/http/web";
 import Cookie from "js-cookie";
@@ -667,9 +674,7 @@ const Main: NextPage<Props> = ({
             </Box>
             <Box display="flex" m={4}>
               <Box m={2}>
-                <Button variant="danger" onClick={handleRmFile}>
-                  Delete
-                </Button>
+                <ButtonDanger onClick={handleRmFile}>Delete</ButtonDanger>
               </Box>
               <Box m={2}>
                 <Button onClick={handleCancelDelete}>Cancel</Button>

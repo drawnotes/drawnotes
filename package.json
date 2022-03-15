@@ -17,7 +17,7 @@
     "@isomorphic-git/lightning-fs": "^4.4.1",
     "@monaco-editor/react": "^4.3.1",
     "@primer/octicons-react": "^16.3.1",
-    "@primer/react": "^35.0.0",
+    "@primer/react": "^34.5.0",
     "@react-aria/ssr": "^3.1.2",
     "@slack/bolt": "^3.10.0",
     "@turf/bbox": "^6.5.0",
