@@ -33,7 +33,6 @@ const Dashboard: NextPage<Props> = ({
   preferredDayScheme,
   preferredNightScheme,
 }) => {
-  const { data, error } = useIntervalFetch<GTFS>(url, 20000, options);
   const [colorMode, setColorMode] = useState<ColorModeWithAuto>(
     preferredColorMode || "day"
   );
@@ -41,6 +40,7 @@ const Dashboard: NextPage<Props> = ({
   const [nightScheme, setNightScheme] = useState(
     preferredNightScheme || "dark"
   );
+  const { data, error } = useIntervalFetch<GTFS>(url, 20000, options);
   const deckRef = useRef<HTMLDivElement>(null);
   const observer = useRef<ResizeObserver>();
   const [mapSize, setMapSize] = useState<any>();
@@ -54,10 +54,6 @@ const Dashboard: NextPage<Props> = ({
     separated: false,
     multiUse: false,
   });
-  const handleSetVisibleLayers = (event: any) => {
-    const value = event.target.value;
-    setVisibleLayers((prev: any) => ({ ...prev, [value]: !prev[value] }));
-  };
 
   useEffect(() => {
     if (typeof window !== undefined) {
@@ -115,6 +111,12 @@ const Dashboard: NextPage<Props> = ({
       }
     };
   }, [deckRef, observer]);
+
+  const handleSetVisibleLayers = (event: any) => {
+    const value = event.target.value;
+    setVisibleLayers((prev: any) => ({ ...prev, [value]: !prev[value] }));
+  };
+
   return (
     <ThemeProvider
       colorMode={colorMode}
