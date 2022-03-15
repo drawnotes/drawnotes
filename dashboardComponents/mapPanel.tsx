@@ -22,7 +22,7 @@ import {
   StaticMap,
   WebMercatorViewport,
 } from "react-map-gl";
-import bikePaths from "../sampleData/multiLineString.json";
+import bikePaths from "../sampleData/bikePaths.json";
 import routes from "../sampledata/routes.json";
 import stops from "../sampledata/stops.json";
 import { VisibleLayers } from "../types";
