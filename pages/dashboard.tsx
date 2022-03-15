@@ -1,5 +1,4 @@
 import { Box, ThemeProvider } from "@primer/react";
-import { FeatureCollection } from "geojson";
 import Cookie from "js-cookie";
 import { NextPage } from "next";
 import { useEffect, useRef, useState } from "react";
@@ -7,9 +6,6 @@ import ColorModeSwitcher from "../components/ColorModeSwitcher";
 import FilterPanel from "../dashboardComponents/filterPanel";
 import LogPanel from "../dashboardComponents/logPanel";
 import MapPanel from "../dashboardComponents/mapPanel";
-import bikePaths from "../sampleData/bikePaths.json";
-import routes from "../sampledata/routes.json";
-import stops from "../sampledata/stops.json";
 import { VisibleLayers } from "../types";
 import { GTFS } from "../utils/transit";
 import useIntervalFetch from "../utils/useIntervalFetch";
@@ -38,9 +34,6 @@ const Dashboard: NextPage<Props> = ({
   preferredNightScheme,
 }) => {
   const { data, error } = useIntervalFetch<GTFS>(url, 20000, options);
-  const bikesData = bikePaths as FeatureCollection;
-  const stopsData = stops as FeatureCollection;
-  const routesData = routes as FeatureCollection;
   const [colorMode, setColorMode] = useState<ColorModeWithAuto>(
     preferredColorMode || "day"
   );
@@ -154,9 +147,6 @@ const Dashboard: NextPage<Props> = ({
                   mapSize={mapSize}
                   data={data}
                   visibleLayers={visibleLayers}
-                  bikesData={bikesData}
-                  stopsData={stopsData}
-                  routesData={routesData}
                 />
               )}
             </Box>

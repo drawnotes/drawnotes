@@ -22,6 +22,9 @@ import {
   StaticMap,
   WebMercatorViewport,
 } from "react-map-gl";
+import bikePaths from "../sampledata/bikePaths.json";
+import routes from "../sampledata/routes.json";
+import stops from "../sampledata/stops.json";
 import { VisibleLayers } from "../types";
 import { hexToRgb, hexToRgb as rgb } from "../utils/color";
 import { MAPBOX_ACCESS_TOKEN } from "../utils/constants";
@@ -45,19 +48,9 @@ interface Props {
   mapSize: { width: number; height: number };
   data: GTFS | undefined;
   visibleLayers: VisibleLayers;
-  bikesData: FeatureCollection;
-  stopsData: FeatureCollection;
-  routesData: FeatureCollection;
 }
 
-const mapPanel: NextPage<Props> = ({
-  mapSize,
-  data,
-  visibleLayers,
-  bikesData,
-  stopsData,
-  routesData,
-}) => {
+const mapPanel: NextPage<Props> = ({ mapSize, data, visibleLayers }) => {
   const { colorScheme } = useTheme();
   const colorMode = colorScheme!.includes("dark") ? "dark" : "light";
   const mapStyle = colorScheme!.includes("dark")
@@ -72,6 +65,9 @@ const mapPanel: NextPage<Props> = ({
   const [dialogInfo, setDialogInfo] = useState<any>(null);
   const [isOpen, setIsOpen] = useState(false);
   const [info, setInfo] = useState<any>(null);
+  const bikesData = bikePaths as FeatureCollection;
+  const stopsData = stops as FeatureCollection;
+  const routesData = routes as FeatureCollection;
 
   const bounding = useMemo(() => bbox(routesData), [routesData]);
   const padding = 10;
@@ -199,7 +195,7 @@ const mapPanel: NextPage<Props> = ({
           visible: visibleLayers.paths,
           data: tripsData.trips,
           getPath: (d: any) => d.path,
-          getTimestamps: (d) => d.timestamps,
+          getTimestamps: (d: any) => d.timestamps,
           getColor: () => [23, 184, 190] as any,
           opacity: 100,
           widthMinPixels: 4,
