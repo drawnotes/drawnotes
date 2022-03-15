@@ -289,7 +289,7 @@ const mapPanel: NextPage<Props> = ({ mapSize, data, visibleLayers }) => {
       },
     }),
     new GeoJsonLayer({
-      id: "routes-layer",
+      id: "metro-layer",
       visible: visibleLayers.metro,
       data: routesData.features.filter((feature) =>
         [1, 2, 4, 5].includes(feature.properties!.route)
@@ -298,8 +298,8 @@ const mapPanel: NextPage<Props> = ({ mapSize, data, visibleLayers }) => {
       filled: false,
       stroked: true,
       getLineWidth: 8,
-      lineWidthMinPixels: 1,
-      lineWidthMaxPixels: 8,
+      lineWidthMinPixels: 3,
+      lineWidthMaxPixels: 10,
       getLineColor: (d: any) => getRouteColors(d),
       pickable: true,
       autoHighlight: true,
@@ -321,7 +321,7 @@ const mapPanel: NextPage<Props> = ({ mapSize, data, visibleLayers }) => {
       },
     }),
     new GeoJsonLayer({
-      id: "routes-layer",
+      id: "bus-layer",
       visible: visibleLayers.bus,
       data: routesData.features.filter(
         (feature) => ![1, 2, 4, 5].includes(feature.properties!.route)
