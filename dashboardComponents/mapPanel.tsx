@@ -22,9 +22,6 @@ import {
   StaticMap,
   WebMercatorViewport,
 } from "react-map-gl";
-import bikePaths from "../sampleData/bikePaths.json";
-import routes from "../sampledata/routes.json";
-import stops from "../sampledata/stops.json";
 import { VisibleLayers } from "../types";
 import { hexToRgb, hexToRgb as rgb } from "../utils/color";
 import { MAPBOX_ACCESS_TOKEN } from "../utils/constants";
@@ -48,18 +45,25 @@ interface Props {
   mapSize: { width: number; height: number };
   data: GTFS | undefined;
   visibleLayers: VisibleLayers;
+  bikesData: FeatureCollection;
+  stopsData: FeatureCollection;
+  routesData: FeatureCollection;
 }
 
-const mapPanel: NextPage<Props> = ({ mapSize, data, visibleLayers }) => {
+const mapPanel: NextPage<Props> = ({
+  mapSize,
+  data,
+  visibleLayers,
+  bikesData,
+  stopsData,
+  routesData,
+}) => {
   const { colorScheme } = useTheme();
   const colorMode = colorScheme!.includes("dark") ? "dark" : "light";
   const mapStyle = colorScheme!.includes("dark")
     ? DARK_MAP_STYLE
     : LIGHT_MAP_STYLE;
 
-  const bikesData = bikePaths as FeatureCollection;
-  const stopsData = stops as FeatureCollection;
-  const routesData = routes as FeatureCollection;
   const [current, setCurrent] = useState<any>();
   const [previous, setPrevious] = useState<any>();
   const [tripsData, setTripsData] = useState<any>();
