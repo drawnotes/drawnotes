@@ -45,7 +45,8 @@ const Dashboard: NextPage<Props> = ({
   const observer = useRef<ResizeObserver>();
   const [mapSize, setMapSize] = useState<any>();
   const [visibleLayers, setVisibleLayers] = useState<VisibleLayers>({
-    routes: false,
+    metro: true,
+    bus: false,
     stops: false,
     paths: true,
     vehicles: true,
