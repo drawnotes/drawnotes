@@ -119,11 +119,19 @@ const filterPanel: NextPage<Props> = ({
                   </FormControl>
                   <FormControl>
                     <Checkbox
-                      value="routes"
-                      defaultChecked={visibleLayers.routes}
+                      value="metro"
+                      defaultChecked={visibleLayers.metro}
                       onChange={handleSetVisibleLayers}
                     />
-                    <FormControl.Label>Routes</FormControl.Label>
+                    <FormControl.Label>Metro Routes</FormControl.Label>
+                  </FormControl>
+                  <FormControl>
+                    <Checkbox
+                      value="bus"
+                      defaultChecked={visibleLayers.bus}
+                      onChange={handleSetVisibleLayers}
+                    />
+                    <FormControl.Label>Bus Routes</FormControl.Label>
                   </FormControl>
                   <FormControl>
                     <Checkbox
@@ -173,7 +181,7 @@ const filterPanel: NextPage<Props> = ({
             m={4}
             p={2}
             overflow="scroll"
-            height="400px"
+            height="200px"
             borderColor="border.default"
             borderWidth={1}
             borderStyle="solid"
@@ -182,15 +190,17 @@ const filterPanel: NextPage<Props> = ({
           >
             {stats &&
               routeNames.data
-                // .filter((route) =>
-                //   stats.routes.includes(route.route_id.toString())
-                // )
+                .filter(
+                  (route) =>
+                    stats.routes.includes(route.route_id.toString()) ||
+                    [1, 2, 4, 5].includes(route.route_id)
+                )
                 .map((route, index) => {
                   if (index === routeNames.data.length - 1) {
                     return (
                       <Box
                         key={index}
-                        mb="200px"
+                        mb={10}
                       >{`${route.route_id} ${route.route_long_name},`}</Box>
                     );
                   } else {

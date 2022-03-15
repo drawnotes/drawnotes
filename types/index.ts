@@ -60,7 +60,8 @@ export type githubUser = {
 export interface VisibleLayers {
   vehicles: boolean;
   paths: boolean;
-  routes: boolean;
+  metro: boolean;
+  bus: boolean;
   stops: boolean;
   separated: boolean;
   shared: boolean;

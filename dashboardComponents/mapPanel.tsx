@@ -242,13 +242,13 @@ const mapPanel: NextPage<Props> = ({ mapSize, data, visibleLayers }) => {
   const getRouteColors = (d: any): RGBAColor => {
     const id = d.properties.route;
     switch (id) {
-      case "1":
+      case 1:
         return colorMode === "dark" ? rgb("#238636") : rgb("#2da44e");
-      case "2":
+      case 2:
         return colorMode === "dark" ? hexToRgb("#e7811d") : rgb("#dc6d1a");
-      case "4":
-        return colorMode === "dark" ? rgb("#ECC94B") : rgb("#F6E05E");
-      case "5":
+      case 4:
+        return colorMode === "dark" ? rgb("#ecc94b") : rgb("#f6e05e");
+      case 5:
         return colorMode === "dark" ? rgb("#1f6feb") : rgb("#0969da");
       default:
         return [23, 184, 190];
@@ -290,8 +290,42 @@ const mapPanel: NextPage<Props> = ({ mapSize, data, visibleLayers }) => {
     }),
     new GeoJsonLayer({
       id: "routes-layer",
-      visible: visibleLayers.routes,
-      data: routesData,
+      visible: visibleLayers.metro,
+      data: routesData.features.filter((feature) =>
+        [1, 2, 4, 5].includes(feature.properties!.route)
+      ),
+      opacity: 0.8,
+      filled: false,
+      stroked: true,
+      getLineWidth: 8,
+      lineWidthMinPixels: 1,
+      lineWidthMaxPixels: 8,
+      getLineColor: (d: any) => getRouteColors(d),
+      pickable: true,
+      autoHighlight: true,
+      onClick: (info: any) => {
+        if (info.object) {
+          setDialogInfo(info);
+          setIsOpen(true);
+          setHoverInfo(null);
+        } else {
+          setDialogInfo(null);
+        }
+      },
+      onHover: (info: any) => {
+        if (info.object) {
+          setHoverInfo(info);
+        } else {
+          setHoverInfo(null);
+        }
+      },
+    }),
+    new GeoJsonLayer({
+      id: "routes-layer",
+      visible: visibleLayers.bus,
+      data: routesData.features.filter(
+        (feature) => ![1, 2, 4, 5].includes(feature.properties!.route)
+      ),
       opacity: 0.8,
       filled: false,
       stroked: true,
