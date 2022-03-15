@@ -4,10 +4,18 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { Resizable } from "re-resizable";
 import routeNames from "../sampledata/routeNames.json";
+import { VisibleLayers } from "../types";
 
-interface Props {}
+interface Props {
+  handleSetVisibleLayers: (event: any) => void;
+  visibleLayers: VisibleLayers;
+}
 
-const filterPanel: NextPage<Props> = ({ children }) => {
+const filterPanel: NextPage<Props> = ({
+  children,
+  handleSetVisibleLayers,
+  visibleLayers,
+}) => {
   const router = useRouter();
 
   return (
@@ -42,53 +50,84 @@ const filterPanel: NextPage<Props> = ({ children }) => {
           <Box m={4}>
             <Text>Montreal Realtime Transit Information</Text>
           </Box>
-          <Box m={4}>
-            <Box mb={2}>Transit</Box>
-            <Box>
-              <form>
-                <FormControl>
-                  <Checkbox id="vehicles" />
-                  <FormControl.Label>Vehicles</FormControl.Label>
-                </FormControl>
-                <FormControl>
-                  <Checkbox id="paths" />
-                  <FormControl.Label>Paths</FormControl.Label>
-                </FormControl>
-                <FormControl>
-                  <Checkbox id="routes" />
-                  <FormControl.Label>Routes</FormControl.Label>
-                </FormControl>
-                <FormControl>
-                  <Checkbox id="stops" />
-                  <FormControl.Label>Stops</FormControl.Label>
-                </FormControl>
-              </form>
+          <Box display="flex">
+            <Box m={4}>
+              <Box mb={2}>Transit</Box>
+              <Box>
+                <form>
+                  <FormControl>
+                    <Checkbox
+                      value="vehicles"
+                      defaultChecked={visibleLayers.vehicles}
+                      onChange={handleSetVisibleLayers}
+                    />
+                    <FormControl.Label>Vehicles</FormControl.Label>
+                  </FormControl>
+                  <FormControl>
+                    <Checkbox
+                      value="paths"
+                      defaultChecked={visibleLayers.paths}
+                      onChange={handleSetVisibleLayers}
+                    />
+                    <FormControl.Label>Paths</FormControl.Label>
+                  </FormControl>
+                  <FormControl>
+                    <Checkbox
+                      value="routes"
+                      defaultChecked={visibleLayers.routes}
+                      onChange={handleSetVisibleLayers}
+                    />
+                    <FormControl.Label>Routes</FormControl.Label>
+                  </FormControl>
+                  <FormControl>
+                    <Checkbox
+                      value="stops"
+                      defaultChecked={visibleLayers.stops}
+                      onChange={handleSetVisibleLayers}
+                    />
+                    <FormControl.Label>Stops</FormControl.Label>
+                  </FormControl>
+                </form>
+              </Box>
+            </Box>
+            <Box m={4}>
+              <Box mb={2}>Bike Paths</Box>
+              <Box>
+                <form>
+                  <FormControl>
+                    <Checkbox
+                      value="separated"
+                      defaultChecked={visibleLayers.separated}
+                      onChange={handleSetVisibleLayers}
+                    />
+                    <FormControl.Label>Separated</FormControl.Label>
+                  </FormControl>
+                  <FormControl>
+                    <Checkbox
+                      value="shared"
+                      defaultChecked={visibleLayers.shared}
+                      onChange={handleSetVisibleLayers}
+                    />
+                    <FormControl.Label>Shared</FormControl.Label>
+                  </FormControl>
+                  <FormControl>
+                    <Checkbox
+                      value="multiUse"
+                      defaultChecked={visibleLayers.multiUse}
+                      onChange={handleSetVisibleLayers}
+                    />
+                    <FormControl.Label>Multi-Use</FormControl.Label>
+                  </FormControl>
+                </form>
+              </Box>
             </Box>
           </Box>
-          <Box m={4}>
-            <Box mb={2}>Bike Paths</Box>
-            <Box>
-              <form>
-                <FormControl>
-                  <Checkbox id="separated" />
-                  <FormControl.Label>Separated</FormControl.Label>
-                </FormControl>
-                <FormControl>
-                  <Checkbox id="shared" />
-                  <FormControl.Label>Shared</FormControl.Label>
-                </FormControl>
-                <FormControl>
-                  <Checkbox id="multiUse" />
-                  <FormControl.Label>Multi-Use</FormControl.Label>
-                </FormControl>
-              </form>
-            </Box>
-          </Box>
+
           <Box
             m={4}
             p={2}
             overflow="scroll"
-            height="60vh"
+            height="400px"
             borderColor="border.default"
             borderWidth={1}
             borderStyle="solid"
@@ -111,6 +150,28 @@ const filterPanel: NextPage<Props> = ({ children }) => {
                 );
               }
             })}
+          </Box>
+          <Box
+            m={4}
+            p={2}
+            borderColor="border.default"
+            borderWidth={1}
+            borderStyle="solid"
+            borderRadius={2}
+            bg="canvas.default"
+          >
+            Chart
+          </Box>
+          <Box
+            m={4}
+            p={2}
+            borderColor="border.default"
+            borderWidth={1}
+            borderStyle="solid"
+            borderRadius={2}
+            bg="canvas.default"
+          >
+            Chart
           </Box>
         </Box>
       </Resizable>

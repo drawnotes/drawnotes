@@ -1,3 +1,4 @@
+import { RGBAColor } from "@deck.gl/core/utils/color";
 import { TripsLayer } from "@deck.gl/geo-layers";
 import { GeoJsonLayer } from "@deck.gl/layers";
 import { ScenegraphLayer } from "@deck.gl/mesh-layers";
@@ -21,8 +22,11 @@ import {
   StaticMap,
   WebMercatorViewport,
 } from "react-map-gl";
+import bikePaths from "../sampleData/multiLineString.json";
 import routes from "../sampledata/routes.json";
 import stops from "../sampledata/stops.json";
+import { VisibleLayers } from "../types";
+import { hexToRgb as rgb } from "../utils/color";
 import { MAPBOX_ACCESS_TOKEN } from "../utils/constants";
 import {
   getBearing,
@@ -43,14 +47,17 @@ const MODEL_URL = "assets/bus.glb";
 interface Props {
   mapSize: { width: number; height: number };
   data: GTFS | undefined;
+  visibleLayers: VisibleLayers;
 }
 
-const mapPanel: NextPage<Props> = ({ mapSize, data }) => {
+const mapPanel: NextPage<Props> = ({ mapSize, data, visibleLayers }) => {
   const { colorScheme } = useTheme();
+  const colorMode = colorScheme!.includes("dark") ? "dark" : "light";
   const mapStyle = colorScheme!.includes("dark")
     ? DARK_MAP_STYLE
     : LIGHT_MAP_STYLE;
 
+  const bikesData = bikePaths as FeatureCollection;
   const stopsData = stops as FeatureCollection;
   const routesData = routes as FeatureCollection;
   const [current, setCurrent] = useState<any>();
@@ -141,6 +148,7 @@ const mapPanel: NextPage<Props> = ({ mapSize, data }) => {
     ? [
         new ScenegraphLayer({
           id: "scenegraph-layer",
+          visible: visibleLayers.vehicles,
           data: tripsData.trips,
           sizeScale: 50,
           scenegraph: MODEL_URL as any,
@@ -184,7 +192,7 @@ const mapPanel: NextPage<Props> = ({ mapSize, data }) => {
         }),
         new TripsLayer({
           id: "trips",
-          visible: true,
+          visible: visibleLayers.paths,
           data: tripsData.trips,
           getPath: (d: any) => d.path,
           getTimestamps: (d) => d.timestamps,
@@ -216,9 +224,57 @@ const mapPanel: NextPage<Props> = ({ mapSize, data }) => {
       ]
     : [];
 
+  const separated = visibleLayers.separated ? [3, 4, 5, 6] : [];
+  const shared = visibleLayers.shared ? [1, 2, 8, 9] : [];
+  const multiUse = visibleLayers.multiUse ? [7] : [];
+  const selectedPaths = [...separated, ...shared, ...multiUse];
+
+  const getBikeColors = (d: any): RGBAColor => {
+    if (separated.includes(d.properties.type)) {
+      return colorMode === "dark" ? rgb("#bf3989") : rgb("#bf3989");
+    } else if (d.properties.type === 7) {
+      return colorMode === "dark" ? rgb("#238636") : rgb("#2da44e");
+    } else {
+      return colorMode === "dark" ? rgb("#da3633") : rgb("#cf222e");
+    }
+  };
+
   const layers: any = [
     new GeoJsonLayer({
+      id: "bike-layer",
+      visible: true,
+      data: bikesData.features.filter((path: any) =>
+        selectedPaths.includes(path.properties.type)
+      ),
+      opacity: 0.8,
+      filled: false,
+      stroked: true,
+      getLineWidth: 8,
+      lineWidthMinPixels: 1,
+      lineWidthMaxPixels: 8,
+      getLineColor: (d: any) => getBikeColors(d),
+      pickable: true,
+      autoHighlight: true,
+      onClick: (info: any) => {
+        if (info.object) {
+          setDialogInfo(info);
+          setIsOpen(true);
+          setHoverInfo(null);
+        } else {
+          setDialogInfo(null);
+        }
+      },
+      onHover: (info: any) => {
+        if (info.object) {
+          setHoverInfo(info);
+        } else {
+          setHoverInfo(null);
+        }
+      },
+    }),
+    new GeoJsonLayer({
       id: "routes-layer",
+      visible: visibleLayers.routes,
       data: routesData,
       opacity: 0.8,
       filled: false,
@@ -248,6 +304,7 @@ const mapPanel: NextPage<Props> = ({ mapSize, data }) => {
     }),
     new GeoJsonLayer({
       id: "stops-layer",
+      visible: visibleLayers.stops,
       data: stopsData,
       opacity: 0.8,
       pointType: "circle",
