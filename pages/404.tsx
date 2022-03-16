@@ -8,16 +8,15 @@ import {
   useTheme,
 } from "@primer/react";
 import Cookie from "js-cookie";
-import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import ColorModeSwitcher from "../components/ColorModeSwitcher";
+import { NextPrimerLink } from "../components/NextPrimerLink";
 import { useGetOrientation } from "../utils/useGetOrientation";
 
 declare type ColorMode = "day" | "night";
 declare type ColorModeWithAuto = ColorMode | "auto";
 
 const Custom404 = () => {
-  const router = useRouter();
   const { orientation, height } = useGetOrientation();
   const { setDayScheme, setNightScheme, resolvedColorMode } = useTheme();
   const [colorMode, setColorMode] = useState<ColorModeWithAuto>(
@@ -67,7 +66,6 @@ const Custom404 = () => {
         </Box>
         <Box
           mt={75}
-          onClick={() => router.push("/")}
           sx={{
             "&:hover": {
               color: "accent.fg",
@@ -75,7 +73,18 @@ const Custom404 = () => {
             },
           }}
         >
-          <StyledOcticon icon={HomeIcon} size={25} />
+          <NextPrimerLink href="/">
+            <StyledOcticon
+              icon={HomeIcon}
+              size={25}
+              color="fg.default"
+              sx={{
+                "&:hover": {
+                  color: "accent.fg",
+                },
+              }}
+            />
+          </NextPrimerLink>
         </Box>
       </Box>
     </ThemeProvider>
