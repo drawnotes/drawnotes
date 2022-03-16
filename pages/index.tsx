@@ -9,6 +9,7 @@ import { AiOutlineLinkedin } from "react-icons/ai";
 import { VscFilePdf } from "react-icons/vsc";
 import ColorModeSwitcher from "../components/ColorModeSwitcher";
 import NotesLogo from "../components/NotesLogo";
+import { getBeaconMessage } from "../utils/getBeaconMessage";
 import { useGetOrientation } from "../utils/useGetOrientation";
 
 declare type ColorMode = "day" | "night";
@@ -49,52 +50,10 @@ const Home: NextPage<Props> = ({
     preferredNightScheme || "dark"
   );
 
-  const message = useMemo(() => {
-    const decodedCity = decodeURIComponent(city);
-    const decodedUa = decodeURIComponent(ua);
-    const location = {
-      city: decodedCity,
-      region: region,
-      country: country,
-      lat: lat,
-      long: long,
-      ip: ip,
-      ua: JSON.parse(decodedUa),
-    };
-    let device = "";
-    if (location.ua.device.vendor && location.ua.device.model) {
-      device = `\n${location.ua.device.vendor} ${location.ua.device.model}`;
-    }
-    const blocks = {
-      text: `New user from ${location.city}, ${location.region} ${location.country}${device}`,
-      blocks: [
-        {
-          type: "section",
-          text: {
-            type: "mrkdwn",
-            text: `${location.city}, ${location.region} ${location.country}${device}
-  ${location.ua.os.name} ${location.ua.os.version}
-  ${location.ua.browser.name} ${location.ua.browser.version}
-  ${location.ip}`,
-          },
-        },
-        {
-          type: "actions",
-          elements: [
-            {
-              type: "button",
-              text: {
-                type: "plain_text",
-                text: "Google Map",
-              },
-              url: `https://www.google.com/maps/search/?api=1&query=${location.lat},${location.long}`,
-            },
-          ],
-        },
-      ],
-    };
-    return blocks;
-  }, [country, region, city, lat, long, ip, ua]);
+  const message = useMemo(
+    () => getBeaconMessage({ country, region, city, lat, long, ip, ua }),
+    [country, region, city, lat, long, ip, ua]
+  );
 
   useEffect(() => {
     async function sendBeacon(msg: string) {
