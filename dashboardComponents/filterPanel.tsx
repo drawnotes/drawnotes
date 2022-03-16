@@ -1,9 +1,9 @@
 import { Box, Checkbox, FormControl, Text } from "@primer/react";
 import { NextPage } from "next";
 import Image from "next/image";
-import { useRouter } from "next/router";
 import { Resizable } from "re-resizable";
 import { useEffect, useState } from "react";
+import { NextPrimerLink } from "../components/NextPrimerLink";
 import routeNames from "../sampledata/routeNames.json";
 import { VisibleLayers } from "../types";
 import { GTFS } from "../utils/transit";
@@ -20,7 +20,6 @@ const filterPanel: NextPage<Props> = ({
   visibleLayers,
   data,
 }) => {
-  const router = useRouter();
   const [stats, setStats] = useState<any>();
 
   useEffect(() => {
@@ -77,16 +76,17 @@ const filterPanel: NextPage<Props> = ({
           borderStyle="solid"
           borderColor="border.default"
         >
-          <Box
-            m={4}
-            onClick={() => router.push("https://www.stm.info/en")}
-            sx={{
-              "&:hover": {
-                cursor: "pointer",
-              },
-            }}
-          >
-            <Image src="/assets/stmlogo.png" width="104px" height="48px" />
+          <Box m={4}>
+            <NextPrimerLink
+              href="https://www.stm.info/en"
+              sx={{
+                "&:hover": {
+                  cursor: "pointer",
+                },
+              }}
+            >
+              <Image src="/assets/stmlogo.png" width="104px" height="48px" />
+            </NextPrimerLink>
           </Box>
           <Box m={4}>
             <Text>Montreal Realtime Transit Information</Text>
