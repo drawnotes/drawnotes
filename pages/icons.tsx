@@ -249,14 +249,33 @@ import {
   XIcon,
   ZapIcon,
 } from "@primer/octicons-react";
-import { Box, Link, StyledOcticon, TextInput, Tooltip } from "@primer/react";
+import {
+  Box,
+  Link,
+  StyledOcticon,
+  TextInput,
+  ThemeProvider,
+  Tooltip,
+} from "@primer/react";
+import Cookie from "js-cookie";
 import type { NextPage } from "next";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import ColorModeSwitcher from "../components/ColorModeSwitcher";
 
-interface Props {}
+declare type ColorMode = "day" | "night";
+declare type ColorModeWithAuto = ColorMode | "auto";
 
-const Icons: NextPage<Props> = ({}) => {
+interface Props {
+  preferredColorMode: ColorModeWithAuto;
+  preferredDayScheme: string;
+  preferredNightScheme: string;
+}
+
+const Icons: NextPage<Props> = ({
+  preferredColorMode,
+  preferredDayScheme,
+  preferredNightScheme,
+}) => {
   const icons = [
     AlertIcon,
     AlertFillIcon,
@@ -513,45 +532,98 @@ const Icons: NextPage<Props> = ({}) => {
     ? icons.filter((icon) => icon.name.toLowerCase().includes(value))
     : icons;
 
+  const [colorMode, setColorMode] = useState<ColorModeWithAuto>(
+    preferredColorMode || "day"
+  );
+  const [dayScheme, setDayScheme] = useState(preferredDayScheme || "light");
+  const [nightScheme, setNightScheme] = useState(
+    preferredNightScheme || "dark"
+  );
+
+  useEffect(() => {
+    if (typeof window !== undefined) {
+      const preferredMode = Cookie.get("colorMode");
+      if (preferredMode) {
+        if (preferredMode === "night") {
+          const preferredScheme = Cookie.get("nightScheme") as string;
+          setTimeout(() => {
+            setColorMode("night");
+            setDayScheme(preferredScheme);
+            setNightScheme(preferredScheme);
+          }, 50);
+        }
+        if (preferredMode === "day") {
+          const preferredScheme = Cookie.get("dayScheme") as string;
+          setTimeout(() => {
+            setColorMode("day");
+            setDayScheme(preferredScheme);
+            setNightScheme(preferredScheme);
+          }, 50);
+        }
+      }
+    }
+  }, []);
+
   const handleChange = (event: FormEvent<HTMLInputElement>) =>
     setValue(event.currentTarget.value);
 
   return (
-    <Box
-      width="100vw"
-      minHeight="100vh"
-      display="flex"
-      flexDirection="column"
-      alignItems="center"
-      color="fg.default"
-      bg="canvas.default"
-      pb={100}
+    <ThemeProvider
+      colorMode={colorMode}
+      dayScheme={dayScheme}
+      nightScheme={nightScheme}
     >
-      <ColorModeSwitcher />
-      <Box mt={10}>
-        <Link href="/">Home</Link>
+      <Box
+        width="100vw"
+        minHeight="100vh"
+        display="flex"
+        flexDirection="column"
+        alignItems="center"
+        color="fg.default"
+        bg="canvas.default"
+        pb={100}
+      >
+        <ColorModeSwitcher />
+        <Box mt={10}>
+          <Link href="/">Home</Link>
+        </Box>
+        <Box mt={4}>
+          <TextInput
+            aria-label="search"
+            name="search"
+            placeholder="search"
+            autoComplete="off"
+            onChange={handleChange}
+          />
+        </Box>
+        <Box m={3}>{icons.length} Icons</Box>
+        <Box display="grid" gridTemplateColumns="repeat(20, auto)" gridGap={3}>
+          {filteredIcons.map((icon, index) => (
+            <Box key={index} m={2}>
+              <Tooltip aria-label={icon.name}>
+                <StyledOcticon icon={icon} size={30} />
+              </Tooltip>
+            </Box>
+          ))}
+        </Box>
       </Box>
-      <Box mt={4}>
-        <TextInput
-          aria-label="search"
-          name="search"
-          placeholder="search"
-          autoComplete="off"
-          onChange={handleChange}
-        />
-      </Box>
-      <Box m={3}>{icons.length} Icons</Box>
-      <Box display="grid" gridTemplateColumns="repeat(20, auto)" gridGap={3}>
-        {filteredIcons.map((icon, index) => (
-          <Box key={index} m={2}>
-            <Tooltip aria-label={icon.name}>
-              <StyledOcticon icon={icon} size={30} />
-            </Tooltip>
-          </Box>
-        ))}
-      </Box>
-    </Box>
+    </ThemeProvider>
   );
 };
+
+export async function getServerSideProps(context: any) {
+  const cookies = context.req.cookies;
+  const colorMode = cookies && cookies.colorMode ? cookies.colorMode : "day";
+  const dayScheme = cookies && cookies.dayScheme ? cookies.dayScheme : "light";
+  const nightScheme =
+    cookies && cookies.nightScheme ? cookies.nightScheme : "dark";
+  return {
+    props: {
+      preferredColorMode: colorMode,
+      preferredDayScheme: dayScheme,
+      preferredNightScheme: nightScheme,
+    },
+  };
+}
 
 export default Icons;
