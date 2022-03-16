@@ -201,7 +201,7 @@ const Home: NextPage<Props> = ({
             m={4}
           >
             <Box m={1}>
-              <NextPrimerLink href='"https://github.com/anselbrandt"'>
+              <NextPrimerLink href="https://github.com/anselbrandt">
                 <StyledOcticon
                   icon={MarkGithubIcon}
                   size={25}
@@ -223,7 +223,7 @@ const Home: NextPage<Props> = ({
             m={4}
           >
             <Box m={1}>
-              <NextPrimerLink href='"https://www.linkedin.com/in/anselbrandt"'>
+              <NextPrimerLink href="https://www.linkedin.com/in/anselbrandt">
                 <StyledOcticon
                   icon={AiOutlineLinkedin}
                   size={25}
