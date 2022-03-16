@@ -26,11 +26,13 @@ const filterPanel: NextPage<Props> = ({
     if (data) {
       const speeds = data.entity
         .map((entity) => entity.vehicle.position.speed)
-        .filter((speed) => speed > 0);
+        .filter((speed) => speed > 0)
+        .map((speed) => speed * 3.6)
+        .sort((a, b) => a - b);
       const count = speeds.length;
       const sum = speeds.reduce((a, b) => a + b);
-      const max = Math.max(...speeds);
-      const avg = (sum / count) * 3.6;
+      const avg = sum / count;
+      const max = speeds[speeds.length - 1];
 
       const occStatus = () => {
         const statuses = data.entity.map(
