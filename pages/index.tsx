@@ -3,11 +3,11 @@ import { MarkGithubIcon } from "@primer/octicons-react";
 import { Box, StyledOcticon, Text, ThemeProvider } from "@primer/react";
 import Cookie from "js-cookie";
 import type { NextPage } from "next";
-import { useRouter } from "next/router";
 import { useEffect, useMemo, useState } from "react";
 import { AiOutlineLinkedin } from "react-icons/ai";
 import { VscFilePdf } from "react-icons/vsc";
 import ColorModeSwitcher from "../components/ColorModeSwitcher";
+import { NextPrimerLink } from "../components/NextPrimerLink";
 import NotesLogo from "../components/NotesLogo";
 import { getBeaconMessage } from "../utils/getBeaconMessage";
 import { useGetOrientation } from "../utils/useGetOrientation";
@@ -41,7 +41,6 @@ const Home: NextPage<Props> = ({
   ua,
 }) => {
   const { orientation, height } = useGetOrientation();
-  const router = useRouter();
   const [colorMode, setColorMode] = useState<ColorModeWithAuto>(
     preferredColorMode || "day"
   );
@@ -134,17 +133,10 @@ const Home: NextPage<Props> = ({
               </Box>
               <Box m={2}>
                 <Text>
-                  <Box
-                    onClick={() => router.push("/dashboard")}
-                    sx={{
-                      textDecoration: "underline",
-                      "&:hover": {
-                        color: "accent.fg",
-                        cursor: "pointer",
-                      },
-                    }}
-                  >
-                    Realtime data visualization
+                  <Box>
+                    <NextPrimerLink href="/dashboard">
+                      Realtime data visualization
+                    </NextPrimerLink>
                   </Box>
                 </Text>
               </Box>
@@ -156,23 +148,27 @@ const Home: NextPage<Props> = ({
         </Box>
         <Box
           mt={height && height < 800 ? 0 : 6}
-          onClick={() => router.push("/notes")}
-          sx={{
-            "&:hover": {
-              color: "accent.fg",
-              cursor: "pointer",
-            },
-          }}
           display="flex"
           flexDirection="column"
           alignItems="center"
         >
-          <Box m={1} width={[50, 60, 80, 100]}>
-            <NotesLogo />
-          </Box>
-          <Box fontFamily="Libre Baskerville" m={1}>
-            <Text>Draw Notes</Text>
-          </Box>
+          <NextPrimerLink href="/notes">
+            <Box
+              color="fg.default"
+              sx={{
+                "&:hover": {
+                  color: "accent.fg",
+                },
+              }}
+            >
+              <Box m={1} width={[50, 60, 80, 100]}>
+                <NotesLogo />
+              </Box>
+              <Box fontFamily="Libre Baskerville" m={1}>
+                <Text>Draw Notes</Text>
+              </Box>
+            </Box>
+          </NextPrimerLink>
         </Box>
         <Box display="flex" mt={height && height < 800 ? 0 : 10}>
           <Box
@@ -181,16 +177,20 @@ const Home: NextPage<Props> = ({
             justifyContent="center"
             alignItems="center"
             m={4}
-            onClick={() => router.push("/anselbrandt.pdf")}
-            sx={{
-              "&:hover": {
-                color: "accent.fg",
-                cursor: "pointer",
-              },
-            }}
           >
             <Box m={1}>
-              <StyledOcticon icon={VscFilePdf} size={25} />
+              <NextPrimerLink href="/anselbrandt.pdf">
+                <StyledOcticon
+                  icon={VscFilePdf}
+                  size={25}
+                  color="fg.default"
+                  sx={{
+                    "&:hover": {
+                      color: "accent.fg",
+                    },
+                  }}
+                />
+              </NextPrimerLink>
             </Box>
           </Box>
           <Box
@@ -199,16 +199,20 @@ const Home: NextPage<Props> = ({
             justifyContent="center"
             alignItems="center"
             m={4}
-            onClick={() => router.push("https://github.com/anselbrandt")}
-            sx={{
-              "&:hover": {
-                color: "accent.fg",
-                cursor: "pointer",
-              },
-            }}
           >
             <Box m={1}>
-              <StyledOcticon icon={MarkGithubIcon} size={25} />
+              <NextPrimerLink href='"https://github.com/anselbrandt"'>
+                <StyledOcticon
+                  icon={MarkGithubIcon}
+                  size={25}
+                  color="fg.default"
+                  sx={{
+                    "&:hover": {
+                      color: "accent.fg",
+                    },
+                  }}
+                />
+              </NextPrimerLink>
             </Box>
           </Box>
           <Box
@@ -217,18 +221,20 @@ const Home: NextPage<Props> = ({
             justifyContent="center"
             alignItems="center"
             m={4}
-            onClick={() =>
-              router.push("https://www.linkedin.com/in/anselbrandt")
-            }
-            sx={{
-              "&:hover": {
-                color: "accent.fg",
-                cursor: "pointer",
-              },
-            }}
           >
             <Box m={1}>
-              <StyledOcticon icon={AiOutlineLinkedin} size={25} />
+              <NextPrimerLink href='"https://www.linkedin.com/in/anselbrandt"'>
+                <StyledOcticon
+                  icon={AiOutlineLinkedin}
+                  size={25}
+                  color="fg.default"
+                  sx={{
+                    "&:hover": {
+                      color: "accent.fg",
+                    },
+                  }}
+                />
+              </NextPrimerLink>
             </Box>
           </Box>
         </Box>
