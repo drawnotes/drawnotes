@@ -22,6 +22,15 @@ const filterPanel: NextPage<Props> = ({
 }) => {
   const [stats, setStats] = useState<any>();
 
+  // const occupancy = [
+  //   "MANY_SEATS_AVAILABLE",
+  //   "FEW_SEATS_AVAILABLE",
+  //   "STANDING_ROOM_ONLY",
+  //   "FULL",
+  // ];
+
+  // const status = ["IN_TRANSIT_TO", "STOPPED_AT"];
+
   useEffect(() => {
     if (data) {
       const speeds = data.entity
@@ -34,14 +43,14 @@ const filterPanel: NextPage<Props> = ({
       const avg = sum / count;
       const max = speeds[speeds.length - 1];
 
-      const occStatus = () => {
-        const statuses = data.entity.map(
-          (entity) => entity.vehicle.occupancyStatus
-        );
-        const occurences = statuses.reduce(function (acc: any, curr: any) {
+      const occupancy = () => {
+        const status = data.entity
+          .map((entity) => entity.vehicle.occupancyStatus)
+          .filter((status) => status !== undefined);
+        const count = status.reduce(function (acc: any, curr: any) {
           return acc[curr] ? ++acc[curr] : (acc[curr] = 1), acc;
         }, {});
-        return occurences;
+        return count;
       };
       const routes = () => {
         const routes = new Set();
@@ -54,7 +63,7 @@ const filterPanel: NextPage<Props> = ({
       setStats({
         avgSpeed: avg,
         maxSpeed: max,
-        occStatus: occStatus(),
+        occupancy: occupancy(),
         routes: routes(),
       });
     }
@@ -240,7 +249,7 @@ const filterPanel: NextPage<Props> = ({
             borderRadius={2}
             bg="canvas.default"
           >
-            <pre>{stats && JSON.stringify(stats.occStatus, null, 2)}</pre>
+            <pre>{stats && JSON.stringify(stats.occupancy, null, 2)}</pre>
           </Box>
         </Box>
       </Resizable>
