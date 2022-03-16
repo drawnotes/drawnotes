@@ -170,7 +170,7 @@ const mapPanel: NextPage<Props> = ({ mapSize, data, visibleLayers }) => {
           id: "scenegraph-layer",
           visible: visibleLayers.vehicles,
           data: tripsData.trips,
-          sizeScale: 50,
+          sizeScale: 20,
           scenegraph: MODEL_URL as any,
           getColor: (d: any) => getBusColor(d),
           _animations: {
@@ -219,7 +219,8 @@ const mapPanel: NextPage<Props> = ({ mapSize, data, visibleLayers }) => {
           getTimestamps: (d: any) => d.timestamps,
           getColor: () => [23, 184, 190] as any,
           opacity: 100,
-          widthMinPixels: 4,
+          widthMinPixels: 2,
+          widthMaxPixels: 8,
           jointRounded: true,
           trailLength: 1,
           currentTime: tripsData.timestamp,
