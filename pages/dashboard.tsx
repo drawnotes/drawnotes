@@ -159,4 +159,19 @@ const Dashboard: NextPage<Props> = ({
   );
 };
 
+export async function getServerSideProps(context: any) {
+  const cookies = context.req.cookies;
+  const colorMode = cookies && cookies.colorMode ? cookies.colorMode : "day";
+  const dayScheme = cookies && cookies.dayScheme ? cookies.dayScheme : "light";
+  const nightScheme =
+    cookies && cookies.nightScheme ? cookies.nightScheme : "dark";
+  return {
+    props: {
+      preferredColorMode: colorMode,
+      preferredDayScheme: dayScheme,
+      preferredNightScheme: nightScheme,
+    },
+  };
+}
+
 export default Dashboard;
