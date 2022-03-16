@@ -4,7 +4,8 @@ import {
   AppState,
   ExcalidrawImperativeAPI,
 } from "@excalidraw/excalidraw/types/types";
-import { Box, Button, useTheme } from "@primer/react";
+import { Box, Button, ThemeProvider } from "@primer/react";
+import Cookie from "js-cookie";
 import type { NextPage } from "next";
 import { useEffect, useRef, useState } from "react";
 import ColorModeSwitcher from "../components/ColorModeSwitcher";
@@ -19,11 +20,52 @@ import {
 } from "../excalidraw/localStorage";
 import { exportElements } from "../utils/excalidrawPatch";
 
-interface Props {}
+declare type ColorMode = "day" | "night";
+declare type ColorModeWithAuto = ColorMode | "auto";
 
-const Draw: NextPage<Props> = ({}) => {
-  const { colorScheme } = useTheme();
-  const theme = colorScheme!.includes("dark") ? "dark" : "light";
+interface Props {
+  preferredColorMode: ColorModeWithAuto;
+  preferredDayScheme: string;
+  preferredNightScheme: string;
+}
+
+const Draw: NextPage<Props> = ({
+  preferredColorMode,
+  preferredDayScheme,
+  preferredNightScheme,
+}) => {
+  const [colorMode, setColorMode] = useState<ColorModeWithAuto>(
+    preferredColorMode || "day"
+  );
+  const [dayScheme, setDayScheme] = useState(preferredDayScheme || "light");
+  const [nightScheme, setNightScheme] = useState(
+    preferredNightScheme || "dark"
+  );
+  const theme = colorMode === "night" ? "dark" : "light";
+
+  useEffect(() => {
+    if (typeof window !== undefined) {
+      const preferredMode = Cookie.get("colorMode");
+      if (preferredMode) {
+        if (preferredMode === "night") {
+          const preferredScheme = Cookie.get("nightScheme") as string;
+          setTimeout(() => {
+            setColorMode("night");
+            setDayScheme(preferredScheme);
+            setNightScheme(preferredScheme);
+          }, 50);
+        }
+        if (preferredMode === "day") {
+          const preferredScheme = Cookie.get("dayScheme") as string;
+          setTimeout(() => {
+            setColorMode("day");
+            setDayScheme(preferredScheme);
+            setNightScheme(preferredScheme);
+          }, 50);
+        }
+      }
+    }
+  }, []);
   const [Utils, setUtils] = useState<any>(null);
 
   const [Excalidraw, setExcalidraw] = useState<typeof App>();
@@ -214,84 +256,105 @@ const Draw: NextPage<Props> = ({}) => {
   // };
 
   return (
-    <Box height={height} bg="canvas.default" color="fg.default">
-      <ColorModeSwitcher />
-      <Box display="flex">
-        <Box m={1}>
-          <Button onClick={updateScene}>Update Scene</Button>
+    <ThemeProvider
+      colorMode={colorMode}
+      dayScheme={dayScheme}
+      nightScheme={nightScheme}
+    >
+      <Box height={height} bg="canvas.default" color="fg.default">
+        <ColorModeSwitcher />
+        <Box display="flex">
+          <Box m={1}>
+            <Button onClick={updateScene}>Update Scene</Button>
+          </Box>
+          <Box m={1}>
+            <Button onClick={handleReset}>Reset Scene</Button>
+          </Box>
+          <Box m={1} mt={2}>
+            <label>
+              <input
+                type="checkbox"
+                checked={viewModeEnabled}
+                onChange={handleSetViewMode}
+              />
+              View mode
+            </label>
+          </Box>
+          <Box m={1} mt={2}>
+            <label>
+              <input
+                type="checkbox"
+                checked={zenModeEnabled}
+                onChange={handleSetZenMode}
+              />
+              Zen mode
+            </label>
+          </Box>
+          <Box m={1} mt={2}>
+            <label>
+              <input
+                type="checkbox"
+                checked={gridModeEnabled}
+                onChange={handleSetGridMode}
+              />
+              Grid mode
+            </label>
+          </Box>
+          <Box m={1}>
+            <Button onClick={handleDownloadPNG}>Download PNG</Button>
+          </Box>
+          <Box m={1}>
+            <Button onClick={handleGetSvgWithScene}>
+              Download SVG With Scene
+            </Button>
+          </Box>
+          <Box m={1} mt={2}>
+            <label>
+              <input
+                type="checkbox"
+                checked={exportWithDarkMode}
+                onChange={handleExportWithDarkMode}
+              />
+              Export with dark mode
+            </label>
+          </Box>
         </Box>
-        <Box m={1}>
-          <Button onClick={handleReset}>Reset Scene</Button>
-        </Box>
-        <Box m={1} mt={2}>
-          <label>
-            <input
-              type="checkbox"
-              checked={viewModeEnabled}
-              onChange={handleSetViewMode}
-            />
-            View mode
-          </label>
-        </Box>
-        <Box m={1} mt={2}>
-          <label>
-            <input
-              type="checkbox"
-              checked={zenModeEnabled}
-              onChange={handleSetZenMode}
-            />
-            Zen mode
-          </label>
-        </Box>
-        <Box m={1} mt={2}>
-          <label>
-            <input
-              type="checkbox"
-              checked={gridModeEnabled}
-              onChange={handleSetGridMode}
-            />
-            Grid mode
-          </label>
-        </Box>
-        <Box m={1}>
-          <Button onClick={handleDownloadPNG}>Download PNG</Button>
-        </Box>
-        <Box m={1}>
-          <Button onClick={handleGetSvgWithScene}>
-            Download SVG With Scene
-          </Button>
-        </Box>
-        <Box m={1} mt={2}>
-          <label>
-            <input
-              type="checkbox"
-              checked={exportWithDarkMode}
-              onChange={handleExportWithDarkMode}
-            />
-            Export with dark mode
-          </label>
-        </Box>
+        <div>
+          <pre>{debugInfo}</pre>
+        </div>
+        {Excalidraw && (
+          <Excalidraw
+            ref={ref}
+            initialData={initialData}
+            theme={theme}
+            langCode={langCode}
+            name={"Excalidraw"}
+            viewModeEnabled={viewModeEnabled}
+            zenModeEnabled={zenModeEnabled}
+            gridModeEnabled={gridModeEnabled}
+            onChange={handleOnChange}
+            // onPointerUpdate={handlePointerUpdate}
+            // libraryReturnUrl={`${window.location.href}&version=2`}
+          />
+        )}
       </Box>
-      <div>
-        <pre>{debugInfo}</pre>
-      </div>
-      {Excalidraw && (
-        <Excalidraw
-          ref={ref}
-          initialData={initialData}
-          theme={theme}
-          langCode={langCode}
-          name={"Excalidraw"}
-          viewModeEnabled={viewModeEnabled}
-          zenModeEnabled={zenModeEnabled}
-          gridModeEnabled={gridModeEnabled}
-          onChange={handleOnChange}
-          // onPointerUpdate={handlePointerUpdate}
-          // libraryReturnUrl={`${window.location.href}&version=2`}
-        />
-      )}
-    </Box>
+    </ThemeProvider>
   );
 };
+
+export async function getServerSideProps(context: any) {
+  const cookies = context.req.cookies;
+  const colorMode = cookies && cookies.colorMode ? cookies.colorMode : "day";
+  const dayScheme = cookies && cookies.dayScheme ? cookies.dayScheme : "light";
+  const nightScheme =
+    cookies && cookies.nightScheme ? cookies.nightScheme : "dark";
+  return {
+    props: {
+      preferredColorMode: colorMode,
+      preferredDayScheme: dayScheme,
+      preferredNightScheme: nightScheme,
+    },
+  };
+}
 
 export default Draw;
