@@ -33,14 +33,20 @@ const filterPanel: NextPage<Props> = ({
 
   useEffect(() => {
     if (data) {
+      const stopped = data.entity.filter(
+        (entity) => entity.vehicle.currentStatus === "STOPPED_AT"
+      ).length;
+      const stoppedInTraffic = data.entity
+        .filter((entity) => entity.vehicle.currentStatus !== "STOPPED_AT")
+        .filter((entity) => entity.vehicle.position.speed === 0).length;
       const speeds = data.entity
         .map((entity) => entity.vehicle.position.speed)
         .filter((speed) => speed > 0)
         .map((speed) => speed * 3.6)
         .sort((a, b) => a - b);
-      const count = speeds.length;
+      const inTransit = speeds.length;
       const sum = speeds.reduce((a, b) => a + b);
-      const avg = sum / count;
+      const avg = sum / inTransit;
       const max = speeds[speeds.length - 1];
 
       const occupancy = () => {
@@ -63,6 +69,9 @@ const filterPanel: NextPage<Props> = ({
       setStats({
         avgSpeed: avg,
         maxSpeed: max,
+        stopped: stopped,
+        stoppedInTraffic: stoppedInTraffic,
+        inTransit: inTransit,
         occupancy: occupancy(),
         routes: routes(),
       });
@@ -227,7 +236,10 @@ const filterPanel: NextPage<Props> = ({
             borderRadius={2}
             bg="canvas.default"
           >
-            {stats && `Average speed: ${stats.avgSpeed.toFixed(2)} km/h`}
+            <Box>
+              {stats && `Average speed: ${stats.avgSpeed.toFixed(2)} km/h`}
+            </Box>
+            <Box>{stats && `Max speed: ${stats.maxSpeed.toFixed(2)} km/h`}</Box>
           </Box>
           <Box
             m={4}
@@ -238,7 +250,11 @@ const filterPanel: NextPage<Props> = ({
             borderRadius={2}
             bg="canvas.default"
           >
-            {stats && `Max speed: ${stats.maxSpeed.toFixed(2)} km/h`}
+            <Box>{stats && `In transit: ${stats.inTransit}`}</Box>
+            <Box>{stats && `Stopped: ${stats.stopped}`}</Box>
+            <Box>
+              {stats && `Stopped in traffic: ${stats.stoppedInTraffic}`}
+            </Box>
           </Box>
           <Box
             m={4}
