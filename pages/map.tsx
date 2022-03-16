@@ -1,8 +1,9 @@
 import { GeoJsonLayer } from "@deck.gl/layers";
 import DeckGL from "@deck.gl/react";
-import { Box, Button, Dialog, Text, useTheme } from "@primer/react";
+import { Box, Button, Dialog, Text, ThemeProvider } from "@primer/react";
 import bbox from "@turf/bbox";
 import { Feature, FeatureCollection, GeometryCollection } from "geojson";
+import Cookie from "js-cookie";
 import "mapbox-gl/dist/mapbox-gl.css";
 import type { NextPage } from "next";
 import { useEffect, useMemo, useState } from "react";
@@ -17,7 +18,14 @@ import { hexToRgb } from "../utils/color";
 import { MAPBOX_ACCESS_TOKEN } from "../utils/constants";
 import { lineFilter, pointFilter, polygonFilter } from "../utils/geo";
 
-interface Props {}
+declare type ColorMode = "day" | "night";
+declare type ColorModeWithAuto = ColorMode | "auto";
+
+interface Props {
+  preferredColorMode: ColorModeWithAuto;
+  preferredDayScheme: string;
+  preferredNightScheme: string;
+}
 
 const DARK_MAP_STYLE =
   "https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json";
@@ -25,15 +33,22 @@ const DARK_MAP_STYLE =
 const LIGHT_MAP_STYLE =
   "https://basemaps.cartocdn.com/gl/positron-gl-style/style.json";
 
-const MapPage: NextPage<Props> = ({}) => {
-  const { colorScheme } = useTheme();
-  const mapStyle = colorScheme!.includes("dark")
-    ? DARK_MAP_STYLE
-    : LIGHT_MAP_STYLE;
+const MapPage: NextPage<Props> = ({
+  preferredColorMode,
+  preferredDayScheme,
+  preferredNightScheme,
+}) => {
+  const [colorMode, setColorMode] = useState<ColorModeWithAuto>(
+    preferredColorMode || "day"
+  );
+  const [dayScheme, setDayScheme] = useState(preferredDayScheme || "light");
+  const [nightScheme, setNightScheme] = useState(
+    preferredNightScheme || "dark"
+  );
+  const mapStyle = colorMode === "night" ? DARK_MAP_STYLE : LIGHT_MAP_STYLE;
 
-  const textColor = colorScheme!.includes("dark")
-    ? hexToRgb("#c9d1d9")
-    : hexToRgb("#24292f");
+  const textColor =
+    colorMode === "night" ? hexToRgb("#c9d1d9") : hexToRgb("#24292f");
 
   const data = bikePaths as FeatureCollection | Feature | GeometryCollection;
   const lineData = useMemo(() => lineFilter(data), [data]);
@@ -47,6 +62,30 @@ const MapPage: NextPage<Props> = ({}) => {
 
   const bounding = useMemo(() => bbox(data), [data]);
   const padding = 10;
+
+  useEffect(() => {
+    if (typeof window !== undefined) {
+      const preferredMode = Cookie.get("colorMode");
+      if (preferredMode) {
+        if (preferredMode === "night") {
+          const preferredScheme = Cookie.get("nightScheme") as string;
+          setTimeout(() => {
+            setColorMode("night");
+            setDayScheme(preferredScheme);
+            setNightScheme(preferredScheme);
+          }, 50);
+        }
+        if (preferredMode === "day") {
+          const preferredScheme = Cookie.get("dayScheme") as string;
+          setTimeout(() => {
+            setColorMode("day");
+            setDayScheme(preferredScheme);
+            setNightScheme(preferredScheme);
+          }, 50);
+        }
+      }
+    }
+  }, []);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -190,64 +229,89 @@ const MapPage: NextPage<Props> = ({}) => {
     });
   };
   return (
-    <Box width="100vw" height="100vh" color="fg.default" bg="canvas.default">
-      <ColorModeSwitcher />
-      <Box position="absolute" top={40} right={0} p={3} zIndex={5}>
-        <Button variant="small" onClick={handleZoomExtents}>
-          Zoom Extents
-        </Button>
-      </Box>
-      <Box sx={{ position: "absolute", top: "50vh", left: "50vw", zIndex: 10 }}>
-        ＋
-      </Box>
-      {dialogInfo && (
-        <Dialog
-          isOpen={isOpen}
-          onDismiss={handleClose}
-          aria-labelledby="header-id"
-          wide={true}
+    <ThemeProvider
+      colorMode={colorMode}
+      dayScheme={dayScheme}
+      nightScheme={nightScheme}
+    >
+      <Box width="100vw" height="100vh" color="fg.default" bg="canvas.default">
+        <ColorModeSwitcher />
+        <Box position="absolute" top={40} right={0} p={3} zIndex={5}>
+          <Button variant="small" onClick={handleZoomExtents}>
+            Zoom Extents
+          </Button>
+        </Box>
+        <Box
+          sx={{ position: "absolute", top: "50vh", left: "50vw", zIndex: 10 }}
         >
-          <Dialog.Header id="header-id">Properties</Dialog.Header>
-          <Box p={3} overflow="scroll">
-            <Text fontFamily="sans-serif">
-              <pre>{JSON.stringify(dialogInfo.object.properties, null, 2)}</pre>
-            </Text>
-          </Box>
-        </Dialog>
-      )}
-      <Box position="absolute" top={2} left="50vw" sx={{ zIndex: 10 }}>
-        {info && `${info.lat.toFixed(4)}, ${info.long.toFixed(4)}`}
-      </Box>
-      <DeckGL
-        layers={layers}
-        viewState={viewState}
-        onViewStateChange={handleChangeViewState}
-        controller={true}
-      >
-        <StaticMap
-          reuseMaps
-          mapStyle={mapStyle}
-          mapboxApiAccessToken={MAPBOX_ACCESS_TOKEN}
-          preventStyleDiffing={true}
-        />
-        {hoverInfo && (
-          <Box
-            bg="neutral.muted"
-            borderRadius={1}
-            sx={{
-              position: "absolute",
-              zIndex: 10,
-              pointerEvents: "none",
-              left: hoverInfo.x,
-              top: hoverInfo.y,
-            }}
+          ＋
+        </Box>
+        {dialogInfo && (
+          <Dialog
+            isOpen={isOpen}
+            onDismiss={handleClose}
+            aria-labelledby="header-id"
+            wide={true}
           >
-            <pre>{JSON.stringify(hoverInfo.object.properties, null, 2)}</pre>
-          </Box>
+            <Dialog.Header id="header-id">Properties</Dialog.Header>
+            <Box p={3} overflow="scroll">
+              <Text fontFamily="sans-serif">
+                <pre>
+                  {JSON.stringify(dialogInfo.object.properties, null, 2)}
+                </pre>
+              </Text>
+            </Box>
+          </Dialog>
         )}
-      </DeckGL>
-    </Box>
+        <Box position="absolute" top={2} left="50vw" sx={{ zIndex: 10 }}>
+          {info && `${info.lat.toFixed(4)}, ${info.long.toFixed(4)}`}
+        </Box>
+        <DeckGL
+          layers={layers}
+          viewState={viewState}
+          onViewStateChange={handleChangeViewState}
+          controller={true}
+        >
+          <StaticMap
+            reuseMaps
+            mapStyle={mapStyle}
+            mapboxApiAccessToken={MAPBOX_ACCESS_TOKEN}
+            preventStyleDiffing={true}
+          />
+          {hoverInfo && (
+            <Box
+              bg="neutral.muted"
+              borderRadius={1}
+              sx={{
+                position: "absolute",
+                zIndex: 10,
+                pointerEvents: "none",
+                left: hoverInfo.x,
+                top: hoverInfo.y,
+              }}
+            >
+              <pre>{JSON.stringify(hoverInfo.object.properties, null, 2)}</pre>
+            </Box>
+          )}
+        </DeckGL>
+      </Box>
+    </ThemeProvider>
   );
 };
+
+export async function getServerSideProps(context: any) {
+  const cookies = context.req.cookies;
+  const colorMode = cookies && cookies.colorMode ? cookies.colorMode : "day";
+  const dayScheme = cookies && cookies.dayScheme ? cookies.dayScheme : "light";
+  const nightScheme =
+    cookies && cookies.nightScheme ? cookies.nightScheme : "dark";
+  return {
+    props: {
+      preferredColorMode: colorMode,
+      preferredDayScheme: dayScheme,
+      preferredNightScheme: nightScheme,
+    },
+  };
+}
 
 export default MapPage;
