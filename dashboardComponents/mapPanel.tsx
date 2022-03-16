@@ -144,6 +144,26 @@ const mapPanel: NextPage<Props> = ({ mapSize, data, visibleLayers }) => {
     });
   };
 
+  const statuses = [
+    "FEW_SEATS_AVAILABLE",
+    "MANY_SEATS_AVAILABLE",
+    "STANDING_ROOM_ONLY",
+    "FULL",
+  ];
+
+  const getBusColor = (d: any): RGBAColor => {
+    switch (d.properties.occupancyStatus) {
+      case "FULL":
+        return colorMode === "dark" ? rgb("#da3633") : rgb("#cf222e");
+      case "STANDING_ROOM_ONLY":
+        return colorMode === "dark" ? hexToRgb("#e7811d") : rgb("#dc6d1a");
+      case "FEW_SEATS_AVAILABLE":
+        return colorMode === "dark" ? rgb("#ecc94b") : rgb("#f6e05e");
+      default:
+        return colorMode === "dark" ? rgb("#1f6feb") : rgb("#0969da");
+    }
+  };
+
   const tripsLayer = tripsData
     ? [
         new ScenegraphLayer({
@@ -152,6 +172,7 @@ const mapPanel: NextPage<Props> = ({ mapSize, data, visibleLayers }) => {
           data: tripsData.trips,
           sizeScale: 50,
           scenegraph: MODEL_URL as any,
+          getColor: (d: any) => getBusColor(d),
           _animations: {
             "*": { speed: 1 },
           },
