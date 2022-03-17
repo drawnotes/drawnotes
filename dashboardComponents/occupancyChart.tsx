@@ -1,13 +1,12 @@
 import { Box } from "@primer/react";
 import { NextPage } from "next";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Area,
   AreaChart,
   CartesianGrid,
   ResponsiveContainer,
   Tooltip,
-  YAxis,
 } from "recharts";
 import { getCount, GTFS, Occupancy, OccupancyData } from "../utils/transit";
 
@@ -17,6 +16,7 @@ interface Props {
 
 const OccupancyChart: NextPage<Props> = ({ data }) => {
   const [chartData, setChartData] = useState<OccupancyData[]>();
+  const chartRef = useRef<HTMLDivElement>(null);
 
   const colors = {
     full: "#fe6d73",
@@ -43,6 +43,19 @@ const OccupancyChart: NextPage<Props> = ({ data }) => {
       }
     }
   }, [data]);
+
+  const scrollToEnd = () => {
+    chartRef.current?.scrollIntoView({
+      behavior: "smooth",
+      inline: "end",
+    });
+  };
+
+  useEffect(() => {
+    if (chartRef.current) {
+      scrollToEnd();
+    }
+  }, [chartData, scrollToEnd]);
 
   const StackedTooltip = (d: any) => {
     const chart = d.payload[0];
@@ -87,6 +100,7 @@ const OccupancyChart: NextPage<Props> = ({ data }) => {
       width={chartData && `${chartData.length * 100}px`}
       minWidth="100%"
       height="100%"
+      ref={chartRef}
     >
       <ResponsiveContainer width="100%" height="100%">
         <AreaChart
@@ -101,10 +115,7 @@ const OccupancyChart: NextPage<Props> = ({ data }) => {
           }}
         >
           <CartesianGrid strokeDasharray="3 3" />
-
-          <YAxis orientation="right" />
           <Tooltip content={StackedTooltip} />
-
           <Area
             type="monotone"
             dataKey="MANY_SEATS_AVAILABLE"

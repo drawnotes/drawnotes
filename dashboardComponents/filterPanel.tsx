@@ -197,7 +197,7 @@ const filterPanel: NextPage<Props> = ({
             m={4}
             p={2}
             overflow="scroll"
-            height="200px"
+            height="100px"
             borderColor="border.default"
             borderWidth={1}
             borderStyle="solid"
@@ -259,25 +259,13 @@ const filterPanel: NextPage<Props> = ({
           </Box>
           <Box
             m={4}
-            p={2}
-            borderColor="border.default"
-            borderWidth={1}
-            borderStyle="solid"
-            borderRadius={2}
-            bg="canvas.default"
-          >
-            <pre>{stats && JSON.stringify(stats.occupancy, null, 2)}</pre>
-          </Box>
-          <Box
-            m={4}
-            p={2}
             borderColor="border.default"
             borderWidth={1}
             borderStyle="solid"
             borderRadius={2}
             bg="canvas.default"
             width="450px"
-            height="400px"
+            height="200px"
             overflow="scroll"
           >
             {data && <OccupancyChart data={data} />}
