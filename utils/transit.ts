@@ -232,3 +232,38 @@ export const mergeTrips = (current: Trips, prev?: Trips) => {
   }
   return current;
 };
+
+export const getCount = <T>(arr: string[]) => {
+  const map = new Map();
+  const nonNull = arr.filter((entry) => entry !== null);
+  for (const entry of nonNull) {
+    const prev = map.get(entry);
+    if (prev) {
+      map.set(entry, prev + 1);
+    } else {
+      map.set(entry, 1);
+    }
+  }
+  const mapObject = Object.fromEntries(map);
+  return mapObject as T;
+};
+
+export interface Occupancy {
+  FULL?: number;
+  STANDING_ROOM_ONLY?: number;
+  FEW_SEATS_AVAILABLE?: number;
+  MANY_SEATS_AVAILABLE?: number;
+}
+
+export interface OccupancyData {
+  name: string;
+  FULL?: number;
+  STANDING_ROOM_ONLY?: number;
+  FEW_SEATS_AVAILABLE?: number;
+  MANY_SEATS_AVAILABLE?: number;
+}
+
+export interface Status {
+  IN_TRANSIT_TO: number;
+  STOPPED_AT: number;
+}
