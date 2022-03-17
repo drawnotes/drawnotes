@@ -257,17 +257,7 @@ const filterPanel: NextPage<Props> = ({
               {stats && `Stopped in traffic: ${stats.stoppedInTraffic}`}
             </Box>
           </Box>
-          <Box
-            m={4}
-            borderColor="border.default"
-            borderWidth={1}
-            borderStyle="solid"
-            borderRadius={2}
-            bg="canvas.default"
-            width="450px"
-            height="200px"
-            overflow="scroll"
-          >
+          <Box m={4} width="450px" height="200px" overflow="scroll">
             {data && <OccupancyChart data={data} />}
           </Box>
         </Box>
@@ -275,5 +265,4 @@ const filterPanel: NextPage<Props> = ({
     </Box>
   );
 };
-
 export default filterPanel;
