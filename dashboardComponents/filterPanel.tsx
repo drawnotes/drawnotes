@@ -8,7 +8,7 @@ import routeNames from "../sampledata/routeNames.json";
 import { VisibleLayers } from "../types";
 import { GTFS } from "../utils/transit";
 import OccupancyChart from "./occupancyChart";
-
+import VehicleChart from "./vehicleChart";
 interface Props {
   handleSetVisibleLayers: (event: any) => void;
   visibleLayers: VisibleLayers;
@@ -242,22 +242,12 @@ const filterPanel: NextPage<Props> = ({
             </Box>
             <Box>{stats && `Max speed: ${stats.maxSpeed.toFixed(2)} km/h`}</Box>
           </Box>
-          <Box
-            m={4}
-            p={2}
-            borderColor="border.default"
-            borderWidth={1}
-            borderStyle="solid"
-            borderRadius={2}
-            bg="canvas.default"
-          >
-            <Box>{stats && `In transit: ${stats.inTransit}`}</Box>
-            <Box>{stats && `Stopped: ${stats.stopped}`}</Box>
-            <Box>
-              {stats && `Stopped in traffic: ${stats.stoppedInTraffic}`}
-            </Box>
+          <Box ml={4}>Vehicle Status</Box>
+          <Box m={4} width="450px" height="100px" overflow="scroll">
+            {data && <VehicleChart data={data} />}
           </Box>
-          <Box m={4} width="450px" height="200px" overflow="scroll">
+          <Box ml={4}>Occupancy Levels</Box>
+          <Box m={4} width="450px" height="150px" overflow="scroll">
             {data && <OccupancyChart data={data} />}
           </Box>
         </Box>

@@ -8,33 +8,36 @@ import {
   ResponsiveContainer,
   Tooltip,
 } from "recharts";
-import { getCount, GTFS, Occupancy, OccupancyData } from "../utils/transit";
+import { getCount, GTFS, Status, StatusData } from "../utils/transit";
 
 interface Props {
   data: GTFS | undefined;
 }
 
-const OccupancyChart: NextPage<Props> = ({ data }) => {
-  const [chartData, setChartData] = useState<OccupancyData[]>();
+const VehicleChart: NextPage<Props> = ({ data }) => {
+  const [chartData, setChartData] = useState<StatusData[]>();
   const chartRef = useRef<HTMLDivElement>(null);
 
   const colors = {
-    full: "#fe6d73",
-    standing: "#ffcb77",
-    few: "#17c3b2",
-    many: "#227c9d",
+    stopped: "#fe6d73",
+    stoppedAt: "#ffcb77",
+    inTransit: "#17c3b2",
   };
 
   useEffect(() => {
     if (data) {
       const timestamp = parseInt(data.header.timestamp) * 1000;
       const time = new Date(timestamp).toLocaleTimeString();
-      const occupancy = data.entity.map(
-        (entity) => entity.vehicle.occupancyStatus
-      );
+      const stopped = data.entity
+        .filter((entity) => entity.vehicle.position.speed === 0)
+        .filter(
+          (entity) => entity.vehicle.currentStatus !== "STOPPED_AT"
+        ).length;
+      const status = data.entity.map((entity) => entity.vehicle.currentStatus);
       const newData = {
         name: time,
-        ...getCount<Occupancy>(occupancy),
+        STOPPED: stopped,
+        ...getCount<Status>(status),
       };
       if (chartData) {
         setChartData((prev: any) => [...prev, newData]);
@@ -66,28 +69,22 @@ const OccupancyChart: NextPage<Props> = ({ data }) => {
           <Box bg="whitesmoke" p={2} borderRadius={4}>
             <Box m={1}>{values["name"]}</Box>
             <Box display="flex" justifyContent="space-between">
-              <Box m={1} color={colors.full}>
-                Full:
+              <Box m={1} color={colors.stopped}>
+                Stopped in Traffic:
               </Box>
-              <Box m={1}>{values["FULL"]}</Box>
+              <Box m={1}>{values["STOPPED"]}</Box>
             </Box>
             <Box display="flex" justifyContent="space-between">
-              <Box m={1} color={colors.standing}>
-                Standing Room:
+              <Box m={1} color={colors.stoppedAt}>
+                At Stop:
               </Box>
-              <Box m={1}>{values["STANDING_ROOM_ONLY"]}</Box>
+              <Box m={1}>{values["STOPPED_AT"]}</Box>
             </Box>
             <Box display="flex" justifyContent="space-between">
-              <Box m={1} color={colors.few}>
-                Few Seats:
+              <Box m={1} color={colors.inTransit}>
+                In Transit:
               </Box>
-              <Box m={1}>{values["FEW_SEATS_AVAILABLE"]}</Box>
-            </Box>
-            <Box display="flex" justifyContent="space-between">
-              <Box m={1} color={colors.many}>
-                Many Seats:
-              </Box>
-              <Box m={1}>{values["MANY_SEATS_AVAILABLE"]}</Box>
+              <Box m={1}>{values["IN_TRANSIT_TO"]}</Box>
             </Box>
           </Box>
         )}
@@ -111,31 +108,24 @@ const OccupancyChart: NextPage<Props> = ({ data }) => {
           />
           <Area
             type="monotone"
-            dataKey="MANY_SEATS_AVAILABLE"
+            dataKey="IN_TRANSIT_TO"
             stackId="1"
-            stroke={colors.many}
-            fill={colors.many}
+            stroke={colors.inTransit}
+            fill={colors.inTransit}
           />
           <Area
             type="monotone"
-            dataKey="FEW_SEATS_AVAILABLE"
+            dataKey="STOPPED_AT"
             stackId="1"
-            stroke={colors.few}
-            fill={colors.few}
+            stroke={colors.stoppedAt}
+            fill={colors.stoppedAt}
           />
           <Area
             type="monotone"
-            dataKey="STANDING_ROOM_ONLY"
+            dataKey="STOPPED"
             stackId="1"
-            stroke={colors.standing}
-            fill={colors.standing}
-          />
-          <Area
-            type="monotone"
-            dataKey="FULL"
-            stackId="1"
-            stroke={colors.full}
-            fill={colors.full}
+            stroke={colors.stopped}
+            fill={colors.stopped}
           />
         </AreaChart>
       </ResponsiveContainer>
@@ -143,4 +133,4 @@ const OccupancyChart: NextPage<Props> = ({ data }) => {
   );
 };
 
-export default OccupancyChart;
+export default VehicleChart;

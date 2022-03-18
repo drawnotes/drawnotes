@@ -267,3 +267,10 @@ export interface Status {
   IN_TRANSIT_TO: number;
   STOPPED_AT: number;
 }
+
+export interface StatusData {
+  name: string;
+  IN_TRANSIT_TO: number;
+  STOPPED_AT: number;
+  STOPPED: number;
+}
