@@ -243,11 +243,11 @@ const filterPanel: NextPage<Props> = ({
             <Box>{stats && `Max speed: ${stats.maxSpeed.toFixed(2)} km/h`}</Box>
           </Box>
           <Box ml={4}>Vehicle Status</Box>
-          <Box m={4} width="450px" height="100px" overflow="scroll">
+          <Box m={4} height="100px" overflowX="scroll" overflowY="visible">
             {data && <VehicleChart data={data} />}
           </Box>
           <Box ml={4}>Occupancy Levels</Box>
-          <Box m={4} width="450px" height="150px" overflow="scroll">
+          <Box m={4} height="150px" overflowX="scroll" overflowY="visible">
             {data && <OccupancyChart data={data} />}
           </Box>
         </Box>

@@ -7,6 +7,8 @@ import {
   CartesianGrid,
   ResponsiveContainer,
   Tooltip,
+  XAxis,
+  YAxis,
 } from "recharts";
 import { getCount, GTFS, Occupancy, OccupancyData } from "../utils/transit";
 
@@ -39,55 +41,46 @@ const OccupancyChart: NextPage<Props> = ({ data }) => {
       if (chartData) {
         setChartData((prev: any) => [...prev, newData]);
       } else {
-        setChartData([newData]);
+        setChartData([newData, newData]);
       }
     }
   }, [data]);
 
-  const scrollToEnd = () => {
-    chartRef.current?.scrollIntoView({
-      behavior: "smooth",
-      inline: "end",
-    });
-  };
-
   useEffect(() => {
+    const scrollToEnd = () => {
+      chartRef.current?.scrollIntoView({
+        behavior: "smooth",
+        inline: "end",
+      });
+    };
     if (chartRef.current) {
       scrollToEnd();
     }
-  }, [chartData, scrollToEnd]);
+  }, [chartData]);
 
   const StackedTooltip = (d: any) => {
     const chart = d.payload[0];
     const values = chart && d.payload[0].payload;
     return (
-      <Box>
+      <Box fontSize={14}>
         {chart && (
-          <Box bg="whitesmoke" p={2} borderRadius={4}>
-            <Box m={1}>{values["name"]}</Box>
+          <Box bg="whitesmoke" p={1} borderRadius={4}>
+            <Box>{values["name"]}</Box>
             <Box display="flex" justifyContent="space-between">
-              <Box m={1} color={colors.full}>
-                Full:
-              </Box>
-              <Box m={1}>{values["FULL"]}</Box>
+              <Box color={colors.full}>Full:</Box>
+              <Box>{values["FULL"]}</Box>
             </Box>
             <Box display="flex" justifyContent="space-between">
-              <Box m={1} color={colors.standing}>
-                Standing Room:
-              </Box>
-              <Box m={1}>{values["STANDING_ROOM_ONLY"]}</Box>
+              <Box color={colors.standing}>Standing Room:</Box>
+              <Box>{values["STANDING_ROOM_ONLY"]}</Box>
             </Box>
             <Box display="flex" justifyContent="space-between">
-              <Box m={1} color={colors.few}>
-                Few Seats:
-              </Box>
-              <Box m={1}>{values["FEW_SEATS_AVAILABLE"]}</Box>
+              <Box color={colors.few}>Few Seats:</Box>
+              <Box>{values["FEW_SEATS_AVAILABLE"]}</Box>
             </Box>
             <Box display="flex" justifyContent="space-between">
-              <Box m={1} color={colors.many}>
-                Many Seats:
-              </Box>
-              <Box m={1}>{values["MANY_SEATS_AVAILABLE"]}</Box>
+              <Box color={colors.many}>Many Seats:</Box>
+              <Box>{values["MANY_SEATS_AVAILABLE"]}</Box>
             </Box>
           </Box>
         )}
@@ -107,8 +100,10 @@ const OccupancyChart: NextPage<Props> = ({ data }) => {
           <CartesianGrid strokeDasharray="3 3" />
           <Tooltip
             content={StackedTooltip}
-            allowEscapeViewBox={{ x: true, y: true }}
+            allowEscapeViewBox={{ x: false, y: false }}
           />
+          <XAxis dataKey="name" />
+          <YAxis orientation="right" />
           <Area
             type="monotone"
             dataKey="MANY_SEATS_AVAILABLE"

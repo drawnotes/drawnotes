@@ -7,6 +7,8 @@ import {
   CartesianGrid,
   ResponsiveContainer,
   Tooltip,
+  XAxis,
+  YAxis,
 } from "recharts";
 import { getCount, GTFS, Status, StatusData } from "../utils/transit";
 
@@ -42,49 +44,42 @@ const VehicleChart: NextPage<Props> = ({ data }) => {
       if (chartData) {
         setChartData((prev: any) => [...prev, newData]);
       } else {
-        setChartData([newData]);
+        setChartData([newData, newData]);
       }
     }
   }, [data]);
 
-  const scrollToEnd = () => {
-    chartRef.current?.scrollIntoView({
-      behavior: "smooth",
-      inline: "end",
-    });
-  };
-
   useEffect(() => {
+    const scrollToEnd = () => {
+      chartRef.current?.scrollIntoView({
+        behavior: "smooth",
+        inline: "end",
+      });
+    };
     if (chartRef.current) {
       scrollToEnd();
     }
-  }, [chartData, scrollToEnd]);
+  }, [chartData]);
 
   const StackedTooltip = (d: any) => {
     const chart = d.payload[0];
     const values = chart && d.payload[0].payload;
     return (
-      <Box>
+      <Box fontSize={14}>
         {chart && (
-          <Box bg="whitesmoke" p={2} borderRadius={4}>
-            <Box m={1}>{values["name"]}</Box>
+          <Box bg="whitesmoke" p={1} borderRadius={4}>
+            <Box>{values["name"]}</Box>
             <Box display="flex" justifyContent="space-between">
-              <Box m={1} color={colors.stopped}>
-                Stopped in Traffic:
-              </Box>
-              <Box m={1}>{values["STOPPED"]}</Box>
+              <Box color={colors.stopped}>Stopped in Traffic:</Box>
+              <Box>{values["STOPPED"]}</Box>
             </Box>
             <Box display="flex" justifyContent="space-between">
-              <Box m={1} color={colors.stoppedAt}>
-                At Stop:
-              </Box>
-              <Box m={1}>{values["STOPPED_AT"]}</Box>
+              <Box color={colors.stoppedAt}>At Stop:</Box>
+              <Box>{values["STOPPED_AT"]}</Box>
             </Box>
             <Box display="flex" justifyContent="space-between">
-              <Box m={1} color={colors.inTransit}>
-                In Transit:
-              </Box>
-              <Box m={1}>{values["IN_TRANSIT_TO"]}</Box>
+              <Box color={colors.inTransit}>In Transit:</Box>
+              <Box>{values["IN_TRANSIT_TO"]}</Box>
             </Box>
           </Box>
         )}
@@ -104,8 +99,10 @@ const VehicleChart: NextPage<Props> = ({ data }) => {
           <CartesianGrid strokeDasharray="3 3" />
           <Tooltip
             content={StackedTooltip}
-            allowEscapeViewBox={{ x: true, y: true }}
+            allowEscapeViewBox={{ x: false, y: false }}
           />
+          <XAxis dataKey="name" />
+          <YAxis orientation="right" />
           <Area
             type="monotone"
             dataKey="IN_TRANSIT_TO"
