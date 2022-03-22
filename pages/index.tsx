@@ -141,7 +141,10 @@ const Home: NextPage<Props> = ({
                 </Text>
               </Box>
               <Box m={2}>
-                <Text>IoT</Text>
+                <Text>
+                  IoT,{" "}
+                  <NextPrimerLink href="/search">Web scraping</NextPrimerLink>
+                </Text>
               </Box>
             </Box>
           </Box>
