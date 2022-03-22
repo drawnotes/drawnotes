@@ -274,3 +274,28 @@ export interface StatusData {
   STOPPED_AT: number;
   STOPPED: number;
 }
+
+export const getHistogram = (data: number[]) => {
+  const bins = new Map();
+  data
+    .map((v) => v * 3.6)
+    .map((v) => (v > 100 ? 100 : Math.round(v / 5) * 5))
+    .forEach((v) => {
+      const prev = bins.get(v);
+      if (prev) {
+        bins.set(v, prev + 1);
+      } else {
+        bins.set(v, 1);
+      }
+    });
+  const binsObj = Object.fromEntries(bins);
+  const binsArray = Object.entries(binsObj);
+  const histogram = binsArray.sort((a, b) => parseInt(a[0]) - parseInt(b[0]));
+  return histogram.map((d) => {
+    const [speed, count] = d;
+    return {
+      name: parseInt(speed),
+      count: count,
+    };
+  });
+};

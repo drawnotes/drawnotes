@@ -2,52 +2,31 @@ import { Box } from "@primer/react";
 import { NextPage } from "next";
 import { useEffect, useRef, useState } from "react";
 import {
+  Bar,
+  BarChart,
   CartesianGrid,
-  Line,
-  LineChart,
   ResponsiveContainer,
   Tooltip,
   XAxis,
   YAxis,
 } from "recharts";
-import { GTFS, OccupancyData } from "../utils/transit";
+import { getHistogram, GTFS } from "../utils/transit";
 
 interface Props {
   data: GTFS | undefined;
 }
 
 const SpeedChart: NextPage<Props> = ({ data }) => {
-  const [chartData, setChartData] = useState<OccupancyData[]>();
+  const [chartData, setChartData] = useState<any>();
   const chartRef = useRef<HTMLDivElement>(null);
-
-  const colors = {
-    max: "#fe6d73",
-    avg: "#17c3b2",
-  };
 
   useEffect(() => {
     if (data) {
-      const timestamp = parseInt(data.header.timestamp) * 1000;
-      const time = new Date(timestamp).toLocaleTimeString();
       const speeds = data.entity
-        .map((entity) => entity.vehicle.position.speed)
-        .filter((speed) => speed > 0)
-        .map((speed) => speed * 3.6)
-        .sort((a, b) => a - b);
-      const inTransit = speeds.length;
-      const sum = speeds.reduce((a, b) => a + b);
-      const avg = sum / inTransit;
-      const max = speeds[speeds.length - 1];
-      const newData = {
-        name: time,
-        avg: avg.toFixed(1),
-        max: max.toFixed(1),
-      };
-      if (chartData) {
-        setChartData((prev: any) => [...prev, newData]);
-      } else {
-        setChartData([newData, newData]);
-      }
+        .filter((entity) => entity.vehicle.currentStatus === "IN_TRANSIT_TO")
+        .map((entity) => entity.vehicle.position.speed);
+      const histogram = getHistogram(speeds);
+      setChartData(histogram);
     }
   }, [data]);
 
@@ -63,21 +42,19 @@ const SpeedChart: NextPage<Props> = ({ data }) => {
     }
   }, [chartData]);
 
-  const StackedTooltip = (d: any) => {
+  const CustomTooltip = (d: any) => {
     const chart = d.payload[0];
-    const values = chart && d.payload[0].payload;
+    const key = chart && chart.dataKey;
+    const value = chart && chart.payload[key];
+    const bin = chart && chart.payload.name;
     return (
       <Box fontSize={14}>
         {chart && (
           <Box bg="canvas.default" p={1} borderRadius={4}>
-            <Box>{values["name"]}</Box>
-            <Box display="flex" justifyContent="space-between">
-              <Box color={colors.max}>Max:</Box>
-              <Box>{values["max"]} km/h</Box>
-            </Box>
-            <Box display="flex" justifyContent="space-between">
-              <Box color={colors.avg}>Avg:</Box>
-              <Box>{values["avg"]} km/h</Box>
+            <Box>
+              {bin === 0
+                ? `${value} vehicles stopped in traffic`
+                : `${value} vehicles at ${bin} km/h`}
             </Box>
           </Box>
         )}
@@ -86,27 +63,15 @@ const SpeedChart: NextPage<Props> = ({ data }) => {
   };
 
   return (
-    <Box
-      width={chartData && `${chartData.length * 100}px`}
-      minWidth="100%"
-      height="100%"
-      ref={chartRef}
-    >
+    <Box width="100%" height="100%" ref={chartRef}>
       <ResponsiveContainer width="100%" height="100%">
-        <LineChart data={chartData}>
-          <CartesianGrid strokeDasharray="3 3" />
-          <Tooltip
-            content={StackedTooltip}
-            allowEscapeViewBox={{ x: false, y: false }}
-          />
-          <XAxis dataKey="name" />
-          <YAxis
-            orientation="right"
-            tickFormatter={(d) => (d === 0 ? "" : d)}
-          />
-          <Line type="monotone" dataKey="max" stroke={colors.max} />
-          <Line type="monotone" dataKey="avg" stroke={colors.avg} />
-        </LineChart>
+        <BarChart data={chartData} barCategoryGap={0}>
+          <CartesianGrid horizontal vertical={false} strokeDasharray="3" />
+          <XAxis dataKey="name" domain={[0, 100]} />
+          <YAxis orientation="right" />
+          <Tooltip content={CustomTooltip} />
+          <Bar dataKey="count" fill="#fe6d73" opacity={0.65} />
+        </BarChart>
       </ResponsiveContainer>
     </Box>
   );
