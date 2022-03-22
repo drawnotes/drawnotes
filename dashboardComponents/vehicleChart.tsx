@@ -67,7 +67,7 @@ const VehicleChart: NextPage<Props> = ({ data }) => {
     return (
       <Box fontSize={14}>
         {chart && (
-          <Box bg="whitesmoke" p={1} borderRadius={4}>
+          <Box bg="canvas.default" p={1} borderRadius={4}>
             <Box>{values["name"]}</Box>
             <Box display="flex" justifyContent="space-between">
               <Box color={colors.stopped}>Stopped in Traffic:</Box>
@@ -102,7 +102,10 @@ const VehicleChart: NextPage<Props> = ({ data }) => {
             allowEscapeViewBox={{ x: false, y: false }}
           />
           <XAxis dataKey="name" />
-          <YAxis orientation="right" />
+          <YAxis
+            orientation="right"
+            tickFormatter={(d) => (d === 0 ? "" : d)}
+          />
           <Area
             type="monotone"
             dataKey="IN_TRANSIT_TO"

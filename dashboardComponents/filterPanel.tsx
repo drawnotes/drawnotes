@@ -230,15 +230,15 @@ const filterPanel: NextPage<Props> = ({
                 })}
           </Box>
           <Box ml={4}>Vehicle Speeds</Box>
-          <Box ml={4} height="150px" overflowX="scroll" overflowY="visible">
+          <Box ml={4} height="150px" overflowX="scroll" overflowY="hidden">
             {data && <SpeedChart data={data} />}
           </Box>
           <Box ml={4}>Vehicle Status</Box>
-          <Box ml={4} height="100px" overflowX="scroll" overflowY="visible">
+          <Box ml={4} height="100px" overflowX="scroll" overflowY="hidden">
             {data && <VehicleChart data={data} />}
           </Box>
           <Box ml={4}>Occupancy Levels</Box>
-          <Box ml={4} height="150px" overflowX="scroll" overflowY="visible">
+          <Box ml={4} height="150px" overflowX="scroll" overflowY="hidden">
             {data && <OccupancyChart data={data} />}
           </Box>
         </Box>

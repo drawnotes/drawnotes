@@ -40,8 +40,8 @@ const SpeedChart: NextPage<Props> = ({ data }) => {
       const max = speeds[speeds.length - 1];
       const newData = {
         name: time,
-        avg: avg,
-        max: max,
+        avg: avg.toFixed(1),
+        max: max.toFixed(1),
       };
       if (chartData) {
         setChartData((prev: any) => [...prev, newData]);
@@ -69,15 +69,15 @@ const SpeedChart: NextPage<Props> = ({ data }) => {
     return (
       <Box fontSize={14}>
         {chart && (
-          <Box bg="whitesmoke" p={1} borderRadius={4}>
+          <Box bg="canvas.default" p={1} borderRadius={4}>
             <Box>{values["name"]}</Box>
             <Box display="flex" justifyContent="space-between">
-              <Box color={colors.max}>Full:</Box>
-              <Box>{values["max"]}</Box>
+              <Box color={colors.max}>Max:</Box>
+              <Box>{values["max"]} km/h</Box>
             </Box>
             <Box display="flex" justifyContent="space-between">
-              <Box color={colors.avg}>Standing Room:</Box>
-              <Box>{values["avg"]}</Box>
+              <Box color={colors.avg}>Avg:</Box>
+              <Box>{values["avg"]} km/h</Box>
             </Box>
           </Box>
         )}
@@ -100,7 +100,10 @@ const SpeedChart: NextPage<Props> = ({ data }) => {
             allowEscapeViewBox={{ x: false, y: false }}
           />
           <XAxis dataKey="name" />
-          <YAxis orientation="right" />
+          <YAxis
+            orientation="right"
+            tickFormatter={(d) => (d === 0 ? "" : d)}
+          />
           <Line type="monotone" dataKey="max" stroke={colors.max} />
           <Line type="monotone" dataKey="avg" stroke={colors.avg} />
         </LineChart>
