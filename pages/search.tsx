@@ -3,7 +3,7 @@ import { Box, TextInput, ThemeProvider } from "@primer/react";
 import Cookie from "js-cookie";
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
-import { ChangeEvent, KeyboardEvent, useEffect, useState } from "react";
+import { ChangeEvent, KeyboardEvent, useEffect, useRef, useState } from "react";
 import ColorModeSwitcher from "../components/ColorModeSwitcher";
 import { NextPrimerLink } from "../components/NextPrimerLink";
 import useSearch from "../utils/useSearch";
@@ -40,6 +40,7 @@ const Search: NextPage<Props> = ({
   const [input, setInput] = useState<string>("");
   const [searchQuery, setSearchQuery] = useState<Query | {}>({});
   const { results, error, loading } = useSearch(searchQuery as Query);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (typeof window !== undefined) {
@@ -83,6 +84,7 @@ const Search: NextPage<Props> = ({
 
   const handleSubmit = (event: KeyboardEvent) => {
     if (event.key === "Enter" && input) {
+      inputRef.current?.blur();
       const nonce = new Date().getTime();
       setSearchQuery({
         query: input,
@@ -99,6 +101,12 @@ const Search: NextPage<Props> = ({
       dayScheme={dayScheme}
       nightScheme={nightScheme}
     >
+      <head>
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1, maximum-scale=1"
+        />
+      </head>
       <Box
         width="100vw"
         minHeight="100vh"
@@ -116,6 +124,7 @@ const Search: NextPage<Props> = ({
         </Box>
         <Box m={4}>
           <TextInput
+            ref={inputRef}
             type="text"
             placeholder="search"
             value={input}
@@ -125,7 +134,6 @@ const Search: NextPage<Props> = ({
             autoCorrect="off"
             autoCapitalize="off"
             spellCheck="false"
-            size={28}
             p={4}
           />
         </Box>
