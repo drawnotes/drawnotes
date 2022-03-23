@@ -137,6 +137,19 @@ const Search: NextPage<Props> = ({
             p={4}
           />
         </Box>
+        <Box m={2} textAlign="left" width="150px">
+          {results && (
+            <Box>
+              <NextPrimerLink
+                href={`https://google.com/search?q=${encodeURIComponent(
+                  input
+                )}&tbm=isch`}
+              >
+                Images
+              </NextPrimerLink>
+            </Box>
+          )}
+        </Box>
         <Box maxWidth="720px">
           {error && (
             <Box>
