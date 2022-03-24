@@ -6,6 +6,7 @@ import { useRouter } from "next/router";
 import { ChangeEvent, KeyboardEvent, useEffect, useRef, useState } from "react";
 import ColorModeSwitcher from "../components/ColorModeSwitcher";
 import { NextPrimerLink } from "../components/NextPrimerLink";
+import { useGetBreakpoint } from "../utils/useGetBreakpoint";
 import useImageSearch from "../utils/useImageSearch";
 
 interface Query {
@@ -41,6 +42,7 @@ const Images: NextPage<Props> = ({
   const [searchQuery, setSearchQuery] = useState<Query | {}>({});
   const { results, error, loading } = useImageSearch(searchQuery as Query);
   const inputRef = useRef<HTMLInputElement>(null);
+  const { breakpoint } = useGetBreakpoint();
 
   useEffect(() => {
     if (typeof window !== undefined) {
@@ -146,7 +148,13 @@ const Images: NextPage<Props> = ({
             </Box>
           )}
         </Box>
-        <Box maxWidth="780px" display="flex" flexWrap="wrap">
+        <Box
+          display="grid"
+          gridTemplateColumns={
+            breakpoint < 3 ? "repeat(2, auto)" : "repeat(3, auto)"
+          }
+          gridAutoFlow="row"
+        >
           {error && (
             <Box>
               <pre>{JSON.stringify(error, null, 2)}</pre>
@@ -155,7 +163,7 @@ const Images: NextPage<Props> = ({
           {results &&
             results.map((result, index) => {
               return (
-                <Box key={index} m={4}>
+                <Box key={index} m={2}>
                   <Box>
                     <NextPrimerLink href={result.href}>
                       <img src={result.src} />
