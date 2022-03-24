@@ -146,7 +146,7 @@ const Images: NextPage<Props> = ({
             </Box>
           )}
         </Box>
-        <Box maxWidth="720px">
+        <Box maxWidth="780px" display="flex" flexWrap="wrap">
           {error && (
             <Box>
               <pre>{JSON.stringify(error, null, 2)}</pre>
