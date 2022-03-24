@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 import { ChangeEvent, KeyboardEvent, useEffect, useRef, useState } from "react";
 import ColorModeSwitcher from "../components/ColorModeSwitcher";
 import { NextPrimerLink } from "../components/NextPrimerLink";
-import useSearch from "../utils/useSearch";
+import useImageSearch from "../utils/useImageSearch";
 
 interface Query {
   query: string;
@@ -22,7 +22,7 @@ interface Props {
   preferredNightScheme: string;
 }
 
-const Search: NextPage<Props> = ({
+const Images: NextPage<Props> = ({
   preferredColorMode,
   preferredDayScheme,
   preferredNightScheme,
@@ -39,7 +39,7 @@ const Search: NextPage<Props> = ({
   const { q } = query;
   const [input, setInput] = useState<string>("");
   const [searchQuery, setSearchQuery] = useState<Query | {}>({});
-  const { results, error, loading } = useSearch(searchQuery as Query);
+  const { results, error, loading } = useImageSearch(searchQuery as Query);
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -91,7 +91,7 @@ const Search: NextPage<Props> = ({
         nonce: nonce,
       });
       const searchTerms = encodeURIComponent(input);
-      router.push(`/search?q=${searchTerms}`);
+      router.push(`/images?q=${searchTerms}`);
     }
   };
 
@@ -140,10 +140,8 @@ const Search: NextPage<Props> = ({
         <Box m={2} textAlign="left" width="150px">
           {results && (
             <Box>
-              <NextPrimerLink
-                href={`/images?q=${encodeURIComponent(input)}&tbm=isch`}
-              >
-                Images
+              <NextPrimerLink href={`/search?q=${encodeURIComponent(input)}`}>
+                All results
               </NextPrimerLink>
             </Box>
           )}
@@ -158,18 +156,16 @@ const Search: NextPage<Props> = ({
             results.map((result, index) => {
               return (
                 <Box key={index} m={4}>
+                  <Box>
+                    <NextPrimerLink href={result.href}>
+                      <img src={result.src} />
+                    </NextPrimerLink>
+                  </Box>
                   <Box color="fg.muted">{result.source}</Box>
                   <Box my={2}>
                     <NextPrimerLink href={result.href}>
                       {result.title}
                     </NextPrimerLink>
-                  </Box>
-                  <Box
-                    color="fg.muted"
-                    fontFamily="Libre Baskerville"
-                    fontSize={14}
-                  >
-                    {result.blurb}
                   </Box>
                 </Box>
               );
@@ -195,4 +191,4 @@ export async function getServerSideProps(context: any) {
   };
 }
 
-export default Search;
+export default Images;

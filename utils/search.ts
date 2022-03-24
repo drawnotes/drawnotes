@@ -29,7 +29,7 @@ const trim = (str: string) => {
   return trimmed;
 };
 
-export const parse = (html: string) => {
+export const getLinks = (html: string) => {
   const { JSDOM } = jsdom;
   const dom = new JSDOM(html);
   const { document } = dom.window;
@@ -74,4 +74,33 @@ export const parse = (html: string) => {
       (link) => !(link.href.includes("wikipedia") && link.href.includes("#"))
     );
   return resultLinks;
+};
+
+export const getImages = (html: string) => {
+  const { JSDOM } = jsdom;
+  const dom = new JSDOM(html);
+  const { document } = dom.window;
+  const images = document.querySelectorAll("img");
+  const imagesArray = Array.from(images);
+  const results = imagesArray.filter((el) =>
+    el.src.includes("https://encrypted-tbn0.gstatic.com")
+  );
+  const imageLinks = results.map((el: any) => {
+    const src = el.src;
+    const href = el.parentElement.parentElement.href
+      .replace("/url?q=", "")
+      .split("&")[0];
+    const text =
+      el.parentElement.parentElement.parentElement.parentElement.parentElement.getElementsByTagName(
+        "span"
+      );
+    const [, title, , source] = text;
+    return {
+      src,
+      href,
+      title: title.textContent.replace("...", ""),
+      source: source.textContent.replace("www.", "").replace("...", ""),
+    };
+  });
+  return imageLinks;
 };

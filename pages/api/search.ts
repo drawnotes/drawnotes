@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import fetch from "node-fetch";
-import { filter, parse } from "../../utils/search";
+import { filter, getImages, getLinks } from "../../utils/search";
 
 export default async function handler(
   req: NextApiRequest,
@@ -12,8 +12,13 @@ export default async function handler(
   if (response.ok) {
     const text = await response.text();
     const filtered = filter(text);
-    const json = parse(filtered);
-    res.status(200).json(json);
+    if (search?.includes("&tbm=isch")) {
+      const images = getImages(filtered);
+      res.status(200).json(images);
+    } else {
+      const links = getLinks(filtered);
+      res.status(200).json(links);
+    }
   } else {
     res.status(response.status).send(response.statusText);
   }
