@@ -8,6 +8,7 @@ import LogPanel from "../dashboardComponents/logPanel";
 import MapPanel from "../dashboardComponents/mapPanel";
 import { VisibleLayers } from "../types";
 import { GTFS } from "../utils/transit";
+import { useGetBreakpoint } from "../utils/useGetBreakpoint";
 import useIntervalFetch from "../utils/useIntervalFetch";
 
 declare type ColorMode = "day" | "night";
@@ -54,6 +55,7 @@ const Dashboard: NextPage<Props> = ({
     separated: false,
     multiUse: false,
   });
+  const { breakpoint, width } = useGetBreakpoint();
 
   useEffect(() => {
     if (typeof window !== undefined) {

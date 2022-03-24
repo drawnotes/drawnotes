@@ -8,7 +8,6 @@ import {
   getFieldTypes,
   getNullFields,
 } from "../utils/csvUtils";
-import { properCase } from "../utils/properCase";
 
 interface Props {
   selectedFileContent: string | undefined;
@@ -26,7 +25,7 @@ const CSVPreview: NextPage<Props> = ({ selectedFileContent }) => {
     const fields = results.meta
       .fields!.filter((field) => !nullFields.includes(field))
       .map((field) => ({
-        name: properCase(field),
+        name: field,
         field: field,
         type: fieldTypes[field],
         width: columnWidths[field],
