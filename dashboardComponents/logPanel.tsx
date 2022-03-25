@@ -21,7 +21,7 @@ const logPanel: NextPage<Props> = ({ children, data }) => {
 
   const scrollToBottom = () => {
     logRef.current?.scrollIntoView({
-      behavior: "smooth",
+      block: "end",
     });
   };
 
