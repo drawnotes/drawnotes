@@ -49,7 +49,6 @@ const OccupancyChart: NextPage<Props> = ({ data }) => {
   useEffect(() => {
     const scrollToEnd = () => {
       chartRef.current?.scrollIntoView({
-        behavior: "smooth",
         inline: "end",
       });
     };

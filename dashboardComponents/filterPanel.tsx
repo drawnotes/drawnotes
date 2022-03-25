@@ -10,6 +10,7 @@ import { GTFS } from "../utils/transit";
 import OccupancyChart from "./occupancyChart";
 import SpeedChart from "./speedChart";
 import VehicleChart from "./vehicleChart";
+
 interface Props {
   handleSetVisibleLayers: (event: any) => void;
   visibleLayers: VisibleLayers;
@@ -239,7 +240,7 @@ const filterPanel: NextPage<Props> = ({
           <Box ml={4} mb={2}>
             Vehicle Status
           </Box>
-          <Box ml={4} height="100px" overflowX="scroll" overflowY="hidden">
+          <Box ml={4} height="150px" overflowX="scroll" overflowY="hidden">
             {data && <VehicleChart data={data} />}
           </Box>
           <Box ml={4} mb={2}>
