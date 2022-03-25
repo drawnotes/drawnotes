@@ -1,6 +1,6 @@
 import { Box } from "@primer/react";
 import { NextPage } from "next";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Bar,
   BarChart,
@@ -18,7 +18,6 @@ interface Props {
 
 const SpeedChart: NextPage<Props> = ({ data }) => {
   const [chartData, setChartData] = useState<any>();
-  const chartRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (data) {
@@ -29,18 +28,6 @@ const SpeedChart: NextPage<Props> = ({ data }) => {
       setChartData(histogram);
     }
   }, [data]);
-
-  useEffect(() => {
-    const scrollToEnd = () => {
-      chartRef.current?.scrollIntoView({
-        behavior: "smooth",
-        inline: "end",
-      });
-    };
-    if (chartRef.current) {
-      scrollToEnd();
-    }
-  }, [chartData]);
 
   const CustomTooltip = (d: any) => {
     const chart = d.payload[0];
@@ -63,7 +50,7 @@ const SpeedChart: NextPage<Props> = ({ data }) => {
   };
 
   return (
-    <Box width="100%" height="100%" ref={chartRef}>
+    <Box width="100%" height="100%">
       <ResponsiveContainer width="100%" height="100%">
         <BarChart data={chartData} barCategoryGap={0}>
           <CartesianGrid horizontal vertical={false} strokeDasharray="3" />
