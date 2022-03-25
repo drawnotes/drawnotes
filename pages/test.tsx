@@ -1,18 +1,10 @@
 import "@fontsource/libre-baskerville";
-import {
-  FilterIcon,
-  GlobeIcon,
-  GraphIcon,
-  MoonIcon,
-  SunIcon,
-  TerminalIcon,
-} from "@primer/octicons-react";
-import { Box, StyledOcticon, ThemeProvider } from "@primer/react";
+import { Box, ThemeProvider } from "@primer/react";
 import Cookie from "js-cookie";
 import type { NextPage } from "next";
 import { useEffect, useState } from "react";
-import { Navbar, NavbarLink, NavbarLinks } from "../components/Navbar";
-import { useGetOrientation } from "../utils/useGetOrientation";
+import { MobileNavbar } from "../dashboardComponents/mobileNavbar";
+import { useGetBreakpoint } from "../utils/useGetBreakpoint";
 
 declare type ColorMode = "day" | "night";
 declare type ColorModeWithAuto = ColorMode | "auto";
@@ -28,7 +20,6 @@ const Test: NextPage<Props> = ({
   preferredDayScheme,
   preferredNightScheme,
 }) => {
-  const { orientation, height } = useGetOrientation();
   const [colorMode, setColorMode] = useState<ColorModeWithAuto>(
     preferredColorMode || "day"
   );
@@ -37,6 +28,7 @@ const Test: NextPage<Props> = ({
     preferredNightScheme || "dark"
   );
   const [selected, setSelected] = useState("map");
+  const { breakpoint } = useGetBreakpoint();
 
   useEffect(() => {
     if (typeof window !== undefined) {
@@ -62,6 +54,10 @@ const Test: NextPage<Props> = ({
     }
   }, []);
 
+  const handleSetSelected = (view: string) => {
+    setSelected(view);
+  };
+
   return (
     <ThemeProvider
       colorMode={colorMode}
@@ -76,58 +72,11 @@ const Test: NextPage<Props> = ({
           display="flex"
           justifyContent="center"
         >
-          <Navbar aria-label="Main">
-            <NavbarLinks>
-              <NavbarLink
-                selected={selected === "map"}
-                onClick={() => setSelected("map")}
-                sx={{
-                  "&:hover": { cursor: "pointer" },
-                }}
-              >
-                <StyledOcticon size={20} icon={GlobeIcon} />
-              </NavbarLink>
-              <NavbarLink
-                selected={selected === "filters"}
-                onClick={() => setSelected("filters")}
-                sx={{
-                  "&:hover": { cursor: "pointer" },
-                }}
-              >
-                <StyledOcticon size={20} icon={FilterIcon} />
-              </NavbarLink>
-              <NavbarLink
-                selected={selected === "charts"}
-                onClick={() => setSelected("charts")}
-                sx={{
-                  "&:hover": { cursor: "pointer" },
-                }}
-              >
-                <StyledOcticon size={20} icon={GraphIcon} />
-              </NavbarLink>
-              <NavbarLink
-                selected={selected === "logs"}
-                onClick={() => setSelected("logs")}
-                sx={{
-                  "&:hover": { cursor: "pointer" },
-                }}
-              >
-                <StyledOcticon size={20} icon={TerminalIcon} />
-              </NavbarLink>
-              <NavbarLink
-                selected={selected === "preferences"}
-                onClick={() => setSelected("preferences")}
-                sx={{
-                  "&:hover": { cursor: "pointer" },
-                }}
-              >
-                <StyledOcticon
-                  size={20}
-                  icon={colorMode === "night" ? MoonIcon : SunIcon}
-                />
-              </NavbarLink>
-            </NavbarLinks>
-          </Navbar>
+          <MobileNavbar
+            selected={selected}
+            handleSetSelected={handleSetSelected}
+            colorMode={colorMode}
+          />
         </Box>
       </Box>
     </ThemeProvider>

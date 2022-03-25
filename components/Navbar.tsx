@@ -46,6 +46,12 @@ export const NavbarLink: FunctionComponent<NavbarLinkProps> = ({
       borderColor="border.default"
       borderWidth={1}
       borderStyle="solid"
+      sx={{
+        "&:hover": {
+          cursor: "pointer",
+          bg: `${!selected && "neutral.muted"}`,
+        },
+      }}
       {...props}
     >
       {children}
