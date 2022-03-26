@@ -148,6 +148,11 @@ const Home: NextPage<Props> = ({
                   <NextPrimerLink href="/search">Web scraping</NextPrimerLink>
                 </Text>
               </Box>
+              <Box m={2}>
+                <Text>
+                  <NextPrimerLink href="/softwaredaily">Search</NextPrimerLink>
+                </Text>
+              </Box>
             </Box>
           </Box>
         </Box>

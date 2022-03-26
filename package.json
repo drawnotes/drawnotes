@@ -25,6 +25,7 @@
     "@types/jsdom": "^16.2.14",
     "@urql/exchange-graphcache": "^4.3.6",
     "deck.gl": "^8.6.8",
+    "fuse.js": "^6.5.3",
     "geojson": "^0.5.0",
     "graphql": "^16.3.0",
     "highlight.js": "^11.4.0",
