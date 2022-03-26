@@ -116,7 +116,6 @@ const Softwaredaily: NextPage<Props> = ({
         bg="canvas.default"
         display="flex"
         flexDirection="column"
-        justifyContent="center"
         alignItems="center"
       >
         <ColorModeSwitcher />
