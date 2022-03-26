@@ -7,6 +7,7 @@ import Cookie from "js-cookie";
 import type { NextPage } from "next";
 import Image from "next/image";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
+import ColorModeSwitcher from "../components/ColorModeSwitcher";
 import { NextPrimerLink } from "../components/NextPrimerLink";
 import articles from "../sampledata/articles.json";
 
@@ -110,6 +111,7 @@ const Softwaredaily: NextPage<Props> = ({
     >
       <Box
         width="100vw"
+        minHeight="100vh"
         color="fg.default"
         bg="canvas.default"
         display="flex"
@@ -117,6 +119,7 @@ const Softwaredaily: NextPage<Props> = ({
         justifyContent="center"
         alignItems="center"
       >
+        <ColorModeSwitcher />
         <Box mt={10} mb={4}>
           Software Daily Podcasts
         </Box>
