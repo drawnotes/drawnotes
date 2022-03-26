@@ -125,38 +125,30 @@ const Dashboard: NextPage<Props> = ({
       dayScheme={dayScheme}
       nightScheme={nightScheme}
     >
-      <Box
-        color="fg.default"
-        bg="canvas.default"
-        width="100vw"
-        height="100vh"
-        overflow="hidden"
+      <ColorModeSwitcher />
+      <FilterPanel
+        data={data}
+        visibleLayers={visibleLayers}
+        handleSetVisibleLayers={handleSetVisibleLayers}
       >
-        <ColorModeSwitcher />
-        <FilterPanel
-          data={data}
-          visibleLayers={visibleLayers}
-          handleSetVisibleLayers={handleSetVisibleLayers}
-        >
-          <LogPanel data={data}>
-            <Box
-              height="100%"
-              width="100%"
-              ref={deckRef}
-              bg="canvas.default"
-              overflow="scroll"
-            >
-              {mapSize && (
-                <MapPanel
-                  mapSize={mapSize}
-                  data={data}
-                  visibleLayers={visibleLayers}
-                />
-              )}
-            </Box>
-          </LogPanel>
-        </FilterPanel>
-      </Box>
+        <LogPanel data={data}>
+          <Box
+            height="100%"
+            width="100%"
+            ref={deckRef}
+            bg="canvas.default"
+            overflow="scroll"
+          >
+            {mapSize && (
+              <MapPanel
+                mapSize={mapSize}
+                data={data}
+                visibleLayers={visibleLayers}
+              />
+            )}
+          </Box>
+        </LogPanel>
+      </FilterPanel>
     </ThemeProvider>
   );
 };

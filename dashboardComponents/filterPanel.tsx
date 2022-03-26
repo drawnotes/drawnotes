@@ -88,7 +88,7 @@ const filterPanel: NextPage<Props> = ({
         boundsByDirection
         defaultSize={{
           width: 500,
-          height: "100vh",
+          height: "100%",
         }}
       >
         <Box
