@@ -149,7 +149,7 @@ const Search: NextPage<Props> = ({
           )}
         </Box>
         <Box maxWidth="720px">
-          {error && (
+          {error && !results && (
             <Box>
               <pre>{JSON.stringify(error, null, 2)}</pre>
             </Box>
