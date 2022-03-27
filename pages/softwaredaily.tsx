@@ -9,7 +9,7 @@ import Image from "next/image";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import ColorModeSwitcher from "../components/ColorModeSwitcher";
 import { NextPrimerLink } from "../components/NextPrimerLink";
-import articles from "../sampledata/articles.json";
+import episodeDescriptions from "../sampledata/fulltext.json";
 
 declare type ColorMode = "day" | "night";
 declare type ColorModeWithAuto = ColorMode | "auto";
@@ -20,6 +20,7 @@ interface Result {
   date: string;
   excerpt: string;
   src: string;
+  terms: string;
 }
 
 interface Props {
@@ -41,14 +42,17 @@ const Softwaredaily: NextPage<Props> = ({
     preferredNightScheme || "dark"
   );
   const inputRef = useRef<HTMLInputElement>(null);
-  const fuse = new Fuse(articles, {
-    keys: ["title", "excerpt"],
+  const episodes = episodeDescriptions as Result[];
+  const fuse = new Fuse(episodes, {
+    keys: ["title", "terms"],
+    ignoreLocation: true,
     threshold: 0,
   });
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<Result[] | undefined>(
-    articles as Result[]
+    episodes as Result[]
   );
+  const debounceRef = useRef<number | undefined>();
 
   useEffect(() => {
     if (typeof window !== undefined) {
@@ -76,12 +80,15 @@ const Softwaredaily: NextPage<Props> = ({
 
   useEffect(() => {
     if (query === "") {
-      setResults(articles as Result[]);
+      setResults(episodes as Result[]);
     } else {
-      const searchResults = fuse
-        .search(query)
-        .map((result) => result.item) as Result[];
-      setResults(searchResults);
+      clearTimeout(debounceRef.current);
+      debounceRef.current = window.setTimeout(async () => {
+        const searchResults = fuse
+          .search(query)
+          .map((result) => result.item) as Result[];
+        setResults(searchResults);
+      }, 500);
     }
   }, [query]);
 
@@ -98,7 +105,7 @@ const Softwaredaily: NextPage<Props> = ({
           .map((result) => result.item) as Result[];
         setResults(searchResults);
       } else {
-        setResults(articles as Result[]);
+        setResults(episodes as Result[]);
       }
     }
   };

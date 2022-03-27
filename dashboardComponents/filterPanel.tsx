@@ -82,7 +82,7 @@ const filterPanel: NextPage<Props> = ({
   }, [data]);
 
   return (
-    <Box display="flex" alignItems="flex-end">
+    <Box display="flex">
       {children}
       <Resizable
         boundsByDirection
@@ -92,8 +92,8 @@ const filterPanel: NextPage<Props> = ({
         }}
       >
         <Box
-          height="100%"
           width="100%"
+          height="100vh"
           bg="canvas.subtle"
           borderWidth={1}
           borderStyle="solid"
@@ -114,7 +114,7 @@ const filterPanel: NextPage<Props> = ({
           <Box m={4}>
             <Text>Montreal Realtime Transit Information</Text>
           </Box>
-          <Box display="flex">
+          <Box>
             <Box m={4}>
               <Box mb={2}>Transit</Box>
               <Box>
