@@ -9,7 +9,7 @@ import Image from "next/image";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import ColorModeSwitcher from "../components/ColorModeSwitcher";
 import { NextPrimerLink } from "../components/NextPrimerLink";
-import episodeDescriptions from "../sampledata/fulltext.json";
+import episodeDescriptions from "../data/fulltext.json";
 
 declare type ColorMode = "day" | "night";
 declare type ColorModeWithAuto = ColorMode | "auto";

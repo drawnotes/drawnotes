@@ -13,7 +13,7 @@ import {
   WebMercatorViewport,
 } from "react-map-gl";
 import ColorModeSwitcher from "../components/ColorModeSwitcher";
-import bikePaths from "../sampledata/bikePaths.json";
+import bikePaths from "../data/bikePaths.json";
 import { hexToRgb } from "../utils/color";
 import { MAPBOX_ACCESS_TOKEN } from "../utils/constants";
 import { lineFilter, pointFilter, polygonFilter } from "../utils/geo";

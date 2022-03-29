@@ -4,7 +4,7 @@ import Image from "next/image";
 import { Resizable } from "re-resizable";
 import { useEffect, useState } from "react";
 import { NextPrimerLink } from "../components/NextPrimerLink";
-import routeNames from "../sampledata/routeNames.json";
+import routeNames from "../data/routeNames.json";
 import { VisibleLayers } from "../types";
 import { GTFS } from "../utils/transit";
 import OccupancyChart from "./occupancyChart";
