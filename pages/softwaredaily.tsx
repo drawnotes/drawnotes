@@ -45,7 +45,6 @@ const Softwaredaily: NextPage<Props> = ({
   const episodes = episodeDescriptions as Result[];
   const fuse = new Fuse(episodes, {
     keys: ["title", "terms"],
-    ignoreLocation: true,
     threshold: 0,
   });
   const [query, setQuery] = useState("");
