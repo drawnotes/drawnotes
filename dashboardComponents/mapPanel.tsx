@@ -50,7 +50,7 @@ interface Props {
   visibleLayers: VisibleLayers;
 }
 
-const mapPanel: NextPage<Props> = ({ mapSize, data, visibleLayers }) => {
+const MapPanel: NextPage<Props> = ({ mapSize, data, visibleLayers }) => {
   const { colorScheme } = useTheme();
   const colorMode = colorScheme!.includes("dark") ? "dark" : "light";
   const mapStyle = colorScheme!.includes("dark")
@@ -494,4 +494,4 @@ const mapPanel: NextPage<Props> = ({ mapSize, data, visibleLayers }) => {
   );
 };
 
-export default mapPanel;
+export default MapPanel;

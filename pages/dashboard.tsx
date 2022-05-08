@@ -3,9 +3,9 @@ import Cookie from "js-cookie";
 import { NextPage } from "next";
 import { useEffect, useRef, useState } from "react";
 import ColorModeSwitcher from "../components/ColorModeSwitcher";
-import FilterPanel from "../dashboardComponents/filterPanel";
-import LogPanel from "../dashboardComponents/logPanel";
-import MapPanel from "../dashboardComponents/mapPanel";
+import FilterPanel from "../dashboardComponents/FilterPanel";
+import LogPanel from "../dashboardComponents/LogPanel";
+import MapPanel from "../dashboardComponents/MapPanel";
 import { VisibleLayers } from "../types";
 import { GTFS } from "../utils/transit";
 import { useGetBreakpoint } from "../utils/useGetBreakpoint";
@@ -133,6 +133,7 @@ const Dashboard: NextPage<Props> = ({
       >
         <LogPanel data={data}>
           <Box
+            color="fg.default"
             height="100%"
             width="100%"
             ref={deckRef}

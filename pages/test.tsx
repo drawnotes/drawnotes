@@ -3,7 +3,7 @@ import { Box, ThemeProvider } from "@primer/react";
 import Cookie from "js-cookie";
 import type { NextPage } from "next";
 import { useEffect, useState } from "react";
-import { MobileNavbar } from "../dashboardComponents/mobileNavbar";
+import { MobileNavbar } from "../dashboardComponents/MobileNavbar";
 import { useGetBreakpoint } from "../utils/useGetBreakpoint";
 
 declare type ColorMode = "day" | "night";

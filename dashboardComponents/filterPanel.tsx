@@ -7,9 +7,9 @@ import { NextPrimerLink } from "../components/NextPrimerLink";
 import routeNames from "../data/routeNames.json";
 import { VisibleLayers } from "../types";
 import { GTFS } from "../utils/transit";
-import OccupancyChart from "./occupancyChart";
-import SpeedChart from "./speedChart";
-import VehicleChart from "./vehicleChart";
+import OccupancyChart from "./OccupancyChart";
+import SpeedChart from "./SpeedChart";
+import VehicleChart from "./VehicleChart";
 
 interface Props {
   handleSetVisibleLayers: (event: any) => void;
@@ -17,7 +17,7 @@ interface Props {
   data: GTFS | undefined;
 }
 
-const filterPanel: NextPage<Props> = ({
+const FilterPanel: NextPage<Props> = ({
   children,
   handleSetVisibleLayers,
   visibleLayers,
@@ -82,7 +82,7 @@ const filterPanel: NextPage<Props> = ({
   }, [data]);
 
   return (
-    <Box display="flex">
+    <Box display="flex" color="fg.default">
       {children}
       <Resizable
         boundsByDirection
@@ -254,4 +254,4 @@ const filterPanel: NextPage<Props> = ({
     </Box>
   );
 };
-export default filterPanel;
+export default FilterPanel;
