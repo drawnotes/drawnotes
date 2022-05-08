@@ -8,7 +8,7 @@ interface Props {
   data: GTFS | undefined;
 }
 
-const logPanel: NextPage<Props> = ({ children, data }) => {
+const LogPanel: NextPage<Props> = ({ children, data }) => {
   const [logData, setLogData] = useState<any>();
   const logRef = useRef<HTMLDivElement>(null);
 
@@ -19,17 +19,16 @@ const logPanel: NextPage<Props> = ({ children, data }) => {
     }
   }, [data]);
 
-  const scrollToBottom = () => {
-    logRef.current?.scrollIntoView({
-      block: "end",
-    });
-  };
-
   useEffect(() => {
+    const scrollToBottom = () => {
+      logRef.current?.scrollIntoView({
+        block: "end",
+      });
+    };
     if (logRef.current) {
       scrollToBottom();
     }
-  }, [logData, scrollToBottom]);
+  }, [logData]);
 
   return (
     <Box
@@ -88,4 +87,4 @@ const logPanel: NextPage<Props> = ({ children, data }) => {
   );
 };
 
-export default logPanel;
+export default LogPanel;
