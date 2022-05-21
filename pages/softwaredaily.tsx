@@ -158,7 +158,12 @@ const Softwaredaily: NextPage<Props> = ({
                 </Box>
                 {result.src && (
                   <Box m={2}>
-                    <Image src={result.src} width={600} height={300} />
+                    <Image
+                      alt={result.title}
+                      src={result.src}
+                      width={600}
+                      height={300}
+                    />
                   </Box>
                 )}
               </Box>
