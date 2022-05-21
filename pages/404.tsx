@@ -45,7 +45,7 @@ const Custom404 = () => {
         }
       }
     }
-  }, []);
+  }, [setDayScheme, setNightScheme]);
 
   return (
     <ThemeProvider colorMode={colorMode}>
