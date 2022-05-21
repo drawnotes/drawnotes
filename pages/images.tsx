@@ -8,6 +8,7 @@ import ColorModeSwitcher from "../components/ColorModeSwitcher";
 import { NextPrimerLink } from "../components/NextPrimerLink";
 import { useGetBreakpoint } from "../utils/useGetBreakpoint";
 import useImageSearch from "../utils/useImageSearch";
+import Head from "next/head";
 
 interface Query {
   query: string;
@@ -103,12 +104,12 @@ const Images: NextPage<Props> = ({
       dayScheme={dayScheme}
       nightScheme={nightScheme}
     >
-      <head>
+      <Head>
         <meta
           name="viewport"
           content="width=device-width, initial-scale=1, maximum-scale=1"
         />
-      </head>
+      </Head>
       <Box
         width="100vw"
         minHeight="100vh"

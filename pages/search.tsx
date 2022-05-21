@@ -7,6 +7,7 @@ import { ChangeEvent, KeyboardEvent, useEffect, useRef, useState } from "react";
 import ColorModeSwitcher from "../components/ColorModeSwitcher";
 import { NextPrimerLink } from "../components/NextPrimerLink";
 import useSearch from "../utils/useSearch";
+import Head from "next/head";
 
 interface Query {
   query: string;
@@ -101,12 +102,12 @@ const Search: NextPage<Props> = ({
       dayScheme={dayScheme}
       nightScheme={nightScheme}
     >
-      <head>
+      <Head>
         <meta
           name="viewport"
           content="width=device-width, initial-scale=1, maximum-scale=1"
         />
-      </head>
+      </Head>
       <Box
         width="100vw"
         minHeight="100vh"
