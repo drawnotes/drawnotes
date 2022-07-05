@@ -129,7 +129,9 @@ const Home: NextPage<Props> = ({
                 <Text>Typescript, React, Next.js, GraphQL</Text>
               </Box>
               <Box m={2}>
-                <Text>Mapping, GIS, data wrangling</Text>
+                <NextPrimerLink href="https://map.anselbrandt.dev">
+                  <Text>Mapping, GIS, data wrangling</Text>
+                </NextPrimerLink>
               </Box>
               <Box m={2}>
                 <Text>
