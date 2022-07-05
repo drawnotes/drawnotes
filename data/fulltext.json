@@ -1,5 +1,437 @@
 [
   {
+    "title": "Earthly Builds with Adam Gordon Bell",
+    "href": "https://softwareengineeringdaily.com/2022/07/01/earthly-builds-with-adam-gordon-bell/",
+    "date": "Friday, July 1 2022",
+    "excerpt": "Build automation tools automate the process of building code, including steps such as compiling, packaging binary code, and running automated tests. Because of this, build automation",
+    "src": "https://i1.wp.com/softwareengineeringdaily.com/wp-content/uploads/2022/06/Group-226-4.png",
+    "audioSrc": "",
+    "text": "Build automation tools automate the process of building code, including steps such as compiling, packaging binary code, and running automated tests. Because of this, build automation tools are considered a key part of a continuous delivery pipeline. Build automation tools read build scripts to define how they should perform a build. Common build scripts include Makefile, Dockerfile, and bash. Earthly is a build automation tool that allows you to execute all your builds in containers. Earthly uses Earthfiles, which draws from the best features of Makefile and Dockerfile and provides a common layer between language-specific tooling and the CI build spec. Earthly builds are repeatable, isolated, and self-contained, and will run the same way across different environments such as a CI system or a developer’s laptop."
+  },
+  {
+    "title": "LiveBlocks with Guillaume Salles",
+    "href": "https://softwareengineeringdaily.com/2022/06/30/liveblocks-with-guillaume-salles/",
+    "date": "Thursday, June 30 2022",
+    "excerpt": "Creating great creative tools is extremely difficult. There are thousands of paths a user could take, and every aspect of the user experience has to be carefully considered and optimized",
+    "src": "https://i2.wp.com/softwareengineeringdaily.com/wp-content/uploads/2022/06/Rectangle-170.png",
+    "audioSrc": "",
+    "text": "Creating great creative tools is extremely difficult. There are thousands of paths a user could take, and every aspect of the user experience has to be carefully considered and optimized for performance. And when you try to add real-time collaboration on top of that, you can be sure that you’re left with almost no time to focus on the core user experience of your product. Liveblocks is a set of tools and APIs that helps you create amazing real-time collaborative experiences. With Liveblocks, you can make anything collaborative in minutes so that you can give your core product the attention it deserves."
+  },
+  {
+    "title": "Gitcoin Ecosystem with Gloria Kimbwala",
+    "href": "https://softwareengineeringdaily.com/2022/06/29/gitcoin-ecosystem-with-gloria-kimbwala/",
+    "date": "Wednesday, June 29 2022",
+    "excerpt": "Most technology companies rely on open source software projects. But open source software projects are often maintained by a group of people that is not affiliated with any particular",
+    "src": "https://i2.wp.com/softwareengineeringdaily.com/wp-content/uploads/2022/06/Group-227-2.png",
+    "audioSrc": "",
+    "text": "Most technology companies rely on open source software projects. But open source software projects are often maintained by a group of people that is not affiliated with any particular company. When an open source project develops too much technical debt, it can become a tragedy of the commons. Who is responsible for maintaining these open source projects? This is the motivation for open source bounties. Companies and individuals who rely on open source create bounties, which are financial incentives for developers to solve problems within the open source project."
+  },
+  {
+    "title": "Mailchimp Engineering with Eric Muntz",
+    "href": "https://softwareengineeringdaily.com/2022/06/28/mailchimp-engineering-with-eric-muntz/",
+    "date": "Tuesday, June 28 2022",
+    "excerpt": "Mailchimp is an all-in-one marketing platform for growing businesses, empowering millions of customers around the world to launch, build, and grow their businesses with world-class",
+    "src": "https://i2.wp.com/softwareengineeringdaily.com/wp-content/uploads/2022/06/Group-225-2.png",
+    "audioSrc": "",
+    "text": "Mailchimp is an all-in-one marketing platform for growing businesses, empowering millions of customers around the world to launch, build, and grow their businesses with world-class marketing technology, award-winning customer support, and inspiring content. "
+  },
+  {
+    "title": "Technical Venture Capital with Tim Tully",
+    "href": "https://softwareengineeringdaily.com/2022/06/27/technical-venture-capital-with-tim-tully/",
+    "date": "Monday, June 27 2022",
+    "excerpt": "Venture capital investment has continued to flow into technology startups. No one builds technology from scratch. There are cloud services, software libraries, 3rd party services,",
+    "src": "https://i1.wp.com/softwareengineeringdaily.com/wp-content/uploads/2022/06/Group-228.png",
+    "audioSrc": "",
+    "text": "Venture capital investment has continued to flow into technology startups. No one builds technology from scratch. There are cloud services, software libraries, 3rd party services, and software platforms that modern entrepreneurs must adopt to build their products efficiently and quickly. These layers of infrastructure are a key area for many investors. Tim is a partner at Menlo Ventures where he invests in cloud and data infrastructure, AI/ML and cyber security. He joins the show to discuss what goes into a smart investment."
+  },
+  {
+    "title": "Coinrule Automated Crypto Trading with Zdenek Hofler",
+    "href": "https://softwareengineeringdaily.com/2022/06/24/coinrule-automated-crypto-trading-with-zdenek-hofler/",
+    "date": "Friday, June 24 2022",
+    "excerpt": "Between hyper financialisation and the growth of automation in the world, trade and investments have become an ever more prevalent and important tool for the mass market. But the",
+    "src": "https://i1.wp.com/softwareengineeringdaily.com/wp-content/uploads/2022/06/Group-227-1.png",
+    "audioSrc": "",
+    "text": "Between hyper financialisation and the growth of automation in the world, trade and investments have become an ever more prevalent and important tool for the mass market. But the relative knowledge of professional and hobbyist investors is different, and so is the access to opportunities. Coinrule empowers regular people to compete with professional traders by automating investments without having to learn a single line of code. "
+  },
+  {
+    "title": "Protocol Labs Research with Jeromy Johnson",
+    "href": "https://softwareengineeringdaily.com/2022/06/23/protocol-labs-research/",
+    "date": "Thursday, June 23 2022",
+    "excerpt": "Breakthroughs from labs that are exclusively or mostly focused on research tend to stay buried as papers. Sometimes the lag is natural, the research is far ahead of its broad",
+    "src": "https://i1.wp.com/softwareengineeringdaily.com/wp-content/uploads/2022/06/Group-226-2.png",
+    "audioSrc": "",
+    "text": "Breakthroughs from labs that are exclusively or mostly focused on research tend to stay buried as papers. Sometimes the lag is natural, the research is far ahead of its broad applicability. But we find that there are hundreds of breakthroughs useful long before they reach users. It can take many years, even decades, before breakthroughs are realized in products that improve people’s lives. This is massively inefficient! Research has to be coupled closely with development and deployment, so that we can iterate through the cycle quickly, and build good products that actually solve problems for people. Protocol Labs is a research, development, and deployment lab for network protocols. Their projects include IPFS, Filecoin, libp2p, and many more."
+  },
+  {
+    "title": "Building for Crypto with Lewis Tuff",
+    "href": "https://softwareengineeringdaily.com/2022/06/21/blockchain-com-infrastructure-with-lewis-tuff-2/",
+    "date": "Tuesday, June 21 2022",
+    "excerpt": "As crypto gains worldwide attention, the most scalable, resilient and performant systems are required for the industry to thrive. Products must be designed for a mix of technical and",
+    "src": "https://i0.wp.com/softwareengineeringdaily.com/wp-content/uploads/2022/06/Group-233.png",
+    "audioSrc": "",
+    "text": " Sponsorship inquiries: sponsor@softwareengineeringdaily.com"
+  },
+  {
+    "title": "Kubernetes Spend with Webb Brown",
+    "href": "https://softwareengineeringdaily.com/2022/06/16/kubernetes-spend-with-webb-brown/",
+    "date": "Thursday, June 16 2022",
+    "excerpt": "This episode is hosted by Lee Atchison. Lee Atchison is a software architect, author, and thought leader on cloud computing and application modernization. His most recent book,",
+    "src": "https://i2.wp.com/softwareengineeringdaily.com/wp-content/uploads/2022/06/kubecost.png",
+    "audioSrc": "",
+    "text": "This episode is hosted by Lee Atchison. Lee Atchison is a software architect, author, and thought leader on cloud computing and application modernization. His most recent book, Architecting for Scale"
+  },
+  {
+    "title": "Valora Decentralized Venmo with Charlie Andrews-Jubelt",
+    "href": "https://softwareengineeringdaily.com/2022/06/15/valora-decentralized-venmo-with-charlie-andrews-jubelt/",
+    "date": "Wednesday, June 15 2022",
+    "excerpt": "Web3 promises to change the way we interact and transact online, but today’s dapps and wallets are hard to use. They are typically optimized for desktop machines and domain experts. In",
+    "src": "https://i2.wp.com/softwareengineeringdaily.com/wp-content/uploads/2022/06/valora-1.png",
+    "audioSrc": "",
+    "text": "Web3 promises to change the way we interact and transact online, but today’s dapps and wallets are hard to use. They are typically optimized for desktop machines and domain experts. In particular, it can be hard to bring value on-chain, and hard to know what to do once you’ve onboarded. Charlie Andrews-Jubelt is a software engineer who works on Valora, a mobile wallet, and Revo, a dapp that makes it easier to invest in DeFi and get compound interest. Charlie joins the show to talk about the engineering challenges of making web3 more accessible. Sponsorship inquiries: sponsor@softwareengineeringdaily.com."
+  },
+  {
+    "title": "ContainIQ with Matthew Lenhard",
+    "href": "https://softwareengineeringdaily.com/2022/06/13/containiq-with-matthew-lenhard/",
+    "date": "Monday, June 13 2022",
+    "excerpt": "While Kubernetes has many benefits, there is often a need for teams to deploy a monitoring and observability stack to troubleshoot issues that happen within the cluster and the",
+    "src": "https://i0.wp.com/softwareengineeringdaily.com/wp-content/uploads/2022/06/Group-226-1.png",
+    "audioSrc": "",
+    "text": "While Kubernetes has many benefits, there is often a need for teams to deploy a monitoring and observability stack to troubleshoot issues that happen within the cluster and the applications themselves. ContainIQ, an out-of-the-box solution, allows engineers to monitor the health of their cluster and troubleshoot issues faster. ContainIQ is unique in its approach in that it was built with eBPF in mind, and is able to provide an APM like experience without being an APM. Matt Lenhard is the Co-founder and CTO of ContainIQ and joins the show to discuss the future of K8s monitoring and observability, as well as the unique technological approach he is taking with eBPF. Sponsorship inquiries: sponsor@softwareengineeringdaily.com"
+  },
+  {
+    "title": "Open-Source Cloud Asset Management with Yevgeny Pats",
+    "href": "https://softwareengineeringdaily.com/2022/06/10/open-source-cloud-asset-management-with-yevgeny-pats/",
+    "date": "Friday, June 10 2022",
+    "excerpt": "This episode is hosted by Alex DeBrie. Alex is the author of The DynamoDB Book, the comprehensive guide to data modeling with DynamoDB, as well as The DynamoDB Guide, a free guided",
+    "src": "https://i2.wp.com/softwareengineeringdaily.com/wp-content/uploads/2022/06/Group-225-1.png",
+    "audioSrc": "",
+    "text": "This episode is hosted by Alex DeBrie. Alex is the author of The DynamoDB Book, the comprehensive guide to data modeling with DynamoDB, as well as The DynamoDB Guide, a free guided introduction to DynamoDB. He runs a consulting company where he assists clients with DynamoDB data modeling, serverless architectures, and general AWS usage. You can find more of his work at alexdebrie.com. Yevgeny Pats is the creator of CloudQuery, an open source cloud asset inventory powered by SQL. CloudQuery allows you to ingest and structure the resources in your cloud accounts so that you can query them using SQL. This allows SRE teams to understand the source of specific resources while security teams can ensure compliance with policies."
+  },
+  {
+    "title": "Upgrading The Rocket In The Air – CTO Decisions with Cos Nicolaescu",
+    "href": "https://softwareengineeringdaily.com/2022/06/09/cto-decisions-with-cos-nicolaescu/",
+    "date": "Thursday, June 9 2022",
+    "excerpt": "How to build a rocket ship while flying it? In this episode, Cos returns to the show to discuss the technologies and approach Brex chose to create an engineering organization and",
+    "src": "https://i1.wp.com/softwareengineeringdaily.com/wp-content/uploads/2022/06/Group-227.png",
+    "audioSrc": "",
+    "text": "Sponsorship inquiries: sponsor@softwareengineeringdaily.com. As an independent developer, acquiring new customers and achieving recurring revenue is a challenge. You think you need to release paid upgrades to draw revenue from your apps, and it really frustrates your users. With Setapp, forget about it."
+  },
+  {
+    "title": "Global State Management with James Cowling",
+    "href": "https://softwareengineeringdaily.com/2022/06/02/global-state-management-with-james-cowling/",
+    "date": "Thursday, June 2 2022",
+    "excerpt": "Convex makes storing your application’s data as easy as using React state management. If you can use React hooks, you can also manage your backend data using Convex. James Cowling",
+    "src": "https://i2.wp.com/softwareengineeringdaily.com/wp-content/uploads/2022/05/logo1-1.png",
+    "audioSrc": "",
+    "text": "makes storing your application’s data as easy as using React state management. If you can use React hooks, you can also manage your backend data using Convex. James Cowling"
+  },
+  {
+    "title": "Infura Ethereum Infrastructure with E.G. Galano",
+    "href": "https://softwareengineeringdaily.com/2022/06/02/infura-ethereum-infrastructure-with-e-g-galano/",
+    "date": "",
+    "excerpt": "Developers looking for read or write access to Ethereum, Polygon, IPFS or other Web3 networks in order to get their idea in the hands of users need reliable RPC endpoints they can count",
+    "src": "https://i0.wp.com/softwareengineeringdaily.com/wp-content/uploads/2022/05/Group-230-1.png",
+    "audioSrc": "",
+    "text": "Developers looking for read or write access to Ethereum, Polygon, IPFS or other Web3 networks in order to get their idea in the hands of users need reliable RPC endpoints they can count on, whether they are working on a hackathon project or running hybrid architecture for a production application. Infura provides a platform for developers to get access to those end points as well as tooling to help them build on Web3. With its origin being Ethereum, Infura has expanded to both EVM-compatible and non-EVM compatible blockchains, as well as decentralized storage. From wallets, DeFi, gaming, Metaverse, or NFT projects, Infura is relied upon by some of the most used and popular projects in Web3. With billions of daily requests handled, the team has built knowledge on how to scale with reliability. Co-Founder and General Manager of Infura, EG Galano joins the show to talk about Blockchain infrastructure and protocols."
+  },
+  {
+    "title": "Decodable Streaming with Eric Sammer",
+    "href": "https://softwareengineeringdaily.com/2022/06/01/decodable-streaming-with-eric-sammer/",
+    "date": "Wednesday, June 1 2022",
+    "excerpt": "Streaming data platforms like Kafka, Pulsar, and Kinesis are now common in mainstream enterprise architectures, providing low-latency real-time messaging for analytics and applications.",
+    "src": "https://i2.wp.com/softwareengineeringdaily.com/wp-content/uploads/2022/05/Group-232-1.png",
+    "audioSrc": "",
+    "text": "Streaming data platforms like Kafka, Pulsar, and Kinesis are now common in mainstream enterprise architectures, providing low-latency real-time messaging for analytics and applications. However, stream processing – the act of filtering, transforming, or analyzing the data inside the messages – is still an exercise left to the receiving microservice or datastore, a custom programming exercise likely repeated over and over within an application. Stream processing tools such as Apache Flink and ksqlDB have been around for half a decade, but their complexity has hindered adoption. Decodable’s mission is to radically simplify processing on the stream with a SaaS platform based on Flink, and using only SQL which frees up developers to focus on what matters most. Discover how the most innovative companies, from cloud-native growth machines to forward-thinking enterprises, are automating, simplifying, and optimizing their cloud infrastructure with Spot by NetApp."
+  },
+  {
+    "title": "Kubernetes Security Compliance with Jimmy Mesta",
+    "href": "https://softwareengineeringdaily.com/2022/05/31/kubernetes-security-compliance-with-jimmy-mesta/",
+    "date": "Tuesday, May 31 2022",
+    "excerpt": "The Kubernetes ecosystem has drastically changed how development teams ship software. While Kubernetes has provided many advancements in cloud infrastructure, it has also left",
+    "src": "https://i0.wp.com/softwareengineeringdaily.com/wp-content/uploads/2022/05/Group-228-4.png",
+    "audioSrc": "",
+    "text": "The Kubernetes ecosystem has drastically changed how development teams ship software. While Kubernetes has provided many advancements in cloud infrastructure, it has also left organizations with massive security blindspots. KSOC was created to give developers and security teams a single control plane to harden multi-cluster Kubernetes environments through event-driven analysis, least privilege enforcement, and remediation-as-code. is the Co-Founder and CTO of KSOC and joins the show to discuss modern Kubernetes security challenges and how security teams need to prepare for a future where Kubernetes is the top attack target for adversaries."
+  },
+  {
+    "title": "New Relic Architecture with Nic Benders",
+    "href": "https://softwareengineeringdaily.com/2022/05/27/new-relic-architecture-with-nic-benders/",
+    "date": "Friday, May 27 2022",
+    "excerpt": "In software engineering, telemetry is the data that is collected about your applications. Unlike logging, which is used in the development of apps to pinpoint errors and code flows,",
+    "src": "https://i1.wp.com/softwareengineeringdaily.com/wp-content/uploads/2022/05/Group-229-1.png",
+    "audioSrc": "",
+    "text": "In software engineering, telemetry is the data that is collected about your applications. Unlike logging, which is used in the development of apps to pinpoint errors and code flows, telemetry data includes all operational data including logs, metrics, events, traces, usage, and other analytical data. Companies usually visualize this information to troubleshoot problems and understand patterns and opportunities in how their applications are used. The company New Relic is a modern observability platform built to optimize your entire software stack from one place. New Relic includes a Telemetry Data Platform that acts as a single source of truth for telemetry data. Built on top of that are tools for full stack observability to visualize and troubleshoot your data in milliseconds. When a problem does occur, New Relic’s applied intelligence will detect and understand the problem to help resolve it faster."
+  },
+  {
+    "title": "Conductor Orchestration with Boney Sekh",
+    "href": "https://softwareengineeringdaily.com/2022/05/25/conductor-orchestration-with-boney-sekh/",
+    "date": "Wednesday, May 25 2022",
+    "excerpt": "One of the challenges with Microservices architecture is how you manage dependencies between your services when implementing workflows. Conductor is an open-source microservices and",
+    "src": "https://i1.wp.com/softwareengineeringdaily.com/wp-content/uploads/2022/05/Group-237.png",
+    "audioSrc": "",
+    "text": "One of the challenges with Microservices architecture is how you manage dependencies between your services when implementing workflows. Conductor is an open-source microservices and workflow orchestration platform. co-founded Orkes Inc – a company focused on offering Conductor as a service. Boney joins the show to discuss how engineers leverage Conductor to build highly reliable distributed applications using."
+  },
+  {
+    "title": "Notifications Infrastructure with Chris Bell",
+    "href": "https://softwareengineeringdaily.com/2022/05/24/notifications-infrastructure-with-chris-bell/",
+    "date": "Tuesday, May 24 2022",
+    "excerpt": "Notifications have typically been an area of a product where building in-house has been the only option. However, building a best-in-class notifications system that delivers a great",
+    "src": "https://i0.wp.com/softwareengineeringdaily.com/wp-content/uploads/2022/05/Group-226-6.png",
+    "audioSrc": "",
+    "text": "Notifications have typically been an area of a product where building in-house has been the only option. However, building a best-in-class notifications system that delivers a great customer experience requires a significant investment when you start to layer in complexities like batching, cross channel orchestration, and user preferences. Chris Bell of Knock joins the show to talk through how Knock can solve the challenges with building an in-house product notification system, and free up engineering time in the process. Stream provides an easy-to-integrate chat solution for any application. With robust SDKs and an API built for ease of use, scalability, reliability, and security, product teams can focus on what makes their app unique rather than spending months on building a chat infrastructure. Stream’s feature-rich products include robust client-side SDKs for Angular, iOS, iOS Swift/UI, Android, Compose, React, React Native, Flutter, and Unreal support for the most commonly used server-side languages; scalable and secure APIs; and a beautiful UI kit. Check it out at https://getstream.io/"
+  },
+  {
+    "title": "CloudGraph with Tyson Kunovsky",
+    "href": "https://softwareengineeringdaily.com/2022/05/21/cloudgraph-with-tyson-kunovsky/",
+    "date": "Saturday, May 21 2022",
+    "excerpt": "The advent of the cloud introduced a new form of technical debt in which organizations can lose track of what infrastructure they have and how it relates to the business. While the",
+    "src": "https://i0.wp.com/softwareengineeringdaily.com/wp-content/uploads/2022/05/Group-228-3.png",
+    "audioSrc": "",
+    "text": "The advent of the cloud introduced a new form of technical debt in which organizations can lose track of what infrastructure they have and how it relates to the business. While the cloud’s native APIs offer some transparency into your infrastructure, these offerings are often described as necessary but not sufficient. When companies have a non-trivial question about their environments, getting answers can have a big cognitive overhead to get a clear answer. In this episode, I interview Tyson Kunovsky, Co-Founder and CEO at AutoCloud, creators of the open source project Cloud Graph. CloudGraph is a free and open source GraphQL API for AWS, Azure, GCP, and Kubernetes. CloudGraph provides a much more intuitive graphQL based interface to ask questions about your infrastructure in context of the relationships between components."
+  },
+  {
+    "title": "Browser Observability With Jay Khatri",
+    "href": "https://softwareengineeringdaily.com/2022/05/20/browser-observability-with-jay/",
+    "date": "Friday, May 20 2022",
+    "excerpt": "Highlight is a tool that helps teams reproduce end-to-end user sessions to troubleshoot their applications faster, more efficiently, and with all the context they need. With Highlight,",
+    "src": "https://i2.wp.com/softwareengineeringdaily.com/wp-content/uploads/2022/05/Group-226-7.png",
+    "audioSrc": "",
+    "text": "This portion of Software Engineering Daily is brought to you by Datadog. Are you having trouble visualizing latency, cpu, and memory bottlenecks in your apps and not sure where the issue is coming from or how to solve it?"
+  },
+  {
+    "title": "Technical Debt With Lee Atchison",
+    "href": "https://softwareengineeringdaily.com/2022/05/18/technical-debt-with-lee-atchison/",
+    "date": "Wednesday, May 18 2022",
+    "excerpt": "Lee Atchison spent seven years at Amazon working in retail, software distribution and Amazon Web Services. He then moved to New Relic, where he spent eight years scaling the",
+    "src": "https://i1.wp.com/softwareengineeringdaily.com/wp-content/uploads/2022/05/image-1.png",
+    "audioSrc": "",
+    "text": "Lee Atchison spent seven years at Amazon working in retail, software distribution and Amazon Web Services. He then moved to New Relic, where he spent eight years scaling the company’s internal architecture. Lee has deep expertise in building and managing fast growing web applications, and he used this knowledge to write architecting for scale from O’Reilly. Technical debt is a common problem for engineering teams. Technical debt is additional long-term work required to evolve or maintain an application due to a short-term decision in designing or building that application. Too much technical debt can reduce product innovation and lead to lower employee retention. In this episode, we’ll discuss all things technical debt based on Lee’s recent article,"
+  },
+  {
+    "title": "Skyflow Privacy and Compliance with Sean Falconer",
+    "href": "https://softwareengineeringdaily.com/2022/05/16/skyflow-privacy-and-compliance-with-sean-falconer/",
+    "date": "Monday, May 16 2022",
+    "excerpt": "There’s an increasing regulatory and consumer pressure on companies to do a better job protecting sensitive customer data. Yet, despite this pressure, data breaches and compliance",
+    "src": "https://i2.wp.com/softwareengineeringdaily.com/wp-content/uploads/2022/05/Group-226-3.png",
+    "audioSrc": "",
+    "text": "There’s an increasing regulatory and consumer pressure on companies to do a better job protecting sensitive customer data. Yet, despite this pressure, data breaches and compliance issues continue to plague the tech industry. Companies like Apple, Netflix, and Google have solved these challenges by pioneering a new type of technology, the data privacy vault. Skyflow is making this technology available to all companies through a simple API. Sean Falconer joins the show to discuss the features of a data privacy vault and the data security and compliance challenges it addresses. "
+  },
+  {
+    "title": "Data Delivery with Naqeeb Memon",
+    "href": "https://softwareengineeringdaily.com/2022/05/13/data-delivery-with-naqeeb-memon/",
+    "date": "Friday, May 13 2022",
+    "excerpt": "Data-as-a-service is a company category type that is not as common as API-as-a-service, software-as-a-service, or platform-as-a-service. In order to vend data, a data-as-a-service",
+    "src": "https://i1.wp.com/softwareengineeringdaily.com/wp-content/uploads/2022/05/Group-234.png",
+    "audioSrc": "",
+    "text": "Data-as-a-service is a company category type that is not as common as API-as-a-service, software-as-a-service, or platform-as-a-service. In order to vend data, a data-as-a-service provider needs to define how that data will be priced, stored, and delivered to users: streaming over an API or served via static files. Naqeeb Memon of Safegraph joins the show to talk through the mechanics of delivering data-as-a-service. Skyflow is a zero trust data privacy vault delivered as an API."
+  },
+  {
+    "title": "Arweave with Sam Williams",
+    "href": "https://softwareengineeringdaily.com/2022/05/12/arweave-with-sam-williams/",
+    "date": "Thursday, May 12 2022",
+    "excerpt": "Blockchains were the first systems to allow guaranteed permanent storage of public data. As cryptocurrency technology has advanced, a rich ecosystem of permanent storage and compute has",
+    "src": "https://i2.wp.com/softwareengineeringdaily.com/wp-content/uploads/2022/05/Group-226-2.png",
+    "audioSrc": "",
+    "text": "Blockchains were the first systems to allow guaranteed permanent storage of public data. As cryptocurrency technology has advanced, a rich ecosystem of permanent storage and compute has developed as well. One of these is Arweave, a system for permanent information storage. Sam Williams is a founder of Arweave and joins the show to talk through how Arweave works and his motivation for starting it. Databases are changing the way engineers build applications. Find out the latest at MongoDB World 2022."
+  },
+  {
+    "title": "Data Labeling with Michael Malyuk",
+    "href": "https://softwareengineeringdaily.com/2022/05/10/data-labeling-with-michael-malyuk/",
+    "date": "Tuesday, May 10 2022",
+    "excerpt": "Data labeling allows machine learning algorithms to find patterns among the data. There are a variety of data labeling platforms that enable humans to apply labels to this data and ready",
+    "src": "https://i1.wp.com/softwareengineeringdaily.com/wp-content/uploads/2022/05/Group-228.png",
+    "audioSrc": "",
+    "text": "Data labeling allows machine learning algorithms to find patterns among the data. There are a variety of data labeling platforms that enable humans to apply labels to this data and ready it for algorithms. Heartex is a data labeling platform with an open source core. Michael Malyuk joins the show to talk through the platform and modern usage of data labeling systems. Cox Automotive transforms the way that the world buys, sells, owns, and uses cars – and they have the data to understand how the world gets from point A to point B. With brands like Kelley Blue Book, Autotrader, Dealer.com and others, Cox Automotive is hiring software engineers, data scientists, scrum masters, and other technologists to help create meaningful change in the industry. If you want to innovate in a collaborative workplace, one that values your time and work-life balance, then visit"
+  },
+  {
+    "title": "Pinot and StarTree with Chinmay Soman",
+    "href": "https://softwareengineeringdaily.com/2022/05/09/pinot-and-startree-with-chinmay-soman/",
+    "date": "Monday, May 9 2022",
+    "excerpt": "Real-time analytics are difficult to achieve because large amounts of data must be integrated into a data set as that data streams in. As the world moved from batch analytics powered by",
+    "src": "https://i1.wp.com/softwareengineeringdaily.com/wp-content/uploads/2022/05/startree.png",
+    "audioSrc": "",
+    "text": "Real-time analytics are difficult to achieve because large amounts of data must be integrated into a data set as that data streams in. As the world moved from batch analytics powered by Hadoop into a norm of “real-time” analytics, a variety of open source systems emerged. One of these was Apache Pinot. StarTree is a company based on Apache Pinot that provides fast, real-time data analytics. Chinmay Soman joins the show to discuss Apache Pinot in relation to other real-time analytics platforms, and what StarTree has built on top of Pinot. Cox Automotive transforms the way that the world buys, sells, owns, and uses cars – and they have the data to understand how the world gets from point A to point B. With brands like Kelley Blue Book, Autotrader, Dealer.com and others, Cox Automotive is hiring software engineers, data scientists, scrum masters, and other technologists to help create meaningful change in the industry. If you want to innovate in a collaborative workplace, one that values your time and work-life balance, then visit"
+  },
+  {
+    "title": "Web3 Infrastructure with Josh Neuroth",
+    "href": "https://softwareengineeringdaily.com/2022/05/06/web3-infrastructure-with-josh-neuroth/",
+    "date": "Friday, May 6 2022",
+    "excerpt": "Web3 is powerful but difficult to work with. Deploying blockchain nodes, accessing data, and performing staking operations are non-trivial engineering actions. To simplify web3, Ankr",
+    "src": "https://i2.wp.com/softwareengineeringdaily.com/wp-content/uploads/2022/05/Group-228-2.png",
+    "audioSrc": "",
+    "text": "Web3 is powerful but difficult to work with. Deploying blockchain nodes, accessing data, and performing staking operations are non-trivial engineering actions. To simplify web3, Ankr hosts APIs for node deployment, RPC, and staking. Josh Neuroth from Ankr joins the show to talk about modern web3 infrastructure. Act in Time with InfluxData."
+  },
+  {
+    "title": "Fig Engineering with Brendan Falk and Matt Schrage",
+    "href": "https://softwareengineeringdaily.com/2022/05/03/fig-engineering-with-brendan-falk-and-matt-schrage/",
+    "date": "Tuesday, May 3 2022",
+    "excerpt": "Brendan Falk Matt Schrage The terminal is a necessary tool for any software engineer. In order to work quickly, developers have always customized their terminals to work for their",
+    "src": "https://i0.wp.com/softwareengineeringdaily.com/wp-content/uploads/2022/05/fig-1.png",
+    "audioSrc": "",
+    "text": "Brendan Falk Matt Schrage"
+  },
+  {
+    "title": "Scaling WordPress with Brandon DuRette",
+    "href": "https://softwareengineeringdaily.com/2022/05/02/scaling-wordpress-with-brandon-durette/",
+    "date": "Monday, May 2 2022",
+    "excerpt": "WP Engine is a domain specific cloud provider that hosts high performance WordPress infrastructure. This website, Software Engineering Daily, runs on WP Engine. Scaling a domain specific",
+    "src": "https://i1.wp.com/softwareengineeringdaily.com/wp-content/uploads/2022/05/Group-226.png",
+    "audioSrc": "",
+    "text": "WP Engine is a domain specific cloud provider that hosts high performance WordPress infrastructure. This website, Software Engineering Daily, runs on WP Engine. Scaling a domain specific cloud provider for WordPress includes complexities at the level of the database, application, load balancer, and other areas. Brandon DuRutte from WP Engine joins the show to talk through his work. Act in Time with InfluxData."
+  },
+  {
+    "title": "Data Loss Prevention with Yasir Ali",
+    "href": "https://softwareengineeringdaily.com/2022/04/28/data-loss-prevention-with-yasir-ali/",
+    "date": "Thursday, April 28 2022",
+    "excerpt": "Data loss can occur when large data sources such as Slack or Google Drive get leaked. In order to detect and avoid leaks, a data asset graph can be built to understand the risks of a",
+    "src": "https://i2.wp.com/softwareengineeringdaily.com/wp-content/uploads/2022/04/Group-226-2.png",
+    "audioSrc": "",
+    "text": "Data loss can occur when large data sources such as Slack or Google Drive get leaked. In order to detect and avoid leaks, a data asset graph can be built to understand the risks of a company environment. Polymer is a data loss prevention product that helps companies avoid problematic data leaks. Yasir Ali is the founder of Polymer and joins the show to talk about the engineering and product vision of Polymer. Ken Wheeler, Tejas Kumar, Sara Vieira, Tanner Linsley – these are just a few of the names coming to this year’s"
+  },
+  {
+    "title": "Starburst Infrastructure with Justin Borgman",
+    "href": "https://softwareengineeringdaily.com/2022/04/28/starburst-infrastructure-with-justin-borgman/",
+    "date": "",
+    "excerpt": "The Presto/Trino project makes distributed querying easier across a variety of data sources. As the need for machine learning and other high volume data applications has increased, the",
+    "src": "https://i0.wp.com/softwareengineeringdaily.com/wp-content/uploads/2022/04/Group-233-2.png",
+    "audioSrc": "",
+    "text": "The Presto/Trino project makes distributed querying easier across a variety of data sources. As the need for machine learning and other high volume data applications has increased, the need for support, tooling, and cloud infrastructure for Presto/Trino has increased with it. Justin Borgman is the CEO of Starburst, and joins the show to talk about the impact of Presto and how his company has architected its product. Evan You, Kyle Simpson, Addy Osmani, Sarah Drasner – these are just a few of the many speakers coming to this year’s"
+  },
+  {
+    "title": "Airbyte Engineering with Michel Tricot",
+    "href": "https://softwareengineeringdaily.com/2022/04/26/airbyte-engineering-with-michel-tricot/",
+    "date": "Tuesday, April 26 2022",
+    "excerpt": "Data integration infrastructure is not easy to build. Moving large amounts of data from one place to another has historically required developers to build ad hoc integration points to",
+    "src": "https://i0.wp.com/softwareengineeringdaily.com/wp-content/uploads/2022/04/Group-233.png",
+    "audioSrc": "",
+    "text": "Data integration infrastructure is not easy to build. Moving large amounts of data from one place to another has historically required developers to build ad hoc integration points to move data between SaaS services, data lakes, and data warehouses. Today, there are dedicated systems and services for moving these large batches of data. Airbyte builds open source data integration systems, and Michel Tricot from Airbyte joins the show to talk about the design and development of Airbyte."
+  },
+  {
+    "title": "Select Star with Shinji Kim",
+    "href": "https://softwareengineeringdaily.com/2022/04/25/select-star-with-shinji-kim/",
+    "date": "Monday, April 25 2022",
+    "excerpt": "Modern organizations eventually face data governance challenges. Keeping track of where data came from, what systems update it, in what ways updates can be made are just some of the",
+    "src": "https://i1.wp.com/softwareengineeringdaily.com/wp-content/uploads/2022/04/Group-231.png",
+    "audioSrc": "",
+    "text": "Modern organizations eventually face data governance challenges. Keeping track of where data came from, what systems update it, in what ways updates can be made are just some of the issues to be tackled. Large organizations face additional challenges like training, onboarding, and capturing the institutional knowledge that leaves with the departure of key team members. As teams grow, these challenges often grow faster for unprepared organizations. Select Star helps companies unlock the full context of their data. Their solution automatically catalogs and documents your database tables and BI dashboards. In this episode, I interview Shhinji Kim about the functionality of Select Star and how companies have achieved successful adoption."
+  },
+  {
+    "title": "JavaScript Supply Chain with Feross Aboukhadijeh",
+    "href": "https://softwareengineeringdaily.com/2022/04/22/javascript-supply-chain-with-feross-aboukhadijeh/",
+    "date": "Friday, April 22 2022",
+    "excerpt": "The JavaScript supply chain includes numerous vulnerabilities due to its expansive nature and the long dependency chains. Socket is a new security company that can protect your most",
+    "src": "https://i0.wp.com/softwareengineeringdaily.com/wp-content/uploads/2022/04/Group-229.png",
+    "audioSrc": "",
+    "text": "The JavaScript supply chain includes numerous vulnerabilities due to its expansive nature and the long dependency chains. Socket is a new security company that can protect your most critical apps from supply chain attacks. They are taking an entirely new approach to one of the hardest problems in security in a stagnant part of the industry that has historically been obsessed with just reporting on known vulnerabilities. Feross is the Founder and CEO of Socket Security. He joins the show to talk about Socket’s approach to detecting and blocking supply chain attacks. Act in Time with InfluxData."
+  },
+  {
+    "title": "Loft Kubernetes Namespaces with Lukas Gentele",
+    "href": "https://softwareengineeringdaily.com/2022/04/20/loft-kubernetes-namespaces-with-lukas-gentele/",
+    "date": "Wednesday, April 20 2022",
+    "excerpt": "Loft is a platform for Kubernetes self-service and multi-tenancy. Loft allows you to control Kubernetes clusters with added multi-tenancy and self-service capabilities to get more value",
+    "src": "https://i2.wp.com/softwareengineeringdaily.com/wp-content/uploads/2022/04/Group-227-1.png",
+    "audioSrc": "",
+    "text": "Loft is a platform for Kubernetes self-service and multi-tenancy. Loft allows you to control Kubernetes clusters with added multi-tenancy and self-service capabilities to get more value out of Kubernetes beyond simply cluster management. It allows for cost optimization, more efficient provisioning, and other features. Lukas Gentele joins the show to talk about Kubernetes multi-tenancy and the engineering behind Loft."
+  },
+  {
+    "title": "Distributed Tracing Infrastructure with Ben Sigelman and Alex Kehlenbeck",
+    "href": "https://softwareengineeringdaily.com/2022/04/19/distributed-tracing-infrastructure-with-ben-sigelman-and-alex-kehlenbeck/",
+    "date": "Tuesday, April 19 2022",
+    "excerpt": "Ben Sigelman Alex Kehlenbeck Observability consists of metrics, logs, and traces. Lightstep is a company that builds distributed tracing infrastructure, which requires them to store",
+    "src": "https://i0.wp.com/softwareengineeringdaily.com/wp-content/uploads/2022/04/Group-225-3.png",
+    "audioSrc": "",
+    "text": "Observability consists of metrics, logs, and traces. Lightstep is a company that builds distributed tracing infrastructure, which requires them to store and serve high volumes of trace data. There are numerous architecture challenges that come with managing this data. Ben Sigelman and Alex Kehlenbeck join the show to discuss the implementation of Lightstep. WorkOS is a developer platform to make your app enterprise-ready. With a few simple APIs, you can immediately add common enterprise features like Single Sign-On, SAML, SCIM user provisioning, and more. Developers will find beautiful docs and SDKs that make integration a breeze. WorkOS is kind of like “Stripe for enterprise features.”"
+  },
+  {
+    "title": "Time Series IoT on InfluxDB with Brian Gilmore",
+    "href": "https://softwareengineeringdaily.com/2022/04/14/time-series-iot-on-influxdb-with-brian-gilmore/",
+    "date": "Thursday, April 14 2022",
+    "excerpt": "The solution many turn to for capturing their streaming data is InfluxDB. In this episode, I interview Brian Gilmore, Director of Product Management at InfluxData, about how real time",
+    "src": "https://i1.wp.com/softwareengineeringdaily.com/wp-content/uploads/2022/04/15acc798-a0eb-6052-e37c-2482b9442f92.png",
+    "audioSrc": "",
+    "text": " The solution many turn to for capturing their streaming data is InfluxDB. In this episode, I interview Brian Gilmore, Director of Product Management at InfluxData, about how real time applications achieve success built on top of InfluxDB."
+  },
+  {
+    "title": "Lakehouse Data Stack with Raj Bains",
+    "href": "https://softwareengineeringdaily.com/2022/04/12/lakehouse-data-stack-with-raj-bains/",
+    "date": "Tuesday, April 12 2022",
+    "excerpt": "As companies move to Spark and a Lakehouse architecture, they are realizing that the data tools are lagging way behind. You need to be a programmer to effectively use Spark and",
+    "src": "https://i0.wp.com/softwareengineeringdaily.com/wp-content/uploads/2022/04/Group-227.png",
+    "audioSrc": "",
+    "text": "As companies move to Spark and a Lakehouse architecture, they are realizing that the data tools are lagging way behind. You need to be a programmer to effectively use Spark and Airflow. There are some low-code ETL tools, but is that enough? Companies want to treat their data pipelines like mission-critical apps. They want DevOps for data, with GIT, test coverage, and CI/CD. In addition, companies need end-to-end visibility of their data pipelines, including monitoring, metadata, and column-level lineage."
+  },
+  {
+    "title": "Warp Terminal with Zach Lloyd",
+    "href": "https://softwareengineeringdaily.com/2022/04/07/warp-terminal-with-zach-lloyd/",
+    "date": "Thursday, April 7 2022",
+    "excerpt": "Terminals are a gateway to building and running software, but they have not been reimagined since their initial creation. Warp is a new kind of terminal with visual aids, autocomplete,",
+    "src": "https://i0.wp.com/softwareengineeringdaily.com/wp-content/uploads/2022/04/warp.png",
+    "audioSrc": "",
+    "text": "Terminals are a gateway to building and running software, but they have not been reimagined since their initial creation. Warp is a new kind of terminal with visual aids, autocomplete, documentation, customization, and other features. It includes GPU acceleration, its own UI framework, and other engineering systems to increase speed and performance. Zach Lloyd joins the show to talk through the creation of Warp and the future of developer tools. In a world full of applications, why do documents and spreadsheets still run the world? And why haven’t they been updated in over 50 years? Coda is a new kind of doc that brings words, data, and teams together. It comes with a set of building blocks that anyone can combine to create a doc as powerful as an app."
+  },
+  {
+    "title": "Data Engineering Trends with Lior Gavish and James Densmore",
+    "href": "https://softwareengineeringdaily.com/2022/04/04/data-engineering-trends-with-lior-gavish-and-james-densmore/",
+    "date": "Monday, April 4 2022",
+    "excerpt": "Lior Gavish James Densmore Data infrastructure is a fast-moving sector of the software market. As the volume of data has increased, so too has the quality of tooling to support data",
+    "src": "https://i0.wp.com/softwareengineeringdaily.com/wp-content/uploads/2022/04/Group-228.png",
+    "audioSrc": "",
+    "text": "James Densmore Data infrastructure is a fast-moving sector of the software market. As the volume of data has increased, so too has the quality of tooling to support data management and data engineering. In today’s show, we have a guest from a data intensive company as well as a company that builds a popular data engineering product. James Densmore works at Hubspot, which produces tons of data, and Lior Gavish works at Monte Carlo Data, which sells a data quality product."
+  },
+  {
+    "title": "Developer Health with Gabe Greenberg and Michelle Bakels",
+    "href": "https://softwareengineeringdaily.com/2022/04/02/developer-health-with-gabe-greenberg-and-michelle-bakels/",
+    "date": "Saturday, April 2 2022",
+    "excerpt": "Gabe Greenberg Michelle Bakels Software engineering can be a surprisingly grueling career. It is both physically and mentally demanding to sit in front of a screen for hours on end",
+    "src": "https://i2.wp.com/softwareengineeringdaily.com/wp-content/uploads/2022/04/dh.png",
+    "audioSrc": "",
+    "text": "Software engineering can be a surprisingly grueling career. It is both physically and mentally demanding to sit in front of a screen for hours on end producing code. During the pandemic, the strains of being an engineer became even more acute, as we were secluded in our homes, in some cases alone. Gabe Greenberg and Michelle Bakels work at G2i, a company that manages a large number of developers. G2i has a focus on developer health, which they believe is an underappreciated topic. They are also helping organize React Miami, a conference that takes place April 18-19, 2022."
+  },
+  {
+    "title": "Bitski: Web3 Infrastructure with Patrick Tescher",
+    "href": "https://softwareengineeringdaily.com/2022/04/01/bitski-web3-infrastructure-with-patrick-tescher/",
+    "date": "Friday, April 1 2022",
+    "excerpt": "Crypto companies have cemented themselves as a company category that is not going away. Bitski is a company that makes web3 tooling and infrastructure, including a wallet and a",
+    "src": "https://i2.wp.com/softwareengineeringdaily.com/wp-content/uploads/2022/04/Group-225-1.png",
+    "audioSrc": "",
+    "text": "Crypto companies have cemented themselves as a company category that is not going away. Bitski is a company that makes web3 tooling and infrastructure, including a wallet and a collection of tools for creating and selling NFTs. Patrick Tescher joins the show to talk through the engineering behind crypto infrastructure and APIs."
+  },
+  {
+    "title": "PlanetScale Management with Sam Lambert",
+    "href": "https://softwareengineeringdaily.com/2022/03/31/planetscale-management-with-sam-lambert/",
+    "date": "Thursday, March 31 2022",
+    "excerpt": "Running a database company requires expertise in both technical and managerial skills. There are deeply technical engineering questions around query paths, scalability, and distributed",
+    "src": "https://i2.wp.com/softwareengineeringdaily.com/wp-content/uploads/2022/03/planetscale.png",
+    "audioSrc": "",
+    "text": "Running a database company requires expertise in both technical and managerial skills. There are deeply technical engineering questions around query paths, scalability, and distributed systems. And there are complex managerial questions around developer productivity and task allocation. Sam Lambert is the CEO of PlanetScale, which is building modern relational database infrastructure. Before PlanetScale he spent several years on infrastructure at GitHub. He joins the show to talk about his work at PlanetScale and the vision for the company."
+  },
+  {
+    "title": "GitOps and Policy Management with Alexis Richardson and Mohamed Ahmed",
+    "href": "https://softwareengineeringdaily.com/2022/03/30/gitops-and-policy-management-with-alexis-richardson-and-mohamed-ahmed/",
+    "date": "Wednesday, March 30 2022",
+    "excerpt": "Alexis Richardson Mohamed Ahmed GitOps is a deployment and infrastructure management strategy based around continuous delivery and Kubernetes, with Git at the center of deployment",
+    "src": "https://i1.wp.com/softwareengineeringdaily.com/wp-content/uploads/2022/03/weeaveworks.png",
+    "audioSrc": "",
+    "text": "GitOps is a deployment and infrastructure management strategy based around continuous delivery and Kubernetes, with Git at the center of deployment workflows. Policy management can be used to define permissions and rules around who can deploy and what constitutes safe deployment. There is a synergy between GitOps tooling and policy management tooling. Alexis Richardson is the co-founder and CEO of Weaveworks. Mohamed Ahmed founded Magalix, a security and compliance company that was acquired by Weaveworks. They join the show to talk about GitOps and Policy Management."
+  },
+  {
+    "title": "Kintaba Incident Response with John Egan",
+    "href": "https://softwareengineeringdaily.com/2022/03/29/kintaba-incident-response-with-john-egan/",
+    "date": "Tuesday, March 29 2022",
+    "excerpt": "A company’s response to an incident defines how that company responds to an adverse, unexpected scenario. Kintaba automates the incident management process so teams can quickly report,",
+    "src": "https://i0.wp.com/softwareengineeringdaily.com/wp-content/uploads/2022/03/kintaba.png",
+    "audioSrc": "",
+    "text": "A company’s response to an incident defines how that company responds to an adverse, unexpected scenario. Kintaba automates the incident management process so teams can quickly report, respond, resolve, and reflect on major incidents collaboratively. Kintaba’s incident response platforms gives you instant access to incident management processes based on the practices of companies like Facebook, Google, Stripe, and other successful and resilient organizations. John Egan is"
+  },
+  {
+    "title": "SingleStore with Jordan Tigani",
+    "href": "https://softwareengineeringdaily.com/2022/03/28/singlestore-with-jordan-tigani/",
+    "date": "Monday, March 28 2022",
+    "excerpt": "SingleStore is a multi-use, multi-model database designed for transactional and analytic workloads, as well as search and other domain specific applications. SingleStore is the evolution",
+    "src": "https://i1.wp.com/softwareengineeringdaily.com/wp-content/uploads/2022/03/singlestore-1.png",
+    "audioSrc": "",
+    "text": "SingleStore is a multi-use, multi-model database designed for transactional and analytic workloads, as well as search and other domain specific applications. SingleStore is the evolution of the database company MemSQL, which sought to bring fast, in-memory SQL database technology to market. Jordan Tigani is Chief Product Officer of SingleStore and joins the show to talk through the architecture and engineering of the SingleStore platform."
+  },
+  {
     "title": "Cloud Carbon Footprint with Steren Giannini",
     "href": "https://softwareengineeringdaily.com/2022/03/25/cloud-carbon-footprint-with-steren-giannini/",
     "date": "Friday, March 25 2022",
