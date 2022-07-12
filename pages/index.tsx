@@ -147,11 +147,14 @@ const Home: NextPage<Props> = ({
                   <NextPrimerLink href="https://github.com/anselbrandt/wemo-app">
                     IoT,{" "}
                   </NextPrimerLink>
-                  <NextPrimerLink href="/search">Web scraping</NextPrimerLink>
+                  <NextPrimerLink href="https://flow.anselbrandt.dev">
+                    Computer vision
+                  </NextPrimerLink>
                 </Text>
               </Box>
               <Box m={2}>
                 <Text>
+                  <NextPrimerLink href="/search">Web scraping, </NextPrimerLink>
                   <NextPrimerLink href="/softwaredaily">Search</NextPrimerLink>
                 </Text>
               </Box>
